@@ -1,53 +1,68 @@
-import { PrismaClient } from '@prisma/client'
+//import prisma from 'prisma'
+import { PrismaClient } from "@prisma/client";
 
-const prisma = new PrismaClient()
-
+const prisma = new PrismaClient();
 
 export default async function handler(req, res) {
-  if (req.method === 'POST') {
-    return await addShipment(req, res);
-  } 
-  else if (req.method === 'GET') {
-    return await getShipments(req, res);
-  } 
-  else {
-    return res.status(405).json({ message: 'Method not allowed', success: false });
+  if (req.method === "POST") {
+    return await createShipments(req, res);
+  } else if (req.method === "GET") {
+    return await listShipments(req, res);
+  } else {
+    return 
+    //res.status(405).json({ message: "Method not allowed", success: false });
+    res.status(405).json({ message: "Method not allowed", success: false });
   }
 }
 
-
-async function getShipments(req, res) {
-  const body = req.body
+async function listShipments(req, res) {
   try {
-    const newEntry = await prisma.shipment.create({
-      data: {
-        name: body.firstName,
-        email: body.email,
-        subject: body.subject,
-        message: body.message
+    const Shipmentslist = await prisma.shipment.findMany(
+      {
+        
+        select: {
+          shipmentName: true,
+          
+          /*
+          trackingNumber: true,
+          moNumber: true,
+          houseBillNumber: true,
+          shipmentName: true,
+          equipmentTypeId: true,
+          accountCuid: true,
+          */
+
+        }
       }
-    })
-    return res.status(200).json(newEntry, { success: true })
+
+    );
+    return res.status(200).json(Shipmentslist, { success: true });
+    console.log(Shipmentslist);
+    
   } catch (error) {
-    console.error('Request error', error)
-    res.status(500).json({ error: 'Error creating shipment', success: false })
+    console.log(error);
+    
+    return;
+    res.status(350).json({ error: "Error getting shipment.", success: false });
   }
 }
 
-async function addShipment(req, res) {
-  const body = req.body
+async function createShipments(req, res) {
+  const body = req.body;
   try {
     const newEntry = await prisma.shipment.create({
       data: {
-        name: body.firstName,
-        email: body.email,
-        subject: body.subject,
-        message: body.message
-      }
-    })
-    return res.status(200).json(newEntry, { success: true })
+        shipmentName: body.shipmentName,
+        accountCuid: body.accountCuid,
+        trackingNumber: body.trackingNumber,
+        moNumber: body.moNumber,
+        houseBillNumber: body.houseBillNumber
+        //equipmentTypeId: body.equipmentTypeId
+      },
+    });
+    return res.status(200).json(newEntry, { success: true });
   } catch (error) {
-    console.error('Request error', error)
-    res.status(500).json({ error: 'Error creating shipment', success: false })
+    console.error("Request error", error);
+    res.status(500).json({ error: "Error creating shipment.", success: false });
   }
 }

@@ -47,7 +47,7 @@ model Account {
   accountStatus   Int?       @default(1) @db.TinyInt
   dateCreated     DateTime?  @default(now())
   dateUpdated     DateTime?  @updatedAt
-  shipments       Shipment[]
+  //shipments       Shipment[]
 }
 
 model Shipment {
@@ -55,7 +55,7 @@ model Shipment {
   shipmentCuid              String?        @unique @default(cuid()) @db.VarChar(32)
   shipmentName              String         @db.VarChar(255)
   accountCuid               String?        @db.VarChar(32)
-  accountsFk                Account?       @relation(fields: [accountCuid], references: [accountCuid]) //establish foreign key relationship between accounts and users
+  //accountsFk                Account?       @relation(fields: [accountCuid], references: [accountCuid]) //establish foreign key relationship between accounts and users
   createdByAccountUserCuid  String?        @db.VarChar(32)
   //createdByAccountUserCuidFk             AccountUsers    @relation(fields: [createdByAccountUserCuid], references: [accountUserId]) //establish foreign key relationship between accounts and users
   shipmentDateAdded         DateTime?      @default(now())
@@ -73,6 +73,7 @@ model Shipment {
   internalTotalCost         Decimal?       @db.Decimal(8, 2)
   dateCreated               DateTime?      @default(now())
   dateUpdated               DateTime?      @updatedAt
+  equipmentTypeId           Int?           @db.TinyInt
   shipmentLoads             ShipmentLoad[]
 }
 

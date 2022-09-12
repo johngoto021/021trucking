@@ -19,6 +19,7 @@ export default function AccountForm() {
   const [country, setCountry] = useState("");
   const [APIResponse, setAPIResponse] = useState(null);
 
+  /*
   useEffect(() => {
     console.log("accountName", accountName);
     console.log("referenceNumber", referenceNumber);
@@ -44,6 +45,7 @@ export default function AccountForm() {
     country,
     APIResponse,
   ]);
+*/
 
   const seeAccounts = async () => {
     try {
