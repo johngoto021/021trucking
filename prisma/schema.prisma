@@ -27,3 +27,84 @@ model Category {
     description String
     products    Product[]
 }
+
+
+model Account {
+  accountId       Int        @id @default(autoincrement())
+  accountCuid     String     @unique @default(cuid()) @db.VarChar(32)
+  accountName     String     @db.VarChar(255)
+  referenceNumber String?    @db.VarChar(128)
+  website         String?    @db.VarChar(255)
+  phone           String?    @db.VarChar(32)
+  address1        String?    @db.VarChar(255)
+  address2        String?    @db.VarChar(255)
+  city            String?    @db.VarChar(255)
+  region          String?    @db.VarChar(255)
+  postalCode      String?    @db.VarChar(32)
+  emailAddress    String?    @db.VarChar(255)
+  contact         String?    @db.VarChar(255)
+  country         String?    @db.VarChar(128)
+  accountStatus   Int?       @default(1) @db.TinyInt
+  dateCreated     DateTime?  @default(now())
+  dateUpdated     DateTime?  @updatedAt
+  shipments       Shipment[]
+}
+
+model Shipment {
+  shipmentId                Int            @id @default(autoincrement())
+  shipmentCuid              String?        @unique @default(cuid()) @db.VarChar(32)
+  shipmentName              String         @db.VarChar(255)
+  accountCuid               String?        @db.VarChar(32)
+  accountsFk                Account?       @relation(fields: [accountCuid], references: [accountCuid]) //establish foreign key relationship between accounts and users
+  createdByAccountUserCuid  String?        @db.VarChar(32)
+  //createdByAccountUserCuidFk             AccountUsers    @relation(fields: [createdByAccountUserCuid], references: [accountUserId]) //establish foreign key relationship between accounts and users
+  shipmentDateAdded         DateTime?      @default(now())
+  shipmentDateUpdated       DateTime?      @updatedAt
+  trackingNumber            String?        @db.VarChar(255)
+  moNumber                  String?        @db.VarChar(255)
+  houseBillNumber           String?        @db.VarChar(255)
+  trackingUrl               String?        @db.VarChar(255)
+  shipmentActive            Int?           @db.TinyInt
+  shipmentStatus            Int?           @db.TinyInt
+  shipmentPaid              Int?           @db.TinyInt
+  shipmentCustomerRate      Decimal?       @db.Decimal(5, 2)
+  internalRate              Decimal?       @db.Decimal(5, 2)
+  shipmentCustomerTotalCost Decimal?       @db.Decimal(8, 2)
+  internalTotalCost         Decimal?       @db.Decimal(8, 2)
+  dateCreated               DateTime?      @default(now())
+  dateUpdated               DateTime?      @updatedAt
+  shipmentLoads             ShipmentLoad[]
+}
+
+model ShipmentLoad {
+  shipmentLoadId           Int       @id @default(autoincrement())
+  shipmentLoadCuid         String?   @unique @default(cuid()) @db.VarChar(32)
+  shipmentCuid             String?   @db.VarChar(255)
+  shipmentCuidFk           Shipment? @relation(fields: [shipmentCuid], references: [shipmentCuid]) //establish foreign key relationship between accounts and users
+  loadName                 String    @db.VarChar(255)
+  loadtypeId               Int?      @db.TinyInt
+  quantity                 Int?
+  lenght                   Decimal?  @db.Decimal(5, 2)
+  width                    Decimal?  @db.Decimal(5, 2)
+  height                   Decimal?  @db.Decimal(5, 2)
+  totalWeight              Decimal?  @db.Decimal(8, 2)
+  stackable                Int?      @db.TinyInt
+  shipmentOrderCount       Int?
+  shipmentLoadActive       Int?      @db.TinyInt
+  createdByAccountUserCuid String?   @db.VarChar(32)
+  updatedByAccountUserCuid String?   @db.VarChar(32)
+  //addedbyaccountuseridfk AccountsUsers   @relation(fields: [createdByAccountUserCuid], references: [accountUserId])  //establish foreign key relationship between accounts and users
+  //updatedbyaccountuseridfk AccountsUsers   @relation(fields: [updatedByAccountUserCuid], references: [accountUserId])  //establish foreign key relationship between accounts and users
+  //accountsUsers          AccountUsers? @relation(fields: [accountUserId], references: [accountUserId])
+  //accountUserId          Int?
+  dateCreated              DateTime? @default(now())
+  dateUpdated              DateTime? @updatedAt
+  loadType                 LoadType? @relation(fields: [loadtypeId], references: [loadTypeId])
+}
+
+model LoadType {
+  loadTypeId      Int            @id @default(autoincrement())
+  loadTypeName    String         @db.VarChar(128)
+  LoadTypeActive  Int?           @default(1) @db.TinyInt
+  shipmentLoadsFk ShipmentLoad[]
+}

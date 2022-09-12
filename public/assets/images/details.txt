@@ -1,0 +1,28 @@
+Reporting-MTA: dns; smtp-out.flockmail.com
+X-Postfix-Queue-ID: 5702010005A
+X-Postfix-Sender: rfc822; paul.chen@goto021.com
+Arrival-Date: Thu,  1 Sep 2022 18:48:23 +0000 (UTC)
+
+Final-Recipient: rfc822; Olivia.DeLone@qvc.com
+Original-Recipient: rfc822;Olivia.DeLone@qvc.com
+Action: failed
+Status: 5.0.0
+Remote-MTA: dns; mx1.hsn.iphmx.com
+Diagnostic-Code: smtp; 554 Your access to this mail system has been rejected
+    due to poor reputation of a domain used in message transfer
+
+Final-Recipient: rfc822; Lindsay.Melton@qvc.com
+Original-Recipient: rfc822;Lindsay.Melton@qvc.com
+Action: failed
+Status: 5.0.0
+Remote-MTA: dns; mx2.hsn.iphmx.com
+Diagnostic-Code: smtp; 554 Your access to this mail system has been rejected
+    due to poor reputation of a domain used in message transfer
+
+Final-Recipient: rfc822; Courtney.Baker@qvc.com
+Original-Recipient: rfc822;Courtney.Baker@qvc.com
+Action: failed
+Status: 5.0.0
+Remote-MTA: dns; mx1.hsn.iphmx.com
+Diagnostic-Code: smtp; 554 Your access to this mail system has been rejected
+    due to poor reputation of a domain used in message transfer

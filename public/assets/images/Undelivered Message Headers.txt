@@ -1,0 +1,46 @@
+Return-Path: <paul.chen@goto021.com>
+Received: from smtp-out.flockmail.com (localhost [127.0.0.1])
+	by smtp-out.flockmail.com (Postfix) with ESMTP id 5702010005A;
+	Thu,  1 Sep 2022 18:48:23 +0000 (UTC)
+Received: from LAPTOP5TEBOCDE (unknown [72.34.89.2])
+	by smtp-out.flockmail.com (Postfix) with ESMTPA id 43C5F10002C;
+	Thu,  1 Sep 2022 18:48:22 +0000 (UTC)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=goto021.com;
+	s=titan2; t=1662058103;
+	bh=yyHQof7caO+ONaHJyk+mA4fjH+QKmWyLIvOcrOox0lI=;
+	h=From:To:References:In-Reply-To:Subject:Date:Message-ID:
+	 MIME-Version:From:To:Cc:Subject:Message-ID;
+	b=gH7U5xyS1z+4oWO0koNgqrLI4RiEt3kLXqXndEpfQng0K4NxyNzt1og6HM1b4HnRU
+	 EvgexCUxNCGyCHVSpQbaj6+1tRL9JrbFC0LYxPRd0+I0LT9mwvLs/P8XbdbY6AxeCI
+	 KOXLiLW3TPFISE008BuVdq2DTsRE9UyzHM0iuLic=
+From: <paul.chen@goto021.com>
+To: "'Andrew Perez'" <Andrew@livingess.com>,
+	"'Olivia DeLone'" <Olivia.DeLone@qvc.com>,
+	"'Lindsay Melton'" <Lindsay.Melton@qvc.com>,
+	"'Courtney Baker'" <Courtney.Baker@qvc.com>
+References: <MWHPR22MB0399132CA37410C331DE886EC8729@MWHPR22MB0399.namprd22.prod.outlook.com> <BL1PR14MB486999BABB64F4AFB1F5B81881759@BL1PR14MB4869.namprd14.prod.outlook.com> <MWHPR22MB0399E28563E4F0611DFFB8EAC8789@MWHPR22MB0399.namprd22.prod.outlook.com> <MW4PR14MB5860D52E16B57097D0FD2806E27B9@MW4PR14MB5860.namprd14.prod.outlook.com> <MWHPR22MB0399FDAE6FD18579F67FAC06C87B9@MWHPR22MB0399.namprd22.prod.outlook.com> <MW4PR14MB58607D04A3D8620B0547DDBAE27B9@MW4PR14MB5860.namprd14.prod.outlook.com> <MWHPR22MB039925E4F88E0DDD117744D6C87B9@MWHPR22MB0399.namprd22.prod.outlook.com>
+In-Reply-To: <MWHPR22MB039925E4F88E0DDD117744D6C87B9@MWHPR22MB0399.namprd22.prod.outlook.com>
+Subject: RE: Lytmi 
+Date: Thu, 1 Sep 2022 11:48:21 -0700
+Message-ID: <00d701d8be33$693fd470$3bbf7d50$@goto021.com>
+MIME-Version: 1.0
+Content-Type: multipart/related;
+	boundary="----=_NextPart_000_00D8_01D8BDF8.BCE5B760"
+X-Mailer: Microsoft Outlook 16.0
+Thread-Index: AQILaiNZmcfhy9dS1+YqajFZEgCKQAI1JZanAimEYe8Bv6k7rwDD1I1iAbTTbtQCJiXiiK0PqV7g
+Content-Language: en-us
+X-CMAE-Score: 0
+X-CMAE-Analysis: v=2.4 cv=OuRcdgzt c=1 sm=1 tr=0 ts=6310fe77
+	a=sw7a6MMU4rIzIFeRo33WUQ==:117 a=sw7a6MMU4rIzIFeRo33WUQ==:17
+	a=DAwyPP_o2Byb1YXLmDAA:9 a=Gk-TcMl0AAAA:8 a=bBOI5Mq3AAAA:8 a=qNrZuSFVAAAA:8
+	a=q62KFWr_MJb7vo8s6AIA:9 a=CjuIK1q_8ugA:10 a=OgyipcISJOkA:10
+	a=XzuF11vg0qsA:10 a=ayXKsPV86VAA:10 a=xIVLJmEHP80A:10 a=aMbdslBajjQA:10
+	a=yMhMjlubAAAA:8 a=SSmOFEACAAAA:8 a=3N4smr_orCY2SmIYrPkA:9
+	a=OgsfpiBTuEpnmCF-:21 a=gKO2Hq4RSVkA:10 a=UiCQ7L4-1S4A:10 a=hTZeC7Yk6K0A:10
+	a=frz4AuCg-hUA:10 a=lqcHg5cX4UMA:10 a=5SxfTLTuqYeo25jiPZ4A:9
+	a=8rl2GOQddBX9eDtI:18 a=HXjIzolwW10A:10 a=T6a71-JsGAwA:10
+	a=BxLI95H6F_p4aysTIcMd:22 a=Yv0HAsx43xJxaEB2pyQQ:22
+	a=m502GY6U0GQu-qXo4m5b:22
+X-F-Verdict: SPFVALID
+X-Titan-Src-Out: 1662058103305828404.30266.2948699580378250245@prod-use1-smtp-out1002.
+X-Virus-Scanned: ClamAV using ClamSMTP
