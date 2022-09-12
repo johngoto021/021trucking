@@ -292,17 +292,20 @@ export default function ShipmentForm() {
                             "px-6 py-4 whitespace-nowrap text-sm font-medium text-gray-900"
                           }
                         >
-                          {shipmentView.accountCuid} <br />
+                          {shipmentView.shipmentDateAdded} 
+                          
                           
                         </td>
                         <td className="text-sm text-gray-900 font-light px-6 py-4 whitespace-nowrap">
-                          {shipmentView.equipmentTypeId}
+                          {shipmentView.accountCuid}
                         </td>
                         <td className="text-sm text-gray-900 font-light px-6 py-4 whitespace-nowrap">
                           
                         </td>
                         <td className="text-sm text-gray-900 font-light px-6 py-4 whitespace-nowrap">
                         {shipmentView.trackingNumber} 
+                        {shipmentView.moNumber} 
+                        {shipmentView.houseBillNumber} 
                         </td>
                       </tr>
                     ))}

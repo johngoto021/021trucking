@@ -21,16 +21,16 @@ async function listShipments(req, res) {
       {
         
         select: {
+          shipmentId: true,
           shipmentName: true,
-          
-          /*
+          accountCuid: true,
           trackingNumber: true,
           moNumber: true,
           houseBillNumber: true,
           shipmentName: true,
           equipmentTypeId: true,
           accountCuid: true,
-          */
+          
 
         }
       }
