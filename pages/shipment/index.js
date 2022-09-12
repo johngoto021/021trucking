@@ -39,6 +39,35 @@ export default function Home() {
       <div className="px-4 py-6 sm:px-0">
         <div className="h-96 rounded-lg border-4 border-dashed border-gray-200">
 
+
+
+
+<table>
+<thead>
+  <th>ID</th>
+  <th>Name/Account</th>
+  <th>Status</th>
+  <th>Origin</th>
+  <th>Destination</th>
+  <th>Pick Up</th>
+  <th>Deliver</th>
+  <th>Loads</th>
+  <th>Carrier</th>
+  <th>Driver</th>
+  <th>Cost</th>
+  <th>Equipment</th>
+
+</thead>
+
+</table>
+
+
+
+
+
+
+
+
           
         </div>
       </div>
