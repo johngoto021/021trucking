@@ -17,14 +17,7 @@ export default async function handler(req, res) {
 
 async function listShipments(req, res) {
   try {
-    const Shipmentslist = await prisma.shipment.findMany(
-      {
-        take: 5
-        orderBy: {
-          shipmentDateAdded: { sort: 'asc', nulls: 'last' },
-        },
-      }
-    );
+    const Shipmentslist = await prisma.shipment.findMany();
     return res.status(200).json(Shipmentslist, { success: true });
     console.log(Shipmentslist);
     
