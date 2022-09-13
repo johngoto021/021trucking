@@ -123,28 +123,30 @@ axios.request(options).then(function (response) {
 
 
 <table>
+  <thead>
 <tr>
-  <td>ID</td>
-  <td>References</td>
-  <td>statuses</td>
-  <td>Origin</td>
-  <td>Destination</td>
-  <td>Picked Up?</td>
-  <td>Load</td>
-  <td>Carrier</td>
-  <td>Driver</td>
-  <td>Total Cost</td>
-  <td>Equipment</td>
+  <th>ID</th>
+  <th>References</th>
+  <th>statuses</th>
+  <th>Origin</th>
+  <th>Destination</th>
+  <th>Picked Up?</th>
+  <th>Load</th>
+  <th>Carrier</th>
+  <th>Driver</th>
+  <th>Total Cost</th>
+  <th>Equipment</th>
 </tr>
-
-{dashboardData?.map((shipmentView) => (
-                      <tr className="border-b"  key={shipmentView.shipmentId}> 
+</thead>
+<tbody>
+{dashboardData?.map((fetchedViews) => (
+                      <tr className="border-b"  key={fetchedViews.shipmentCuid}> 
                         <td
                           className={
                             "px-6 py-4 whitespace-nowrap text-sm font-medium text-gray-900"
                           }
                         >
-                          {shipmentView.shipmentId}
+                          {fetchedViews.shipmentId}
                         </td>
                         <td
                           className={
@@ -152,39 +154,39 @@ axios.request(options).then(function (response) {
                           }
                         >
                           <a href="#">
-                          {shipmentView.shipmentCuid}   
+                          {fetchedViews.shipmentCuid}   
                           </a>
                         </td>
                         <td className="text-sm text-gray-900 font-light px-6 py-4 whitespace-nowrap">
-                        {shipmentView.trackingNumber}   
+                        {fetchedViews.trackingNumber}   
                         </td>
                         <td className="text-sm text-gray-900 font-light px-6 py-4 whitespace-nowrap">
-                        {shipmentView.trackingNumber}   
+                        {fetchedViews.trackingNumber}   
                         </td>
                         <td className="text-sm text-gray-900 font-light px-6 py-4 whitespace-nowrap">
-                        {shipmentView.trackingNumber}   
+                        {fetchedViews.trackingNumber}   
                         </td>
                         <td className="text-sm text-gray-900 font-light px-6 py-4 whitespace-nowrap">
-                        {shipmentView.trackingNumber}
+                        {fetchedViews.trackingNumber}
                         </td>
                         <td className="text-sm text-gray-900 font-light px-6 py-4 whitespace-nowrap">
-                        {shipmentView.trackingNumber}
+                        {fetchedViews.trackingNumber}
                         </td>
                         <td className="text-sm text-gray-900 font-light px-6 py-4 whitespace-nowrap">
-                        {shipmentView.trackingNumber}
+                        {fetchedViews.trackingNumber}
                         </td>
                         <td className="text-sm text-gray-900 font-light px-6 py-4 whitespace-nowrap">
-                        {shipmentView.trackingNumber}
+                        {fetchedViews.trackingNumber}
                         </td>
                         <td className="text-sm text-gray-900 font-light px-6 py-4 whitespace-nowrap">
-                        {shipmentView.trackingNumber}
+                        {fetchedViews.trackingNumber}
                         </td>
                         <td className="text-sm text-gray-900 font-light px-6 py-4 whitespace-nowrap">
-                        {shipmentView.trackingNumber}
+                        {fetchedViews.trackingNumber}
                         </td>
                       </tr>
                     ))}
-
+</tbody>
 </table>
 
 

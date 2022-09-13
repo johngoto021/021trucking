@@ -1,9 +1,11 @@
+import { data } from "autoprefixer";
+import { useState, useEffect } from "react";
+import Layout from '../components/layout'
 //import { Navbar } from "flowbite-react";
 //import Head from 'next/head'
 //import Image from 'next/image'
 //import Link from 'next/link'
 //import styles from '../styles/Home.module.css'
-import Layout from '../components/layout'
 //import { useUser } from '@auth0/nextjs-auth0'
 //import axios from "axios";
 //import cuid from 'cuid';
@@ -71,6 +73,24 @@ axios.request(options).then(function (response) {
   }
   */
 
+
+  const [isLoading, setIsLoading] = useState(true)
+  const [dashboardData, setDashboardData] = useState([])
+    useEffect(() => {
+      async function fetchDashboardData() {
+        const response = await fetch('api/account/getdata')
+        const data = await response.json()
+        setDashboardData(data)
+        setIsLoading(false)
+      }
+      fetchDashboardData()
+    }, [])
+  
+    if (isLoading) {
+      return <h2>Loading...</h2>
+    }
+
+
   return (
 
 <>
@@ -84,13 +104,69 @@ axios.request(options).then(function (response) {
     <div className="mx-auto max-w-8xl py-2 sm:px-6 lg:px-4">
       
       <div className="px-4 py-6 sm:px-0">
-        <div className="h-96 rounded-lg border-4 border-dashed border-gray-200">
 
 
-      
+      <table>
+<thead>
+  <tr>
+  <th>ID</th>
+  <th>Name</th>
+  <th>References</th>
+  <th>Address</th>
+  <th>Contact</th>
+  <th>Phone</th>
+  <th>Date Created</th>
+  <th>Status</th>
+  </tr>
+</thead>
+
+<tbody>
+{dashboardData?.map((fetchedViews) => (
+  
+                      <tr className="border-b"  key={fetchedViews.accountCuid}> 
+                        <td
+                          className={
+                            "px-6 py-4 whitespace-nowrap text-sm font-medium text-gray-900"
+                          }
+                        >
+                          {fetchedViews.accountId}
+                        </td>
+                        <td
+                          className={
+                            "px-6 py-4 whitespace-nowrap text-sm font-medium text-gray-900"
+                          }
+                        >
+                          <a href="#">
+                          {fetchedViews.accountName}   
+                          </a>
+                        </td>
+                        <td className="text-sm text-gray-900 font-light px-6 py-4 whitespace-nowrap">
+                        {fetchedViews.referenceNumber}   
+                        </td>
+                        <td className="text-sm text-gray-900 font-light px-6 py-4 whitespace-nowrap">
+                        {fetchedViews.address1}   
+                        </td>
+                        <td className="text-sm text-gray-900 font-light px-6 py-4 whitespace-nowrap">
+                        {fetchedViews.contact}   
+                        </td>
+                        <td className="text-sm text-gray-900 font-light px-6 py-4 whitespace-nowrap">
+                        {fetchedViews.contact}   
+                        </td>
+                        <td className="text-sm text-gray-900 font-light px-6 py-4 whitespace-nowrap">
+                        {fetchedViews.phone}
+                        </td>
+                        <td className="text-sm text-gray-900 font-light px-6 py-4 whitespace-nowrap">
+                        {fetchedViews.accountStatus}
+                        </td>
+                      </tr>
+                      
+                    ))}
+</tbody>
+</table>
 
 
-        </div>
+
+
       </div>
     </div>
   </main>
