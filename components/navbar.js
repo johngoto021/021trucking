@@ -87,7 +87,7 @@ export default function Navbar() {
                           </Link>
                       </li>
                       <li>
-                      <Link href="/shipment" >          
+                      <Link href="shipments" >          
                           <a className="block p-3 rounded-lg hover:bg-gray-50 dark:hover:bg-gray-700">
                               <div className="font-semibold">Shipments</div>
                               <span className="text-sm font-light text-gray-500 dark:text-gray-400">View a list of shipments.</span>

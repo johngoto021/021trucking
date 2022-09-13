@@ -12,7 +12,6 @@ export default function ShipmentForm() {
   const [houseBillNumber, sethouseBillNumber] = useState("");
   const [APIResponse, setAPIResponse] = useState(null);
 
-  /*
   useEffect(() => {
     console.log("shipmentName", shipmentName);
     console.log("accountCuid", accountCuid);
@@ -30,7 +29,7 @@ export default function ShipmentForm() {
     houseBillNumber,
     APIResponse,
   ]);
-*/
+
   const seeShipments = async () => {
     try {
       const response = await fetch("/api/shipments", {
@@ -292,20 +291,17 @@ export default function ShipmentForm() {
                             "px-6 py-4 whitespace-nowrap text-sm font-medium text-gray-900"
                           }
                         >
-                          {shipmentView.accountCuid} <br />
+                          {shipmentView.shipmentName} <br />
                           
-                          
                         </td>
                         <td className="text-sm text-gray-900 font-light px-6 py-4 whitespace-nowrap">
-                          {shipmentView.accountCuid}
+                          {shipmentView.equipmentTypeId}
                         </td>
                         <td className="text-sm text-gray-900 font-light px-6 py-4 whitespace-nowrap">
-                        {shipmentView.equipmentTypeId}
+                        {shipmentView.trackingNumber}   
                         </td>
                         <td className="text-sm text-gray-900 font-light px-6 py-4 whitespace-nowrap">
-                        {shipmentView.trackingNumber} 
-                        ({shipmentView.moNumber})
-                        {shipmentView.houseBillNumber} 
+                        {shipmentView.moNumber} 
                         </td>
                       </tr>
                     ))}
