@@ -1,80 +1,80 @@
 generator client {
-    provider        = "prisma-client-js"
-    previewFeatures = ["referentialIntegrity"]
+  provider        = "prisma-client-js"
+  previewFeatures = ["referentialIntegrity"]
 }
 
 datasource db {
-    provider             = "mysql"
-    url                  = env("DATABASE_URL")
-    referentialIntegrity = "prisma"
+  provider             = "mysql"
+  url                  = env("DATABASE_URL")
+  referentialIntegrity = "prisma"
 }
 
 model Product {
-    id          Int       @id @default(autoincrement())
-    name        String
-    description String
-    price       Decimal
-    image       String
-    category    Category? @relation(fields: [category_id], references: [id])
-    category_id Int
+  id          Int       @id @default(autoincrement())
+  name        String
+  description String
+  price       Decimal
+  image       String
+  category    Category? @relation(fields: [category_id], references: [id])
+  category_id Int
 
-    @@index([category_id])
+  @@index([category_id])
 }
 
 model Category {
-    id          Int       @id @default(autoincrement())
-    name        String
-    description String
-    products    Product[]
+  id          Int       @id @default(autoincrement())
+  name        String
+  description String
+  products    Product[]
 }
 
-
 model Account {
-  accountId       Int        @id @default(autoincrement())
-  accountCuid     String     @unique @default(cuid()) @db.VarChar(32)
-  accountName     String     @db.VarChar(255)
-  referenceNumber String?    @db.VarChar(128)
-  website         String?    @db.VarChar(255)
-  phone           String?    @db.VarChar(32)
-  address1        String?    @db.VarChar(255)
-  address2        String?    @db.VarChar(255)
-  city            String?    @db.VarChar(255)
-  region          String?    @db.VarChar(255)
-  postalCode      String?    @db.VarChar(32)
-  emailAddress    String?    @db.VarChar(255)
-  contact         String?    @db.VarChar(255)
-  country         String?    @db.VarChar(128)
-  accountStatus   Int?       @default(1) @db.TinyInt
-  dateCreated     DateTime?  @default(now())
-  dateUpdated     DateTime?  @updatedAt
+  accountId       Int       @id @default(autoincrement())
+  accountCuid     String    @unique @default(cuid()) @db.VarChar(32)
+  accountName     String    @db.VarChar(255)
+  referenceNumber String?   @db.VarChar(128)
+  website         String?   @db.VarChar(255)
+  phone           String?   @db.VarChar(32)
+  address1        String?   @db.VarChar(255)
+  address2        String?   @db.VarChar(255)
+  city            String?   @db.VarChar(255)
+  region          String?   @db.VarChar(255)
+  postalCode      String?   @db.VarChar(32)
+  emailAddress    String?   @db.VarChar(255)
+  contact         String?   @db.VarChar(255)
+  country         String?   @db.VarChar(128)
+  accountStatus   Int?      @default(1) @db.TinyInt
+  dateCreated     DateTime? @default(now())
+  dateUpdated     DateTime? @updatedAt
   //shipments       Shipment[]
 }
 
 model Shipment {
-  shipmentId                Int            @id @default(autoincrement())
-  shipmentCuid              String?        @unique @default(cuid()) @db.VarChar(32)
-  shipmentName              String         @db.VarChar(255)
-  accountCuid               String?        @db.VarChar(32)
+  shipmentId                Int             @id @default(autoincrement())
+  shipmentCuid              String?         @unique @default(cuid()) @db.VarChar(32)
+  shipmentName              String          @db.VarChar(255)
+  accountCuid               String?         @db.VarChar(32)
   //accountsFk                Account?       @relation(fields: [accountCuid], references: [accountCuid]) //establish foreign key relationship between accounts and users
-  createdByAccountUserCuid  String?        @db.VarChar(32)
+  createdByAccountUserCuid  String?         @db.VarChar(32)
   //createdByAccountUserCuidFk             AccountUsers    @relation(fields: [createdByAccountUserCuid], references: [accountUserId]) //establish foreign key relationship between accounts and users
-  shipmentDateAdded         DateTime?      @default(now())
-  shipmentDateUpdated       DateTime?      @updatedAt
-  trackingNumber            String?        @db.VarChar(255)
-  moNumber                  String?        @db.VarChar(255)
-  houseBillNumber           String?        @db.VarChar(255)
-  trackingUrl               String?        @db.VarChar(255)
-  shipmentActive            Int?           @db.TinyInt
-  shipmentStatus            Int?           @db.TinyInt
-  shipmentPaid              Int?           @db.TinyInt
-  shipmentCustomerRate      Decimal?       @db.Decimal(5, 2)
-  internalRate              Decimal?       @db.Decimal(5, 2)
-  shipmentCustomerTotalCost Decimal?       @db.Decimal(8, 2)
-  internalTotalCost         Decimal?       @db.Decimal(8, 2)
-  dateCreated               DateTime?      @default(now())
-  dateUpdated               DateTime?      @updatedAt
-  equipmentTypeId           Int?           @db.TinyInt
+  shipmentDateAdded         DateTime?       @default(now())
+  shipmentDateUpdated       DateTime?       @updatedAt
+  trackingNumber            String?         @db.VarChar(255)
+  moNumber                  String?         @db.VarChar(255)
+  houseBillNumber           String?         @db.VarChar(255)
+  trackingUrl               String?         @db.VarChar(255)
+  shipmentActive            Int?            @db.TinyInt
+  shipmentStatus            Int?            @db.TinyInt
+  shipmentPaid              Int?            @db.TinyInt
+  shipmentCustomerRate      Decimal?        @db.Decimal(5, 2)
+  internalRate              Decimal?        @db.Decimal(5, 2)
+  shipmentCustomerTotalCost Decimal?        @db.Decimal(8, 2)
+  internalTotalCost         Decimal?        @db.Decimal(8, 2)
+  dateCreated               DateTime?       @default(now())
+  dateUpdated               DateTime?       @updatedAt
+  equipmentTypeId           Int?            @db.TinyInt
   shipmentLoads             ShipmentLoad[]
+  ShipmentRoute             ShipmentRoute[]
 }
 
 model ShipmentLoad {
@@ -103,9 +103,43 @@ model ShipmentLoad {
   loadType                 LoadType? @relation(fields: [loadtypeId], references: [loadTypeId])
 }
 
+model ShipmentRoute {
+  shipmentRoutId           Int       @id @default(autoincrement())
+  shipmentRoutCuid         String?   @unique @default(cuid()) @db.VarChar(32)
+  shipmentCuid             String?   @db.VarChar(255)
+  shipmentCuidFk           Shipment? @relation(fields: [shipmentCuid], references: [shipmentCuid]) //establish foreign key relationship between accounts and users
+  originName               String    @db.VarChar(255)
+  originPhone              String?   @db.VarChar(32)
+  originAddress1           String?   @db.VarChar(255)
+  originAddress2           String?   @db.VarChar(255)
+  originCity               String?   @db.VarChar(255)
+  originRegion             String?   @db.VarChar(255)
+  originPostalCode         String?   @db.VarChar(32)
+  originCountry            String?   @db.VarChar(128)
+  originEmailAddress       String?   @db.VarChar(255)
+  originContact            String?   @db.VarChar(255)
+  destinationName          String    @db.VarChar(255)
+  destinationPhone         String?   @db.VarChar(32)
+  destinationAddress1      String?   @db.VarChar(255)
+  destinationAddress2      String?   @db.VarChar(255)
+  destinationCity          String?   @db.VarChar(255)
+  destinationRegion        String?   @db.VarChar(255)
+  destinationPostalCode    String?   @db.VarChar(32)
+  destinationCountry       String?   @db.VarChar(128)
+  destinationEmailAddress  String?   @db.VarChar(255)
+  destinationContact       String?   @db.VarChar(255)
+  dateStarted              DateTime?
+  dateEnded                DateTime?
+  shipmentRouteActive      Int?      @db.TinyInt
+  createdByAccountUserCuid String?   @db.VarChar(32)
+  updatedByAccountUserCuid String?   @db.VarChar(32)
+  dateCreated              DateTime? @default(now())
+  dateUpdated              DateTime? @updatedAt
+}
+
 model LoadType {
-  loadTypeId      Int            @id @default(autoincrement())
-  loadTypeName    String         @db.VarChar(128)
-  LoadTypeActive  Int?           @default(1) @db.TinyInt
-  shipmentLoadsFk ShipmentLoad[]
+  loadTypeId     Int             @id @default(autoincrement())
+  loadTypeName   String          @db.VarChar(128)
+  LoadTypeActive Int?            @default(1) @db.TinyInt
+  ShipmentLoad   ShipmentLoad[]
 }
