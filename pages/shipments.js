@@ -1,203 +1,196 @@
-import { data } from "autoprefixer";
+//import { data } from "autoprefixer";
 import { useState, useEffect } from "react";
 import Layout from '../components/layout'
  
- 
 export default function Home() {
 
-  /*
-  
- const NextPage = () => {
+/*
 
-  const [data, setData] = useState([]);
+const NextPage = () => {
 
-  const fetchData = async() =>{
+const [data, setData] = useState([]);
+
+const fetchData = async() =>{
 
 const response = await fetch('api/shipment/getdata')
 const json = await response.json()
 
-  }
+}
 
- useEffect(() => {
-  fetchData()
+useEffect(() => {
+fetchData()
 
 }, []
 )
 
 
 
- }
+}
 */
 
 
 const [isLoading, setIsLoading] = useState(true)
 const [dashboardData, setDashboardData] = useState([])
-  useEffect(() => {
-    async function fetchDashboardData() {
-      const response = await fetch('api/shipment/getdata')
-      const data = await response.json()
-      setDashboardData(data)
-      setIsLoading(false)
-    }
-    fetchDashboardData()
-  }, [])
+useEffect(() => {
+async function fetchDashboardData() {
+const response = await fetch('api/shipment/getdata')
+const data = await response.json()
+setDashboardData(data)
+setIsLoading(false)
+}
+fetchDashboardData()
+}, [])
 
-  if (isLoading) {
-    return <h2>Loading...</h2>
-  }
-
-
-  
-
-  //const [session] = useSession();
+if (isLoading) {
+return <h2>Loading...</h2>
+}
 
 
-  //const mycuid = cuid();
-  //console.log( cuid() );
-  //console.log(mycuid);
+
+
+//const [session] = useSession();
+
+
+//const mycuid = cuid();
+//console.log( cuid() );
+//console.log(mycuid);
 
 /*
 var axios = require("axios").default;
 
 var options = {
-  method: 'GET',
-  url: 'https://dev-b8c2qsq6.us.auth0.com/api/v2/users',
-  params: {q: 'name:"John Wong"', search_engine: 'v3'},
-  headers: {authorization: '2363bef524807193387b8b53266ba90c2831f5024999bc2a92685a217cb7cecd'}
+method: 'GET',
+url: 'https://dev-b8c2qsq6.us.auth0.com/api/v2/users',
+params: {q: 'name:"John Wong"', search_engine: 'v3'},
+headers: {authorization: '2363bef524807193387b8b53266ba90c2831f5024999bc2a92685a217cb7cecd'}
 };
 
 axios.request(options).then(function (response) {
-  console.log(response.data);
+console.log(response.data);
 }).catch(function (error) {
-  console.error(error);
+console.error(error);
 });
 */
 
 
 //  const {user, error, isloading} = useUser();
 
- 
+
 //  console.log(user);
 
-  /*
-  const MainContent = 'is logged in'
-  const SomeOtherComponent  = 'test'
-  */
-  /*
-  if(isloading) {
-    return (
-      <div className="alert alert-warning" role="alert">...Loading</div>
-    )
-  }
+/*
+const MainContent = 'is logged in'
+const SomeOtherComponent  = 'test'
+*/
+/*
+if(isloading) {
+return (
+<div className="alert alert-warning" role="alert">...Loading</div>
+)
+}
 
 
-  if(user) {
-    return (
-      <>
-      <h1>Welcome Back!</h1>
-      
-      <p>You're login as {user.name} with the following email {user.email}</p>
+if(user) {
+return (
+<>
+<h1>Welcome Back!</h1>
 
-      <Link href="/api/auth/logout">
-          <a className='btn btn-primary' role="button">logout</a>
-        </Link>
-      </>
-    )
-  }
-  */
+<p>You're login as {user.name} with the following email {user.email}</p>
 
-  return (
+<Link href="/api/auth/logout">
+<a className='btn btn-primary' role="button">logout</a>
+</Link>
+</>
+)
+}
+*/
+
+return (
 
 <>
 
 <header className="bg-white shadow">
-    <div className="mx-auto max-w-8xl py-6 px-4 sm:px-6 lg:px-4">
-      <h1 className="text-3xl font-bold tracking-tight text-gray-900">Shipments</h1>
-    </div>
-  </header>
-  <main>
-    <div className="mx-auto max-w-8xl py-2 sm:px-6 lg:px-4">
-      
-      <div className="px-4 py-6 sm:px-0">
-        
-
+<div className="mx-auto max-w-8xl py-6 px-4 sm:px-6 lg:px-4">
+<h1 className="text-3xl font-bold tracking-tight text-gray-900">Shipments</h1>
+</div>
+</header>
+<main>
+<div className="mx-auto max-w-8xl py-2 sm:px-6 lg:px-4">
+<div className="px-4 py-6 sm:px-0">
 
 <table>
-  <thead>
+<thead>
 <tr>
-  <th>ID</th>
-  <th>References</th>
-  <th>statuses</th>
-  <th>Origin</th>
-  <th>Destination</th>
-  <th>Picked Up?</th>
-  <th>Load</th>
-  <th>Carrier</th>
-  <th>Driver</th>
-  <th>Total Cost</th>
-  <th>Equipment</th>
+<th>ID</th>
+<th>References</th>
+<th>statuses</th>
+<th>Origin</th>
+<th>Destination</th>
+<th>Picked Up?</th>
+<th>Load</th>
+<th>Carrier</th>
+<th>Driver</th>
+<th>Total Cost</th>
+<th>Equipment</th>
 </tr>
 </thead>
 <tbody>
 {dashboardData?.map((fetchedViews) => (
-                      <tr className="border-b"  key={fetchedViews.shipmentCuid}> 
-                        <td
-                          className={
-                            "px-6 py-4 whitespace-nowrap text-sm font-medium text-gray-900"
-                          }
-                        >
-                          {fetchedViews.shipmentId}
-                        </td>
-                        <td
-                          className={
-                            "px-6 py-4 whitespace-nowrap text-sm font-medium text-gray-900"
-                          }
-                        >
-                          <a href="#">
-                          {fetchedViews.shipmentCuid}   
-                          </a>
-                        </td>
-                        <td className="text-sm text-gray-900 font-light px-6 py-4 whitespace-nowrap">
-                        {fetchedViews.trackingNumber}   
-                        </td>
-                        <td className="text-sm text-gray-900 font-light px-6 py-4 whitespace-nowrap">
-                        {fetchedViews.trackingNumber}   
-                        </td>
-                        <td className="text-sm text-gray-900 font-light px-6 py-4 whitespace-nowrap">
-                        {fetchedViews.trackingNumber}   
-                        </td>
-                        <td className="text-sm text-gray-900 font-light px-6 py-4 whitespace-nowrap">
-                        {fetchedViews.trackingNumber}
-                        </td>
-                        <td className="text-sm text-gray-900 font-light px-6 py-4 whitespace-nowrap">
-                        {fetchedViews.trackingNumber}
-                        </td>
-                        <td className="text-sm text-gray-900 font-light px-6 py-4 whitespace-nowrap">
-                        {fetchedViews.trackingNumber}
-                        </td>
-                        <td className="text-sm text-gray-900 font-light px-6 py-4 whitespace-nowrap">
-                        {fetchedViews.trackingNumber}
-                        </td>
-                        <td className="text-sm text-gray-900 font-light px-6 py-4 whitespace-nowrap">
-                        {fetchedViews.trackingNumber}
-                        </td>
-                        <td className="text-sm text-gray-900 font-light px-6 py-4 whitespace-nowrap">
-                        {fetchedViews.trackingNumber}
-                        </td>
-                      </tr>
-                    ))}
+<tr className="border-b"  key={fetchedViews.shipmentCuid}> 
+<td
+className={
+"px-6 py-4 whitespace-nowrap text-sm font-medium text-gray-900"
+}
+>
+{fetchedViews.shipmentId}
+</td>
+<td
+className={
+"px-6 py-4 whitespace-nowrap text-sm font-medium text-gray-900"
+}
+>
+<a href="#">
+{fetchedViews.shipmentCuid}   
+</a>
+</td>
+<td className="text-sm text-gray-900 font-light px-6 py-4 whitespace-nowrap">
+{fetchedViews.trackingNumber}   
+</td>
+<td className="text-sm text-gray-900 font-light px-6 py-4 whitespace-nowrap">
+{fetchedViews.trackingNumber}   
+</td>
+<td className="text-sm text-gray-900 font-light px-6 py-4 whitespace-nowrap">
+{fetchedViews.trackingNumber}   
+</td>
+<td className="text-sm text-gray-900 font-light px-6 py-4 whitespace-nowrap">
+{fetchedViews.trackingNumber}
+</td>
+<td className="text-sm text-gray-900 font-light px-6 py-4 whitespace-nowrap">
+{fetchedViews.trackingNumber}
+</td>
+<td className="text-sm text-gray-900 font-light px-6 py-4 whitespace-nowrap">
+{fetchedViews.trackingNumber}
+</td>
+<td className="text-sm text-gray-900 font-light px-6 py-4 whitespace-nowrap">
+{fetchedViews.trackingNumber}
+</td>
+<td className="text-sm text-gray-900 font-light px-6 py-4 whitespace-nowrap">
+{fetchedViews.trackingNumber}
+</td>
+<td className="text-sm text-gray-900 font-light px-6 py-4 whitespace-nowrap">
+{fetchedViews.trackingNumber}
+</td>
+</tr>
+))}
+
 </tbody>
 </table>
 
-
-        
-      </div>
-    </div>
-  </main>
-
+</div>
+</div>
+</main>
 
 </>
-
 
 )}
 

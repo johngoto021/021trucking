@@ -2,6 +2,7 @@
 import styles from './layout.module.css'
 import Navbar from './navbar'
 import Footer from './footer'
+//import { useState, useEffect } from "react";
 import { Fragment, useContext } from 'react';
 import { SessionProvider } from 'next-auth/react'
 
