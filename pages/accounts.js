@@ -11,9 +11,6 @@ import Layout from '../components/layout'
 //import cuid from 'cuid';
 //import { useSession, signIn, signOut } from 'next-auth';
  
-
-
-
 export default function Home() {
   
   //const [session] = useSession();
