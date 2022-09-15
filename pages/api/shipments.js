@@ -38,8 +38,8 @@ async function createShipments(req, res) {
         accountCuid: body.accountCuid,
         trackingNumber: body.trackingNumber,
         moNumber: body.moNumber,
-        houseBillNumber: body.houseBillNumber
-        //equipmentTypeId: body.equipmentTypeId
+        houseBillNumber: body.houseBillNumber,
+        equipmentTypeCuid: body.equipmentTypeCuid
       },
     });
     return res.status(200).json(newEntry, { success: true });

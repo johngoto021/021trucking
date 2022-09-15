@@ -1,6 +1,7 @@
 import { useState, useEffect } from "react";
 import useSWR from 'swr'
 import Layout from '../components/layout'
+import cuid from 'cuid'
 
 const fetcher = async () => {
   const response = await fetch('api/account/getdataidname')
@@ -16,7 +17,7 @@ const fetcher2 = async () => {
   return equiptype
 }
 */
-export default function Dashboard() {
+export default function ShipmentForm() {
   
   const { data, error } = useSWR('accountDropDown', fetcher)
   //const { data, error } = useSWR('equiptypeDropDown', fetcher)
@@ -24,10 +25,11 @@ export default function Dashboard() {
 
   const [shipmentName, setshipmentName] = useState("");
   const [accountCuid, setaccountCuid] = useState("");
-  const [equipmentTypeId, setequipmentTypeId] = useState("0");
+  const [equipmentTypeCuid, setequipmentTypeCuid] = useState("");
   const [trackingNumber, settrackingNumber] = useState("");
   const [moNumber, setmoNumber] = useState("");
   const [houseBillNumber, sethouseBillNumber] = useState("");
+  const [shipmentCuid, setshipmentCuid] = useState("");
   
   const [APIResponse, setAPIResponse] = useState(null);
   //const [accountName, setAccountName] = useState("");
@@ -37,8 +39,9 @@ export default function Dashboard() {
   //const [accountDropDown, setAccountDropDown] = useState(null)
   const [equiptypeDropDown, setEquiptypeDropDown] = useState(null)
   
+  const [ShipmentRef, setShipmentRef] = useState();
   
-  
+  /*
   useEffect(() => {
     async function fetchEquipTypeDropDown() {
       const response = await fetch('api/dropdowns/getequipmenttype')
@@ -48,12 +51,19 @@ export default function Dashboard() {
     }
     fetchEquipTypeDropDown()
   }, [])
-  
-  /*
+  */
+ 
   useEffect(() => {
+    async function fetchEquipTypeDropDown() {
+      const response = await fetch('api/dropdowns/getequipmenttype')
+      const data = await response.json()
+      setEquiptypeDropDown(data)
+      setIsLoading(false)
+    }
+    fetchEquipTypeDropDown();
     console.log("shipmentName", shipmentName);
     console.log("accountCuid", accountCuid);
-    console.log("equipmentTypeId", equipmentTypeId);
+    console.log("equipmentTypeCuid", equipmentTypeCuid);
     console.log("trackingNumber", trackingNumber);
     console.log("moNumber", moNumber);
     console.log("houseBillNumber", houseBillNumber);
@@ -61,14 +71,31 @@ export default function Dashboard() {
   }, [
     shipmentName,
     accountCuid,
-    equipmentTypeId,
+    equipmentTypeCuid,
     trackingNumber,
     moNumber,
     houseBillNumber,
     APIResponse,
   ]);
-*/
-  
+
+  const seeShipments = async () => {
+    try {
+      const response = await fetch("/api/shipments", {
+        method: "GET",
+        headers: { "Content-Type": "application/json" },
+      });
+      setAPIResponse(await response.json());
+      if (response.status !== 200) {
+        console.log("something went wrong");
+        //set an error banner here
+      } else {
+        resetForm();
+        console.log("form submitted successfully !!!");
+      }
+    } catch (error) {
+      console.log("there was an error reading from the db", error);
+    }
+  };
 
 
   const handleSubmit = async (e) => {
@@ -76,7 +103,7 @@ export default function Dashboard() {
     const body = {
       shipmentName,
       accountCuid,
-      equipmentTypeId,
+      equipmentTypeCuid,
       trackingNumber,
       moNumber,
       houseBillNumber,
@@ -91,9 +118,8 @@ export default function Dashboard() {
         console.log("something went wrong");
         //set an error banner here
       } else {
-        //resetForm();
-        //seeShipments();
-        console.log(response);
+        resetForm();
+        seeShipments();
         console.log("form submitted successfully !!!");
         //set a success banner here
       }
@@ -101,6 +127,15 @@ export default function Dashboard() {
     } catch (error) {
       console.log("there was an error submitting", error);
     }
+  };
+
+  const resetForm = () => {
+    setshipmentName("");
+    setaccountCuid("");
+    setequipmentTypeCuid("");
+    settrackingNumber("");
+    setmoNumber("");
+    sethouseBillNumber("");
   };
 
   
@@ -127,7 +162,15 @@ export default function Dashboard() {
 <div className="px-4 py-6 sm:px-0">
 
 
+
+
 <div className="mt-10 sm:mt-0">
+
+<div className="md:grid md:grid-cols-2 md:gap-6 px-6">
+Shipment Number: {ShipmentRef}
+</div>
+
+
         <div className="md:grid md:grid-cols-2 md:gap-6">
           <div className="mt-5 md:col-span-2 md:mt-0">
             <form action="#" method="POST" onSubmit={handleSubmit}>
@@ -139,20 +182,23 @@ export default function Dashboard() {
 
 <div className="col-span-6 sm:col-span-3">
 <label
-htmlFor="equipmentTypeId"
+htmlFor="equipmentTypeCuid"
 className="block text-sm font-medium text-gray-700"
 >
 Equipment Type
 </label>
 
-<select name="equipmentTypeCud" className="mt-1 block w-full rounded-md border-gray-300 shadow-sm focus:border-indigo-500 focus:ring-indigo-500 sm:text-sm" >
-
+<select name="equipmentTypeCuid" className="mt-1 block w-full rounded-md border-gray-300 shadow-sm focus:border-indigo-500 focus:ring-indigo-500 sm:text-sm" 
+ value={equipmentTypeCuid}
+ onChange={(e) => {
+  setequipmentTypeCuid(e.target.value);
+ }}
+>
 {equiptypeDropDown?.map((equipmentDD) => (
 <option key={equipmentDD.equipmentTypeCuid} value={equipmentDD.equipmentTypeCuid}
 >{equipmentDD.equipmentTypeName}</option>
 ))}
 </select>
-
 
 </div>
 
@@ -184,12 +230,18 @@ value={shipmentName}
 htmlFor="accountCuid"
 className="block text-sm font-medium text-gray-700"
 >
-Billable Account
+Customer Account
 </label>
 
-<select name="accountCuid" className="mt-1 block w-full rounded-md border-gray-300 shadow-sm focus:border-indigo-500 focus:ring-indigo-500 sm:text-sm" >
+<select name="accountCuid" className="mt-1 block w-full rounded-md border-gray-300 shadow-sm focus:border-indigo-500 focus:ring-indigo-500 sm:text-sm" 
+value={accountCuid}
+onChange={(e) => {
+ setaccountCuid(e.target.value);
+}}
+>
+ <option value={''} >Please select customer account</option>
 {data?.map((accountDD) => (
-<option key={accountDD.accountCuid} value={accountDD.accountId}
+<option key={accountDD.accountCuid} value={accountDD.accountCuid}
 >{accountDD.accountName}</option>
 ))}
 
@@ -272,6 +324,85 @@ value={moNumber}
 
 
 
+        <div className="flex flex-col">
+          <div className="overflow-x-auto sm:-mx-6 lg:-mx-8">
+            <div className="py-2 inline-block min-w-full sm:px-6 lg:px-8">
+              <div className="overflow-hidden">
+                <table className="min-w-full">
+                  <thead className="border-b">
+                    <tr>
+                      <th
+                        scope="col"
+                        className="text-sm font-medium text-gray-900 px-6 py-4 text-left"
+                      >
+                        #
+                      </th>
+                      <th
+                        scope="col"
+                        className="text-sm font-medium text-gray-900 px-6 py-4 text-left"
+                      >
+                        Shipment
+                      </th>
+                      <th
+                        scope="col"
+                        className="text-sm font-medium text-gray-900 px-6 py-4 text-left"
+                      >
+                        Equipment
+                      </th>
+                      <th
+                        scope="col"
+                        className="text-sm font-medium text-gray-900 px-6 py-4 text-left"
+                      >
+                        Tracking Id
+                      </th>
+                      <th
+                        scope="col"
+                        className="text-sm font-medium text-gray-900 px-6 py-4 text-left"
+                      >
+                        MO Number.
+                      </th>
+                    </tr>
+                  </thead>
+                  <tbody>
+                    {APIResponse?.map((shipmentView) => (
+                      <tr className="border-b"  key={shipmentView.shipmentId}> 
+                        <td
+                          className={
+                            "px-6 py-4 whitespace-nowrap text-sm font-medium text-gray-900"
+                          }
+                        >
+                          {shipmentView.shipmentId}
+                        </td>
+                        <td
+                          className={
+                            "px-6 py-4 whitespace-nowrap text-sm font-medium text-gray-900"
+                          }
+                        >
+                          {shipmentView.shipmentName} <br />
+                          
+                        </td>
+                        <td className="text-sm text-gray-900 font-light px-6 py-4 whitespace-nowrap">
+                          {shipmentView.equipmentTypeCuid}
+                        </td>
+                        <td className="text-sm text-gray-900 font-light px-6 py-4 whitespace-nowrap">
+                        {shipmentView.trackingNumber}   
+                        </td>
+                        <td className="text-sm text-gray-900 font-light px-6 py-4 whitespace-nowrap">
+                        {shipmentView.moNumber} 
+                        </td>
+                      </tr>
+                    ))}
+                  </tbody>
+                </table>
+              </div>
+            </div>
+          </div>
+        </div>
+      
+
+
+
+
 
 </div>
 </div>
@@ -280,10 +411,31 @@ value={moNumber}
     
     )}
     
-    Dashboard.getLayout = function getLayout(page) {
+    ShipmentForm.getLayout = function getLayout(page) {
       return (
         <Layout>
           {page}
         </Layout>
       )
     }
+
+    /* 
+    
+    <select name="equipmentTypeCuid" className="mt-1 block w-full rounded-md border-gray-300 shadow-sm focus:border-indigo-500 focus:ring-indigo-500 sm:text-sm" >
+
+{equiptypeDropDown?.map((equipmentDD) => (
+<option key={equipmentDD.equipmentTypeCuid} value={equipmentDD.equipmentTypeCuid}
+>{equipmentDD.equipmentTypeName}</option>
+))}
+</select>
+    
+<select name="equipmentTypeCuid" id="equipmentTypeCuid">
+<option value="1">53&apos; / Trailer</option>
+<option value="2">Flatbed</option>
+<option value="3">Van</option>
+<option value="4">Power Only</option>
+<option value="5">Straight Truck</option>
+                      </select>    
+
+
+    */

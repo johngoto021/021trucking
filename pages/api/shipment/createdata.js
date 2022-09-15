@@ -27,8 +27,8 @@ export default async function handler(req, res) {
       accountCuid: body.accountCuid,
       trackingNumber: body.trackingNumber,
       moNumber: body.moNumber,
-      houseBillNumber: body.houseBillNumber
-      //equipmentTypeId: body.equipmentTypeId
+      houseBillNumber: body.houseBillNumber,
+      //equipmentTypeCuid: body.equipmentTypeCuid
     },
   });
  

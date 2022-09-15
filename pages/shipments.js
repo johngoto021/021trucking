@@ -122,7 +122,7 @@ return (
 <thead>
 <tr>
 <th>ID</th>
-<th>References</th>
+<th>Name</th>
 <th>statuses</th>
 <th>Origin</th>
 <th>Destination</th>
@@ -143,6 +143,10 @@ className={
 }
 >
 {fetchedViews.shipmentId}
+<br />
+<a href="#">
+{fetchedViews.shipmentCuid}   
+</a>
 </td>
 <td
 className={
@@ -150,7 +154,7 @@ className={
 }
 >
 <a href="#">
-{fetchedViews.shipmentCuid}   
+{fetchedViews.shipmentName}   
 </a>
 </td>
 <td className="text-sm text-gray-900 font-light px-6 py-4 whitespace-nowrap">
