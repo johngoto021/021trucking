@@ -1,17 +1,55 @@
-import { useState } from "react";
-import { useEffect } from "react";
-import Layout from "../components/layout";
+import { useState, useEffect } from "react";
+import useSWR from 'swr'
+import Layout from '../components/layout'
+
+const fetcher = async () => {
+  const response = await fetch('api/account/getdataidname')
+  const data = await response.json()
+  return data
+}
+
+/*
+const fetcher2 = async () => {
+  const response2 = await fetch('api/dropdown/getequipmenttype')
+  const equiptype = await response2.json()
+  console.log(equiptype)
+  return equiptype
+}
+*/
+export default function Dashboard() {
+  
+  const { data, error } = useSWR('accountDropDown', fetcher)
+  //const { data, error } = useSWR('equiptypeDropDown', fetcher)
 
 
-export default function ShipmentForm() {
   const [shipmentName, setshipmentName] = useState("");
   const [accountCuid, setaccountCuid] = useState("");
-  const [equipmentTypeId, setequipmentTypeId] = useState("");
+  const [equipmentTypeId, setequipmentTypeId] = useState("0");
   const [trackingNumber, settrackingNumber] = useState("");
   const [moNumber, setmoNumber] = useState("");
   const [houseBillNumber, sethouseBillNumber] = useState("");
+  
   const [APIResponse, setAPIResponse] = useState(null);
-
+  //const [accountName, setAccountName] = useState("");
+  //const [accountNameSelected, setAccountNameSelected] = useState("");
+  
+  const [isLoading, setIsLoading] = useState(true)
+  //const [accountDropDown, setAccountDropDown] = useState(null)
+  const [equiptypeDropDown, setEquiptypeDropDown] = useState(null)
+  
+  
+  
+  useEffect(() => {
+    async function fetchEquipTypeDropDown() {
+      const response = await fetch('api/dropdowns/getequipmenttype')
+      const data = await response.json()
+      setEquiptypeDropDown(data)
+      setIsLoading(false)
+    }
+    fetchEquipTypeDropDown()
+  }, [])
+  
+  /*
   useEffect(() => {
     console.log("shipmentName", shipmentName);
     console.log("accountCuid", accountCuid);
@@ -29,25 +67,9 @@ export default function ShipmentForm() {
     houseBillNumber,
     APIResponse,
   ]);
+*/
+  
 
-  const seeShipments = async () => {
-    try {
-      const response = await fetch("/api/shipments", {
-        method: "GET",
-        headers: { "Content-Type": "application/json" },
-      });
-      setAPIResponse(await response.json());
-      if (response.status !== 200) {
-        console.log("something went wrong");
-        //set an error banner here
-      } else {
-        resetForm();
-        console.log("form submitted successfully !!!");
-      }
-    } catch (error) {
-      console.log("there was an error reading from the db", error);
-    }
-  };
 
   const handleSubmit = async (e) => {
     e.preventDefault();
@@ -69,8 +91,9 @@ export default function ShipmentForm() {
         console.log("something went wrong");
         //set an error banner here
       } else {
-        resetForm();
-        seeShipments();
+        //resetForm();
+        //seeShipments();
+        console.log(response);
         console.log("form submitted successfully !!!");
         //set a success banner here
       }
@@ -80,149 +103,159 @@ export default function ShipmentForm() {
     }
   };
 
-  const resetForm = () => {
-    setshipmentName("");
-    setaccountCuid("");
-    setequipmentTypeId("");
-    settrackingNumber("");
-    setmoNumber("");
-    sethouseBillNumber("");
-  };
+  
+/*
+   if (isLoading) {
+    return <h2>Loading...</h2>;
+  }
+*/
+
 
   return (
-    <>
-      <header className="bg-white shadow">
-        <div className="mx-auto max-w-8xl py-4 px-4 sm:px-6 lg:px-4">
-          <h1 className="text-3xl font-bold tracking-tight text-gray-900">
-            Create Shipment
-          </h1>
-          <p>
-            Use this form to create a shipment for clients.
-          </p>
-        </div>
-      </header>
 
-      <div className="mt-10 sm:mt-0">
+<>
+   
+<header className="bg-white shadow">
+<div className="mx-auto max-w-8xl py-6 px-4 sm:px-6 lg:px-4">
+<h1 className="text-3xl font-bold tracking-tight text-gray-900">Add Shipment</h1>
+</div>
+</header>
+<main>
+
+
+<div className="mx-auto max-w-8xl py-2 sm:px-6 lg:px-4">
+<div className="px-4 py-6 sm:px-0">
+
+
+<div className="mt-10 sm:mt-0">
         <div className="md:grid md:grid-cols-2 md:gap-6">
           <div className="mt-5 md:col-span-2 md:mt-0">
             <form action="#" method="POST" onSubmit={handleSubmit}>
               <div className="overflow-hidden shadow sm:rounded-md">
+                
                 <div className="bg-white px-4 py-5 sm:p-6">
-                  <div className="grid grid-cols-6 gap-6">
+                  <div className="grid grid-cols-6 gap-3">
 
 
-                  <div className="col-span-6 sm:col-span-2">
-                      <label
-                        htmlFor="shipmentName"
-                        className="block text-sm font-medium text-gray-700"
-                      >
-                        Shipment Name
-                      </label>
-                      <input
-                        type="text"
-                        name="shipmentName"
-                        id="shipmentName"
-                        autoComplete="shipmentName"
-                        className="mt-1 block w-full rounded-md border-gray-300 shadow-sm focus:border-indigo-500 focus:ring-indigo-500 sm:text-sm"
-                        onChange={(e) => setshipmentName(e.target.value)}
-                        value={shipmentName}
-                      />
-                    </div>
+<div className="col-span-6 sm:col-span-3">
+<label
+htmlFor="equipmentTypeId"
+className="block text-sm font-medium text-gray-700"
+>
+Equipment Type
+</label>
 
-                    <div className="col-span-6 sm:col-span-2">
-                      <label
-                        htmlFor="accountCuid"
-                        className="block text-sm font-medium text-gray-700"
-                      >
-                        Billable Account
-                      </label>
-                      <select name="accountCuid" id="accountCuid">
-<option value="1">ABC Corp 1</option>
-<option value="2">ABC Corp 2</option>
-<option value="3">ABC Corp 3</option>
-<option value="4">ABC Corp 4</option>
-<option value="5">ABC Corp 4</option>
-                      </select>
-                    </div>
+<select name="equipmentTypeCud" className="mt-1 block w-full rounded-md border-gray-300 shadow-sm focus:border-indigo-500 focus:ring-indigo-500 sm:text-sm" >
 
-                    <div className="col-span-6 sm:col-span-2">
-                    <label
-                        htmlFor="equipmentTypeId"
-                        className="block text-sm font-medium text-gray-700"
-                      >
-                        Equipment Type
-                      </label>
-                      <select name="equipmentTypeId" id="equipmentTypeId">
-<option value="1">53&apos; / Trailer</option>
-<option value="2">Flatbed</option>
-<option value="3">Van</option>
-<option value="4">Power Only</option>
-<option value="5">Straight Truck</option>
-                      </select>
-                    </div>
+{equiptypeDropDown?.map((equipmentDD) => (
+<option key={equipmentDD.equipmentTypeCuid} value={equipmentDD.equipmentTypeCuid}
+>{equipmentDD.equipmentTypeName}</option>
+))}
+</select>
 
-                    <div className="col-span-6 sm:col-span-2">
-                      <label
-                        htmlFor="trackingNumber"
-                        className="block text-sm font-medium text-gray-700"
-                      >
-                        Tracking Id
-                      </label>
-                      <input
-                        type="text"
-                        name="trackingNumber"
-                        id="trackingNumber"
-                        autoComplete="trackingNumber"
-                        className="mt-1 block w-full rounded-md border-gray-300 shadow-sm focus:border-indigo-500 focus:ring-indigo-500 sm:text-sm"
-                        onChange={(e) => settrackingNumber(e.target.value)}
-                        value={trackingNumber}
-                      />
-                    </div>
 
-                    <div className="col-span-6 sm:col-span-2">
-                      <label
-                        htmlFor="moNumber"
-                        className="block text-sm font-medium text-gray-700"
-                      >
-                        MO Number
-                      </label>
-                      <input
-                        type="text"
-                        name="moNumber"
-                        id="moNumber"
-                        autoComplete="moNumber"
-                        className="mt-1 block w-full rounded-md border-gray-300 shadow-sm focus:border-indigo-500 focus:ring-indigo-500 sm:text-sm"
-                        onChange={(e) => setmoNumber(e.target.value)}
-                        value={moNumber}
-                      />
-                    </div>
+</div>
 
-                    <div className="col-span-2">
-                      <label
-                        htmlFor="houseBillNumber"
-                        className="block text-sm font-medium text-gray-700"
-                      >
-                        House Bill Number
-                      </label>
-                      <input
-                        type="text"
-                        name="houseBillNumber"
-                        id="houseBillNumber"
-                        autoComplete="houseBillNumber"
-                        className="mt-1 block w-full rounded-md border-gray-300 shadow-sm focus:border-indigo-500 focus:ring-indigo-500 sm:text-sm"
-                        onChange={(e) => sethouseBillNumber(e.target.value)}
-                        value={houseBillNumber}
-                      />
-                    </div>
+<div className="col-span-6 sm:col-span-3">
+Total Weight
+</div>
+
+
+<div className="col-span-6 sm:col-span-3">
+<label
+htmlFor="shipmentName"
+className="block text-sm font-medium text-gray-700"
+>
+Shipment Name
+</label>
+<input
+type="text"
+name="shipmentName"
+id="shipmentName"
+autoComplete="shipmentName"
+className="mt-1 block w-full rounded-md border-gray-300 shadow-sm focus:border-indigo-500 focus:ring-indigo-500 sm:text-sm"
+onChange={(e) => setshipmentName(e.target.value)}
+value={shipmentName}
+/>
+</div>
+
+<div className="col-span-6 sm:col-span-3">
+<label
+htmlFor="accountCuid"
+className="block text-sm font-medium text-gray-700"
+>
+Billable Account
+</label>
+
+<select name="accountCuid" className="mt-1 block w-full rounded-md border-gray-300 shadow-sm focus:border-indigo-500 focus:ring-indigo-500 sm:text-sm" >
+{data?.map((accountDD) => (
+<option key={accountDD.accountCuid} value={accountDD.accountId}
+>{accountDD.accountName}</option>
+))}
+
+
+</select>
+</div>
 
                     
 
-                    
+<div className="col-span-6 sm:col-span-2">
+<label
+htmlFor="trackingNumber"
+className="block text-sm font-medium text-gray-700"
+>
+Tracking Id
+</label>
+<input
+type="text"
+name="trackingNumber"
+id="trackingNumber"
+autoComplete="trackingNumber"
+className="mt-1 block w-full rounded-md border-gray-300 shadow-sm focus:border-indigo-500 focus:ring-indigo-500 sm:text-sm"
+onChange={(e) => settrackingNumber(e.target.value)}
+value={trackingNumber}
+/>
+</div>
 
+<div className="col-span-6 sm:col-span-2">
+<label
+htmlFor="moNumber"
+className="block text-sm font-medium text-gray-700"
+>
+MO Number
+</label>
+<input
+type="text"
+name="moNumber"
+id="moNumber"
+autoComplete="moNumber"
+className="mt-1 block w-full rounded-md border-gray-300 shadow-sm focus:border-indigo-500 focus:ring-indigo-500 sm:text-sm"
+onChange={(e) => setmoNumber(e.target.value)}
+value={moNumber}
+/>
+</div>
+
+<div className="col-span-6 sm:col-span-2">
+  <label
+  htmlFor="houseBillNumber"
+  className="block text-sm font-medium text-gray-700"
+  >
+  House Bill Number
+  </label>
+  <input
+  type="text"
+  name="houseBillNumber"
+  id="houseBillNumber"
+  autoComplete="houseBillNumber"
+  className="mt-1 block w-full rounded-md border-gray-300 shadow-sm focus:border-indigo-500 focus:ring-indigo-500 sm:text-sm"
+  onChange={(e) => sethouseBillNumber(e.target.value)}
+  value={houseBillNumber}
+  />
+  </div>
                     
                   </div>
                 </div>
-                <div className="px-4 py-2 text-right sm:px-6">
+                <div className="px-4 py-2 text-left sm:px-6">
                   <button
                     type="submit"
                     className="inline-flex justify-center rounded-md border border-transparent bg-blue-500 py-2 px-4 text-sm font-medium text-white shadow-sm hover:bg-indigo-700 focus:outline-none focus:ring-2 focus:ring-indigo-500 focus:ring-offset-2"
@@ -234,88 +267,23 @@ export default function ShipmentForm() {
             </form>
           </div>
         </div>
-
-        
-
-        <div className="flex flex-col">
-          <div className="overflow-x-auto sm:-mx-6 lg:-mx-8">
-            <div className="py-2 inline-block min-w-full sm:px-6 lg:px-8">
-              <div className="overflow-hidden">
-                <table className="min-w-full">
-                  <thead className="border-b">
-                    <tr>
-                      <th
-                        scope="col"
-                        className="text-sm font-medium text-gray-900 px-6 py-4 text-left"
-                      >
-                        #
-                      </th>
-                      <th
-                        scope="col"
-                        className="text-sm font-medium text-gray-900 px-6 py-4 text-left"
-                      >
-                        Shipment
-                      </th>
-                      <th
-                        scope="col"
-                        className="text-sm font-medium text-gray-900 px-6 py-4 text-left"
-                      >
-                        Equipment
-                      </th>
-                      <th
-                        scope="col"
-                        className="text-sm font-medium text-gray-900 px-6 py-4 text-left"
-                      >
-                        Tracking Id
-                      </th>
-                      <th
-                        scope="col"
-                        className="text-sm font-medium text-gray-900 px-6 py-4 text-left"
-                      >
-                        MO Number.
-                      </th>
-                    </tr>
-                  </thead>
-                  <tbody>
-                    {APIResponse?.map((shipmentView) => (
-                      <tr className="border-b"  key={shipmentView.shipmentId}> 
-                        <td
-                          className={
-                            "px-6 py-4 whitespace-nowrap text-sm font-medium text-gray-900"
-                          }
-                        >
-                          {shipmentView.shipmentId}
-                        </td>
-                        <td
-                          className={
-                            "px-6 py-4 whitespace-nowrap text-sm font-medium text-gray-900"
-                          }
-                        >
-                          {shipmentView.shipmentName} <br />
-                          
-                        </td>
-                        <td className="text-sm text-gray-900 font-light px-6 py-4 whitespace-nowrap">
-                          {shipmentView.equipmentTypeId}
-                        </td>
-                        <td className="text-sm text-gray-900 font-light px-6 py-4 whitespace-nowrap">
-                        {shipmentView.trackingNumber}   
-                        </td>
-                        <td className="text-sm text-gray-900 font-light px-6 py-4 whitespace-nowrap">
-                        {shipmentView.moNumber} 
-                        </td>
-                      </tr>
-                    ))}
-                  </tbody>
-                </table>
-              </div>
-            </div>
-          </div>
         </div>
-      </div>
-    </>
-  );
-}
 
-ShipmentForm.getLayout = function getLayout(page) {
-  return <Layout>{page}</Layout>;
-};
+
+
+
+
+</div>
+</div>
+</main>
+</>
+    
+    )}
+    
+    Dashboard.getLayout = function getLayout(page) {
+      return (
+        <Layout>
+          {page}
+        </Layout>
+      )
+    }
