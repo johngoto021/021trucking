@@ -22,7 +22,10 @@ export default function Navbar() {
 
     <Script
     src="https://unpkg.com/flowbite@1.5.3/dist/flowbite.js"
-    strategy="lazyOnload" />    
+    strategy="lazyOnload" />  
+
+    
+
       
       <nav className="border-gray-600 bg-gray-900 ">
           <div className="flex flex-wrap justify-between items-center mx-auto max-w-screen-8xl px-4 md:px-6 py-2.5">
@@ -108,7 +111,7 @@ export default function Navbar() {
                       <Link href="accounts" >          
                           <a className="block p-3 rounded-lg hover:bg-gray-50 dark:hover:bg-gray-700">
                               <div className="font-semibold">Accounts</div>
-                              <span className="text-sm font-light text-gray-500 dark:text-gray-400">View List of Client Accounts.</span>
+                              <span className="text-sm font-light text-gray-500 dark:text-gray-400">Manage and view list of client accounts.</span>
                           </a>
                           </Link>
                       </li>
@@ -121,15 +124,23 @@ export default function Navbar() {
                           </Link>
                       </li>
                       <li>
-                      <Link href="#" >
+                      <Link href="equipmenttypes">
                           <a className="block p-3 rounded-lg hover:bg-gray-50 dark:hover:bg-gray-700">
-                              <div className="font-semibold">Marketing CRM</div>
-                              <span className="text-sm font-light text-gray-500 dark:text-gray-400">Connect with third-party tools that you are already using.</span>
+                              <div className="font-semibold">Equipments</div>
+                              <span className="text-sm font-light text-gray-500 dark:text-gray-400">View and nanage equipments</span>
                           </a>
                           </Link>
                       </li>
                   </ul>
                   <ul className="hidden md:block">
+                      <li>
+                      <Link href="#" >
+                          <a className="block p-3 rounded-lg hover:bg-gray-50 dark:hover:bg-gray-700">
+                              <div className="font-semibold">Accessorials</div>
+                              <span className="text-sm font-light text-gray-500 dark:text-gray-400">View and manage accessorials.</span>
+                          </a>
+                          </Link>
+                      </li>
                       <li>
                       <Link href="#" >
                           <a className="block p-3 rounded-lg hover:bg-gray-50 dark:hover:bg-gray-700">
@@ -141,18 +152,11 @@ export default function Navbar() {
                       <li>
                       <Link href="#" >
                           <a className="block p-3 rounded-lg hover:bg-gray-50 dark:hover:bg-gray-700">
-                              <div className="font-semibold">Creative Tools</div>
-                              <span className="text-sm font-light text-gray-500 dark:text-gray-400">Connect with third-party tools that you are already using.</span>
+                              <div className="font-semibold">Drivers</div>
+                              <span className="text-sm font-light text-gray-500 dark:text-gray-400">View and manager list of drives.</span>
                           </a></Link>
                       </li>
-                      <li>
-                      <Link href="#" >
-                          <a className="block p-3 rounded-lg hover:bg-gray-50 dark:hover:bg-gray-700">
-                              <div className="font-semibold">Marketing Automation</div>
-                              <span className="text-sm font-light text-gray-500 dark:text-gray-400">Connect with third-party tools that you are already using.</span>
-                          </a>
-                          </Link>
-                      </li>
+                      
                   </ul>
               </div>
           </div>

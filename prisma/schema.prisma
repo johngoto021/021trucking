@@ -72,9 +72,10 @@ model Shipment {
   internalTotalCost         Decimal?        @db.Decimal(8, 2)
   dateCreated               DateTime?       @default(now())
   dateUpdated               DateTime?       @updatedAt
-  equipmentTypeId           Int?            @db.TinyInt
+  equipmentTypeCuid         String?         @db.VarChar(32)
   shipmentLoads             ShipmentLoad[]
   ShipmentRoute             ShipmentRoute[]
+  equipmentType             EquipmentType?  @relation(fields: [equipmentTypeCuid], references: [equipmentTypeCuid])
 }
 
 model ShipmentLoad {
@@ -83,7 +84,7 @@ model ShipmentLoad {
   shipmentCuid             String?   @db.VarChar(255)
   shipmentCuidFk           Shipment? @relation(fields: [shipmentCuid], references: [shipmentCuid]) //establish foreign key relationship between accounts and users
   loadName                 String    @db.VarChar(255)
-  loadtypeId               Int?      @db.TinyInt
+  loadTypeCuid             String    @db.VarChar(32)
   quantity                 Int?
   lenght                   Decimal?  @db.Decimal(5, 2)
   width                    Decimal?  @db.Decimal(5, 2)
@@ -100,7 +101,7 @@ model ShipmentLoad {
   //accountUserId          Int?
   dateCreated              DateTime? @default(now())
   dateUpdated              DateTime? @updatedAt
-  loadType                 LoadType? @relation(fields: [loadtypeId], references: [loadTypeId])
+  loadType                 LoadType? @relation(fields: [loadTypeCuid], references: [loadTypeCuid])
 }
 
 model ShipmentRoute {
@@ -138,8 +139,17 @@ model ShipmentRoute {
 }
 
 model LoadType {
-  loadTypeId     Int             @id @default(autoincrement())
-  loadTypeName   String          @db.VarChar(128)
-  LoadTypeActive Int?            @default(1) @db.TinyInt
-  ShipmentLoad   ShipmentLoad[]
+  loadTypeId     Int            @id @default(autoincrement())
+  loadTypeCuid   String?        @unique @default(cuid()) @db.VarChar(32)
+  loadTypeName   String         @db.VarChar(128)
+  loadTypeActive Int?           @default(1) @db.TinyInt
+  shipmentLoad   ShipmentLoad[]
+}
+
+model EquipmentType {
+  equipmentTypeId     Int        @id @default(autoincrement())
+  equipmentTypeCuid   String?    @unique @default(cuid()) @db.VarChar(32)
+  equipmentTypeName   String     @db.VarChar(128)
+  equipmentTypeActive Int?       @default(1) @db.TinyInt
+  Shipment            Shipment[]
 }

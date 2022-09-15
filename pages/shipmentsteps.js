@@ -1,17 +1,32 @@
-//import { data } from "autoprefixer";
-import { useState, useEffect } from "react";
-import Layout from '../components/layout'
 //import { Navbar } from "flowbite-react";
 //import Head from 'next/head'
 //import Image from 'next/image'
 //import Link from 'next/link'
 //import styles from '../styles/Home.module.css'
+import Layout from '../components/layout'
 //import { useUser } from '@auth0/nextjs-auth0'
 //import axios from "axios";
 //import cuid from 'cuid';
 //import { useSession, signIn, signOut } from 'next-auth';
- 
-export default function Accounts() {
+//import 'tw-elements';
+import Script from 'next/script'
+//import 'tw-elements';
+
+if (typeof window !== 'undefined') {
+  console.log('You are on the browser');
+  <Script src="./TW-ELEMENTS-PATH/dist/js/index.min.js" strategy="lazyOnload" />;
+  //<Script src="https://cdn.jsdelivr.net/npm/tw-elements/dist/js/index.min.js" />
+} else {
+  console.log('You are on the server');
+  <Script src="./TW-ELEMENTS-PATH/dist/js/index.min.js" strategy="lazyOnload" />
+}
+
+
+
+
+
+
+export default function Home() {
   
   //const [session] = useSession();
 
@@ -70,105 +85,66 @@ axios.request(options).then(function (response) {
   }
   */
 
-
-  const [isLoading, setIsLoading] = useState(true)
-  const [dashboardData, setDashboardData] = useState([])
-    useEffect(() => {
-      async function fetchDashboardData() {
-        const response = await fetch('api/account/getdata')
-        const data = await response.json()
-        setDashboardData(data)
-        setIsLoading(false)
-      }
-      fetchDashboardData()
-    }, [])
-  
-    if (isLoading) {
-      return <h2>Loading...</h2>
-    }
-
-
   return (
 
 <>
 
 <header className="bg-white shadow">
-<div className="mx-auto max-w-8xl py-6 px-4 sm:px-6 lg:px-4">
-<h1 className="text-3xl font-bold tracking-tight text-gray-900">Client Accounts</h1>
-</div>
-</header>
-<main>
-<div className="mx-auto max-w-8xl py-2 sm:px-6 lg:px-4">
-<div className="px-4 py-6 sm:px-0">
+    <div className="mx-auto max-w-8xl py-6 px-4 sm:px-6 lg:px-4">
+      <h1 className="text-3xl font-bold tracking-tight text-gray-900">Dashboard</h1>
+    </div>
+  </header>
+  <main>
+    <div className="mx-auto max-w-8xl py-2 sm:px-6 lg:px-4">
+      
+      <div className="px-4 py-6 sm:px-0">
+        
+      <ul className="stepper" data-mdb-stepper="stepper">
+  <li className="stepper-step stepper-active">
+    <div className="stepper-head">
+      <span className="stepper-head-icon"> 1 </span>
+      <span className="stepper-head-text"> step1 </span>
+    </div>
+    <div className="stepper-content">
+      Lorem ipsum dolor sit amet, consectetur adipiscing elit, sed do eiusmod tempor incididunt ut labore et dolore
+      magna aliqua.
+    </div>
+  </li>
+  <li className="stepper-step">
+    <div className="stepper-head">
+      <span className="stepper-head-icon"> 2 </span>
+      <span className="stepper-head-text"> step2 </span>
+    </div>
+    <div className="stepper-content">
+      Ut enim ad minim veniam, quis nostrud exercitation ullamco laboris nisi ut aliquip ex ea commodo consequat.
+    </div>
+  </li>
+  <li className="stepper-step">
+    <div className="stepper-head">
+      <span className="stepper-head-icon"> 3 </span>
+      <span className="stepper-head-text"> step3 </span>
+    </div>
+    <div className="stepper-content">
+      Duis aute irure dolor in reprehenderit in voluptate velit esse cillum dolore eu fugiat nulla pariatur.
+    </div>
+  </li>
+</ul>
 
 
-<table>
-<thead>
-<tr>
-<th>ID</th>
-<th>Name</th>
-<th>References</th>
-<th>Address</th>
-<th>Contact</th>
-<th>Phone</th>
-<th>Date Created</th>
-<th>Status</th>
-</tr>
-</thead>
 
-<tbody>
-{dashboardData?.map((fetchedViews) => (
 
-<tr className="border-b"  key={fetchedViews.accountCuid}> 
-<td
-className={
-"px-6 py-4 whitespace-nowrap text-sm font-medium text-gray-900"
-}
->
-{fetchedViews.accountId}
-</td>
-<td
-className={
-"px-6 py-4 whitespace-nowrap text-sm font-medium text-gray-900"
-}
->
-<a href="#">
-{fetchedViews.accountName}   
-</a>
-</td>
-<td className="text-sm text-gray-900 font-light px-6 py-4 whitespace-nowrap">
-{fetchedViews.referenceNumber}   
-</td>
-<td className="text-sm text-gray-900 font-light px-6 py-4 whitespace-nowrap">
-{fetchedViews.address1}   
-</td>
-<td className="text-sm text-gray-900 font-light px-6 py-4 whitespace-nowrap">
-{fetchedViews.contact}   
-</td>
-<td className="text-sm text-gray-900 font-light px-6 py-4 whitespace-nowrap">
-{fetchedViews.contact}   
-</td>
-<td className="text-sm text-gray-900 font-light px-6 py-4 whitespace-nowrap">
-{fetchedViews.phone}
-</td>
-<td className="text-sm text-gray-900 font-light px-6 py-4 whitespace-nowrap">
-{fetchedViews.accountStatus}
-</td>
-</tr>
 
-))}
-</tbody>
-</table>
+      </div>
+    </div>
+  </main>
 
-</div>
-</div>
-</main>
 
 </>
 
+
 )}
 
-Accounts.getLayout = function getLayout(page) {
+Home.getLayout = function getLayout(page) {
   return (
     <Layout>
       {page}
