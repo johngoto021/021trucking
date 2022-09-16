@@ -9,6 +9,7 @@ const fetcher = async () => {
   return data
 }
 
+
 /*
 const fetcher2 = async () => {
   const response2 = await fetch('api/dropdown/getequipmenttype')
@@ -24,12 +25,13 @@ export default function ShipmentForm() {
 
 
   const [shipmentName, setshipmentName] = useState("");
+  const [shipmentCuid, setshipmentCuid] = useState("");
   const [accountCuid, setaccountCuid] = useState("");
   const [equipmentTypeCuid, setequipmentTypeCuid] = useState("");
   const [trackingNumber, settrackingNumber] = useState("");
   const [moNumber, setmoNumber] = useState("");
   const [houseBillNumber, sethouseBillNumber] = useState("");
-  const [shipmentCuid, setshipmentCuid] = useState("");
+  
   
   const [APIResponse, setAPIResponse] = useState(null);
   //const [accountName, setAccountName] = useState("");
@@ -39,8 +41,11 @@ export default function ShipmentForm() {
   //const [accountDropDown, setAccountDropDown] = useState(null)
   const [equiptypeDropDown, setEquiptypeDropDown] = useState(null)
   
-  const [ShipmentRef, setShipmentRef] = useState();
+  const ShipmentRef2 = cuid();
+  const [ShipmentRef, setShipmentRef] = useState('');
   
+  //setShipmentRef[ShipmentRef2];
+
   /*
   useEffect(() => {
     async function fetchEquipTypeDropDown() {
@@ -70,12 +75,15 @@ export default function ShipmentForm() {
     console.log("APIResponse", APIResponse);
   }, [
     shipmentName,
+    shipmentCuid,
     accountCuid,
     equipmentTypeCuid,
     trackingNumber,
     moNumber,
     houseBillNumber,
     APIResponse,
+    ShipmentRef,
+    ShipmentRef2
   ]);
 
   const seeShipments = async () => {
@@ -102,6 +110,7 @@ export default function ShipmentForm() {
     e.preventDefault();
     const body = {
       shipmentName,
+      shipmentCuid,
       accountCuid,
       equipmentTypeCuid,
       trackingNumber,
@@ -160,20 +169,20 @@ export default function ShipmentForm() {
 
 <div className="mx-auto max-w-8xl py-2 sm:px-6 lg:px-4">
 <div className="px-4 py-6 sm:px-0">
-
-
-
-
 <div className="mt-10 sm:mt-0">
 
-<div className="md:grid md:grid-cols-2 md:gap-6 px-6">
-Shipment Number: {ShipmentRef}
-</div>
+
 
 
         <div className="md:grid md:grid-cols-2 md:gap-6">
           <div className="mt-5 md:col-span-2 md:mt-0">
             <form action="#" method="POST" onSubmit={handleSubmit}>
+
+            <div className="md:grid md:grid-cols-2 md:gap-6 px-6">
+Shipment Number: {ShipmentRef}
+<input type="hidden" name="shipmentCuid" value={ShipmentRef} />
+</div>
+
               <div className="overflow-hidden shadow sm:rounded-md">
                 
                 <div className="bg-white px-4 py-5 sm:p-6">
