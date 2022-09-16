@@ -7,7 +7,7 @@ export default function Home() {
 const [isLoading, setIsLoading] = useState(true)
 const [equipmentTypeData, setEquipmentTypeData] = useState([])
 useEffect(() => {
-async function setEquipmentTypeData() {
+async function fetchDashboardData() {
 const response = await fetch('api/dropdowns/getequipmenttype')
 const data = await response.json()
 
