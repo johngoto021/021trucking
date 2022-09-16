@@ -46,7 +46,7 @@ export default function ShipmentForm() {
   
   //setShipmentRef[ShipmentRef2];
 
-  /*
+  
   useEffect(() => {
     async function fetchEquipTypeDropDown() {
       const response = await fetch('api/dropdowns/getequipmenttype')
@@ -56,16 +56,10 @@ export default function ShipmentForm() {
     }
     fetchEquipTypeDropDown()
   }, [])
-  */
+  
  
   useEffect(() => {
-    async function fetchEquipTypeDropDown() {
-      const response = await fetch('api/dropdowns/getequipmenttype')
-      const data = await response.json()
-      setEquiptypeDropDown(data)
-      setIsLoading(false)
-    }
-    fetchEquipTypeDropDown();
+    /*
     console.log("shipmentName", shipmentName);
     console.log("accountCuid", accountCuid);
     console.log("equipmentTypeCuid", equipmentTypeCuid);
@@ -73,6 +67,7 @@ export default function ShipmentForm() {
     console.log("moNumber", moNumber);
     console.log("houseBillNumber", houseBillNumber);
     console.log("APIResponse", APIResponse);
+    */
   }, [
     shipmentName,
     shipmentCuid,
