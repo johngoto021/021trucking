@@ -33,9 +33,8 @@ const [isLoading, setIsLoading] = useState(true)
 const [dashboardData2, setDashboardData2] = useState([])
   useEffect(() => {
     async function fetchDashboardData() {
-      const response = await fetch('api/shipment/shipment')
+      const response = await fetch('api/shipment/getdata')
       const data = await response.json()
-      //JSON.parse('{"name":"John", "age":30, "city":"New York"}');
       setDashboardData2(JSON.parse(data))
       setIsLoading(false)
     }
@@ -46,65 +45,6 @@ const [dashboardData2, setDashboardData2] = useState([])
     return <h2>Loading...</h2>
   }
 
-
-
-
-//const [session] = useSession();
-
-
-//const mycuid = cuid();
-//console.log( cuid() );
-//console.log(mycuid);
-
-/*
-var axios = require("axios").default;
-
-var options = {
-method: 'GET',
-url: 'https://dev-b8c2qsq6.us.auth0.com/api/v2/users',
-params: {q: 'name:"John Wong"', search_engine: 'v3'},
-headers: {authorization: '2363bef524807193387b8b53266ba90c2831f5024999bc2a92685a217cb7cecd'}
-};
-
-axios.request(options).then(function (response) {
-console.log(response.data);
-}).catch(function (error) {
-console.error(error);
-});
-*/
-
-
-//  const {user, error, isloading} = useUser();
-
-
-//  console.log(user);
-
-/*
-const MainContent = 'is logged in'
-const SomeOtherComponent  = 'test'
-*/
-/*
-if(isloading) {
-return (
-<div className="alert alert-warning" role="alert">...Loading</div>
-)
-}
-
-
-if(user) {
-return (
-<>
-<h1>Welcome Back!</h1>
-
-<p>You're login as {user.name} with the following email {user.email}</p>
-
-<Link href="/api/auth/logout">
-<a className='btn btn-primary' role="button">logout</a>
-</Link>
-</>
-)
-}
-*/
 
 return (
 
@@ -136,7 +76,7 @@ return (
 </tr>
 </thead>
 <tbody>
-{dashboardData?.map((fetchedViews) => (
+{dashboardData2?.map((fetchedViews) => (
 <tr className="border-b"  key={fetchedViews.shipmentCuid}> 
 <td
 className={
