@@ -5,14 +5,14 @@ import Layout from '../components/layout'
 export default function Home() {
 
 const [isLoading, setIsLoading] = useState(true)
-const [dashboardData, setDashboardData] = useState([])
+const [equipmentTypeData, setEquipmentTypeData] = useState([])
 useEffect(() => {
-async function fetchDashboardData() {
+async function setEquipmentTypeData() {
 const response = await fetch('api/dropdowns/getequipmenttype')
 const data = await response.json()
 
 //setDashboardData(JSON.parse(data))
-setDashboardData(data)
+setEquipmentTypeData(data)
 setIsLoading(false)
 }
 fetchDashboardData()
@@ -47,7 +47,7 @@ return (
 </tr>
 </thead>
 <tbody>
-{dashboardData?.map((fetchedViews) => (
+{equipmentTypeData?.map((fetchedViews) => (
 <tr className="border-b"  key={fetchedViews.equipmentTypeCuid}> 
 <td className={"px-6 py-4 whitespace-nowrap text-sm font-medium text-gray-900"}>
   {fetchedViews.equipmentTypeId}
