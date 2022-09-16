@@ -33,7 +33,7 @@ const [isLoading, setIsLoading] = useState(true)
 const [dashboardData2, setDashboardData2] = useState([])
   useEffect(() => {
     async function fetchDashboardData() {
-      const response = await fetch('api/shipment/getdata')
+      const response = await fetch('api/shipment/shipment')
       const data = await response.json()
       //JSON.parse('{"name":"John", "age":30, "city":"New York"}');
       setDashboardData2(JSON.parse(data))
