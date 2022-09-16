@@ -5,15 +5,17 @@ const prisma = new PrismaClient();
 export default async function handler(req, res) {
   
   const shipments = await prisma.shipment.findMany({
-    
-       
         select: {
           // This will work!
           shipmentName: true,
           shipmentCuid: true,
           shipmentCustomerRate: true,
           shipmentCustomerTotalCost: true,
-          
+          shipmentPaid: true,
+          trackingNumber: true,
+          moNumber: true,
+          houseBillNumber: true,
+          trackingUrl: true,
           accounts: {
             select: {
               accountName: true,
@@ -26,11 +28,6 @@ export default async function handler(req, res) {
             }
           }
         },
-
-
-
-
-
     
 });
  

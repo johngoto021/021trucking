@@ -148,7 +148,7 @@ model LoadType {
 
 model EquipmentType {
   equipmentTypeId     Int        @id @default(autoincrement())
-  equipmentTypeCuid   String     @unique @default(cuid()) @db.VarChar(32)
+  equipmentTypeCuid   String?    @unique @default(cuid()) @db.VarChar(32)
   equipmentTypeName   String     @db.VarChar(128)
   equipmentTypeActive Int?       @default(1) @db.TinyInt
   shipments           Shipment[]
@@ -156,18 +156,18 @@ model EquipmentType {
 
 model User {
   userId     Int        @id @default(autoincrement())
-  userCuid   String     @unique @default(cuid()) @db.VarChar(32)
+  userCuid   String?    @unique @default(cuid()) @db.VarChar(32)
   userName   String     @db.VarChar(255)
   userEmail  String     @db.VarChar(255)
-  userPhone  String     @db.VarChar(128)
+  userPhone  String?    @db.VarChar(128)
   userActive Int?       @default(1) @db.TinyInt
   UserRoles  UserRole[]
 }
 
 model Role {
   roleId     Int        @id @default(autoincrement())
-  roleCuid   String     @unique @default(cuid()) @db.VarChar(32)
-  roleType   String     @db.VarChar(32)
+  roleCuid   String?    @unique @default(cuid()) @db.VarChar(32)
+  roleType   String     @default("C") @db.VarChar(8)
   roleName   String     @db.VarChar(128)
   roleActive Int?       @default(1) @db.TinyInt
   UserRoles  UserRole[]
