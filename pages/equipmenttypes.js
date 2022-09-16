@@ -38,7 +38,7 @@ return (
 <thead>
 <tr>
 <th>ID</th>
-<th>Unique</th>
+<th>Internal ID</th>
 <th>Name</th>
 <th>Status</th>
 <th>Action</th>

@@ -4,7 +4,7 @@ const prisma = new PrismaClient();
 
 export default async function handler(req, res) {
   
-  const shipments = await prisma.shipment.findMany();
+  const accounts = await prisma.shipment.findMany();
  
-  return res.status(200).json(shipments, { success: true });
+  return res.status(200).json(accounts, { success: true });
 }

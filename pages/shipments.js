@@ -2,7 +2,7 @@
 import { useState, useEffect } from "react";
 import Layout from '../components/layout'
  
-export default function Home() {
+export default function Shipments() {
 
 /*
 
@@ -31,19 +31,19 @@ fetchData()
 
 const [isLoading, setIsLoading] = useState(true)
 const [dashboardData, setDashboardData] = useState([])
-useEffect(() => {
-async function fetchDashboardData() {
-const response = await fetch('api/shipment/getdata')
-const data = await response.json()
-setDashboardData(data)
-setIsLoading(false)
-}
-fetchDashboardData()
-}, [])
+  useEffect(() => {
+    async function fetchDashboardData() {
+      const response = await fetch('api/shipment/getdata')
+      const data = await response.json()
+      setDashboardData(data)
+      setIsLoading(false)
+    }
+    fetchDashboardData()
+  }, [])
 
-if (isLoading) {
-return <h2>Loading...</h2>
-}
+  if (isLoading) {
+    return <h2>Loading...</h2>
+  }
 
 
 
@@ -198,7 +198,7 @@ className={
 
 )}
 
-Home.getLayout = function getLayout(page) {
+Shipments.getLayout = function getLayout(page) {
   return (
     <Layout>
       {page}

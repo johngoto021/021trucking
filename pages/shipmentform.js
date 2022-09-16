@@ -203,6 +203,7 @@ Equipment Type
   setequipmentTypeCuid(e.target.value);
  }}
 >
+  <option value="">Please select</option>
 {equiptypeDropDown?.map((equipmentDD) => (
 <option key={equipmentDD.equipmentTypeCuid} value={equipmentDD.equipmentTypeCuid}
 >{equipmentDD.equipmentTypeName}</option>
