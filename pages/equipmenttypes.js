@@ -10,7 +10,7 @@ useEffect(() => {
 async function fetchDashboardData() {
 const response = await fetch('api/dropdowns/getequipmenttype')
 const data = await response.json()
-console.log(data);
+
 //setDashboardData(JSON.parse(data))
 setDashboardData(data)
 setIsLoading(false)
