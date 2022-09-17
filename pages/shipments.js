@@ -25,12 +25,12 @@ export default function DashboardSWR() {
   </header>
   <main>
 
-<section class="bg-white">
+<section className="bg-white">
 
 
-<div class="flex flex-wrap -mx-4">
-<div class="w-full px-4">
-<div class="max-w-full overflow-x-auto">
+<div className="flex flex-wrap -mx-4">
+<div className="w-full px-4">
+<div className="max-w-full overflow-x-auto">
 
   <table className='border-collapse border border-slate-400 table-auto w-full'>
   <thead>
