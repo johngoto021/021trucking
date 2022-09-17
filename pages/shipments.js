@@ -1,201 +1,117 @@
-//import { data } from "autoprefixer";
-import { useState, useEffect } from "react";
+import useSWR from 'swr'
 import Layout from '../components/layout'
- 
-export default function Shipments() {
+import Link from 'next/link'
 
-/*
 
-const NextPage = () => {
-
-const [data, setData] = useState([]);
-
-const fetchData = async() =>{
-
-const response = await fetch('api/shipment/getdata')
-const json = await response.json()
-
+const fetcher = async () => {
+  const response = await fetch('api/shipment/getdata')
+  const data = await response.json()
+  return data
 }
 
-useEffect(() => {
-fetchData()
+export default function DashboardSWR() {
+  const { data, error } = useSWR('dashboard', fetcher)
 
-}, []
-)
+  if (error) return 'An error has occurred.'
+  if (!data) return 'Loading...'
 
-
-
-}
-*/
-
-
-const [isLoading, setIsLoading] = useState(true)
-const [dashboardData2, setDashboardData2] = useState([])
-  useEffect(() => {
-    async function fetchDashboardData() {
-      const response = await fetch('api/shipment/getdata')
-      const data = await response.json()
-      setDashboardData2(JSON.parse(data))
-      setIsLoading(false)
-    }
-    fetchDashboardData()
-  }, [])
-
-  if (isLoading) {
-    return <h2>Loading...</h2>
-  }
-
-
-return (
+  return (
 
 <>
+  <header className="bg-white shadow">
+  <div className="mx-auto max-w-8xl py-6 px-4 sm:px-6 lg:px-4">
+  <h1 className="text-3xl font-bold tracking-tight text-gray-900">Shipments <span className="text-sm text-blue-600"><Link href="shipmentform">[ add new ]</Link></span></h1>
+  </div>
+  </header>
+  <main>
 
-<header className="bg-white shadow">
-<div className="mx-auto max-w-8xl py-6 px-4 sm:px-6 lg:px-4">
-<h1 className="text-3xl font-bold tracking-tight text-gray-900">Shipments</h1>
-</div>
-</header>
-<main>
-<div className="mx-auto max-w-8xl py-2 sm:px-6 lg:px-4">
-<div className="px-4 py-6 sm:px-0">
-
-<table>
-<thead>
-<tr>
-<th>ID</th>
-<th>Name</th>
-<th>statuses</th>
-<th>Origin</th>
-<th>Destination</th>
-<th>Picked Up?</th>
-<th>Load</th>
-<th>Carrier</th>
-<th>Driver</th>
-<th>Total Cost</th>
-<th>Equipment</th>
-</tr>
-</thead>
-<tbody>
-{dashboardData2?.map((fetchedViews) => (
-<tr className="border-b"  key={fetchedViews.shipmentCuid}> 
-<td
-className={
-"px-6 py-4 whitespace-nowrap text-sm font-medium text-gray-900"
-}
->
-{fetchedViews.shipmentId}
-<br />
-<a href="#">
-{fetchedViews.shipmentCuid}   
-</a>
-</td>
-<td
-className={
-"px-6 py-4 whitespace-nowrap text-sm font-medium text-gray-900"
-}
->
-<a href="#">
-{fetchedViews.shipmentName}   
-</a>
-</td>
-<td className="text-sm text-gray-900 font-light px-6 py-4 whitespace-nowrap">
-{fetchedViews.trackingNumber}   
-</td>
-<td className="text-sm text-gray-900 font-light px-6 py-4 whitespace-nowrap">
-{fetchedViews.trackingNumber}   
-</td>
-<td className="text-sm text-gray-900 font-light px-6 py-4 whitespace-nowrap">
-{fetchedViews.trackingNumber}   
-</td>
-<td className="text-sm text-gray-900 font-light px-6 py-4 whitespace-nowrap">
-{fetchedViews.trackingNumber}
-</td>
-<td className="text-sm text-gray-900 font-light px-6 py-4 whitespace-nowrap">
-{fetchedViews.trackingNumber}
-</td>
-<td className="text-sm text-gray-900 font-light px-6 py-4 whitespace-nowrap">
-{fetchedViews.trackingNumber}
-</td>
-<td className="text-sm text-gray-900 font-light px-6 py-4 whitespace-nowrap">
-{fetchedViews.trackingNumber}
-</td>
-<td className="text-sm text-gray-900 font-light px-6 py-4 whitespace-nowrap">
-{fetchedViews.trackingNumber}
-</td>
-<td className="text-sm text-gray-900 font-light px-6 py-4 whitespace-nowrap">
-{fetchedViews.trackingNumber}
-</td>
-</tr>
-))}
-
-</tbody>
-</table>
-
-</div>
-</div>
-</main>
-
-</>
-
-)}
-
-Shipments.getLayout = function getLayout(page) {
-  return (
-    <Layout>
-      {page}
-    </Layout>
-  )
-}
-
-/*
+<section class="bg-white">
 
 
+<div class="flex flex-wrap -mx-4">
+<div class="w-full px-4">
+<div class="max-w-full overflow-x-auto">
 
-     const Index = ({ userList }) => <div style={{ margin: 20 }}>
-    <table border="1">
-    <thead>
-      <tr>
-      <th>ID</th>
-      <th>shipment</th>
-      <th>Tracking</th>
-      <th>moNumber</th>
-      <th>houseBillNumber</th>
-      </tr>
-    </thead>
-    <tbody>
-      {userList.data.map((x, i) => <tr key={i}>
-        <td>{x.shipmentName}</td>
-        <td>{x. trackingNumber}</td>
-        <td>{x.moNumber}</td>
-        <td>{x.houseBillNumber}</td></td>
-      </tr>)}
-    </tbody>
+  <table className='border-collapse border border-slate-400 table-auto w-full'>
+  <thead>
+  <tr>
+  <th className='border border-slate-300 py-2'>ID</th>
+  <th className='border border-slate-300 px-4'>Name</th>
+  <th className='border border-slate-300 px-4'>Status</th>
+  <th className='border border-slate-300 px-4'>Origin</th>
+  <th className='border border-slate-300 px-4'>Destination</th>
+  <th className='border border-slate-300 px-2'>Picked Up?</th>
+  <th className='border border-slate-300 px-4'>Load</th>
+  <th className='border border-slate-300 px-4'>Carrier</th>
+  <th className='border border-slate-300 px-4'>Driver</th>
+  <th className='border border-slate-300 px-4'>Total Cost</th>
+  <th className='border border-slate-300 px-4'>Equipment</th>
+  </tr>
+  </thead>
+  <tbody>
+  {data?.map((dashboardData) => (
+  <tr className="border-b"  key={dashboardData.shipmentCuid}> 
+  <td
+  className={
+  "px-6 py-4 whitespace-nowrap text-sm font-medium text-gray-900 border border-slate-300"
+  }
+  >
+  {dashboardData.shipmentId}
+  </td>
+  <td
+  className={"px-6 py-4 text-sm font-medium text-gray-900 border border-slate-300"}
+  >
+  <a href="#">
+  {dashboardData.shipmentName}   
+  </a>
+  </td>
+  <td className="text-sm text-gray-900 font-light px-6 py-4 border border-slate-300">
+  {dashboardData.shipmentStatus}   
+  </td>
+  <td className="text-sm text-gray-900 font-light px-6 py-4  border border-slate-300">
+  {dashboardData.trackingNumber}   
+  </td>
+  <td className="text-sm text-gray-900 font-light px-6 py-4  border border-slate-300">
+  {dashboardData.trackingNumber}   
+  </td>
+  <td className="text-sm text-gray-900 font-light px-6 py-4  border border-slate-300">
+  {dashboardData.trackingNumber}
+  </td>
+  <td className="text-sm text-gray-900 font-light px-6 py-4  border border-slate-300">
+  {dashboardData.trackingNumber}
+  </td>
+  <td className="text-sm text-gray-900 font-light px-6 py-4  border border-slate-300">
+  {dashboardData.trackingNumber}
+  </td>
+  <td className="text-sm text-gray-900 font-light px-6 py-4  border border-slate-300">
+  {dashboardData.trackingNumber}
+  </td>
+  <td className="text-sm text-gray-900 font-light px-6 py-4  border border-slate-300">
+  {dashboardData.shipmentCustomerTotalCost}
+  </td>
+  <td className="text-sm text-gray-900 font-light px-6 py-4  border border-slate-300">
+  {dashboardData.trackingNumber}
+  </td>
+  </tr>
+  ))}
+  </tbody>
   </table>
+
 </div>
+</div>
+</div>
+</section>
 
+  </main>
 
-  {session ? (
-          <button onClick={signOut}>Log out.</button>
-        ) : (
-          <button onClick={signIn}>Log in.</button>
-        )}
-
-<script src="https://unpkg.com/flowbite@1.5.3/dist/flowbite.js"></script>
-<link rel="stylesheet" href="https://unpkg.com/flowbite@1.5.3/dist/flowbite.min.css" />
-
-
-if(user) (
-   
-      return {
-      <h1>Welcome Back!</h1>
-      
-      <p>You're login as {user.name} with the following email {user.email}</p>
-
-      <Link href="/api/auth/logout">
-          <a className='btn btn-primary' role="button">logout</a>
-        </Link>
-      }
-    )
-
-
-*/
+  </>
+    
+    )}
+    
+    DashboardSWR.getLayout = function getLayout(page) {
+      return (
+        <Layout>
+          {page}
+        </Layout>
+      )
+    }
