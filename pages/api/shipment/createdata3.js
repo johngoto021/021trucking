@@ -22,23 +22,38 @@ const Data = {
 export default async function handler(req, res) {
   const body = req.body;
   const equipments = JSON.parse(body.equipmentTypeCuid);
-  const myrecord = await prisma.shipment.create({
-    data: {
-      shipmentName: body.shipmentName,
-      accountCuid: body.accountCuid,
-      trackingNumber: body.trackingNumber,
-      moNumber: body.moNumber,
-      houseBillNumber: body.houseBillNumber,
-      shipmentEquipments:{
-        //create: petsObject
-        //create: [{"equipmentTypeCuid":"cl81y57mj00144wmnmn12cemm"},{"equipmentTypeCuid":"cl81y5k3000224wmn7c2secic"},{"equipmentTypeCuid":"cl81y5tl800304wmnoaw7lb9n"},{"equipmentTypeCuid":"cl81y64fp00384wmn87q01g3m"}]
-        create: equipments
-        //body.equipmentTypeCuid 
-        }
-      } 
-    });
+  try{
+    const myrecord = await prisma.shipment.create({
+      data: {
+        shipmentName: body.shipmentName,
+        accountCuid: body.accountCuid,
+        trackingNumber: body.trackingNumber,
+        moNumber: body.moNumber,
+        houseBillNumber: body.houseBillNumber,
+        shipmentEquipments:{
+          //create: petsObject
+          //create: [{"equipmentTypeCuid":"cl81y57mj00144wmnmn12cemm"},{"equipmentTypeCuid":"cl81y5k3000224wmn7c2secic"},{"equipmentTypeCuid":"cl81y5tl800304wmnoaw7lb9n"},{"equipmentTypeCuid":"cl81y64fp00384wmn87q01g3m"}]
+          create: equipments
+          //body.equipmentTypeCuid 
+          }
+        } 
+      });
+      const jobj = JSON.stringify(myrecord); 
 
-    //console.log(body.equipmentTypeCuid);
+      console.log("hello" +  jobj);
+      return res.status(200).json(myrecord, {message: "data saved", success: true });
+  }
+  
+catch {
+
+  return res.status(500).json({message: "data not saved", success: false });
+}
+     
+
+}
+
+
+ //console.log(body.equipmentTypeCuid);
   
   /*
   const myrecord = await prisma.shipment.create({
@@ -95,10 +110,3 @@ export default async function handler(req, res) {
       },
     });
 */
-
-
- 
-
-  return res.status(200).json(myrecord, { success: true });
-
-}

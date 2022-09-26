@@ -5,8 +5,6 @@ import Script from "next/script";
 import { data } from "autoprefixer";
 
 
-
-
 //
 /*
 const fetcher2 = async () => {
@@ -39,44 +37,27 @@ export default function ShipmentForm() {
   const [shipmentName, setshipmentName] = useState("");
   const [shipmentCuid, setshipmentCuid] = useState("");
   const [accountCuid, setaccountCuid] = useState("");
-  //const [equipmentTypeCuid, setequipmentTypeCuid] = useState([]);
-  const [equipmentTypeCuid2, setequipmentTypeCuid2] = useState([]);
+  const [equipmentTypeCuid, setequipmentTypeCuid] = useState([]);
+  //const [equipmentTypeCuid2, setequipmentTypeCuid2] = useState([]);
   //const [equipmentTypeCuid, setequipmentTypeCuid] = useState([{ equipmentTypeCuid: '' }]);
-  const [equipmentTypeCuid, setequipmentTypeCuid] = useState();
-  
+  //const [equipmentTypeCuid, setequipmentTypeCuid] = useState();
   const [trackingNumber, settrackingNumber] = useState("");
   const [moNumber, setmoNumber] = useState("");
   const [houseBillNumber, sethouseBillNumber] = useState("");
-  
-  
+
   const [APIResponse, setAPIResponse] = useState(null);
-  //const [accountName, setAccountName] = useState("");
-  //const [accountNameSelected, setAccountNameSelected] = useState("");
-  
+ 
   const [isLoading, setIsLoading] = useState(true)
   const [isLoading2, setIsLoading2] = useState(true)
-  //const [accountDropDown, setAccountDropDown] = useState(null)
-  const [equiptypeDropDown, setEquiptypeDropDown] = useState(null)
-  
+
   
   const [ShipmentRef, setShipmentRef] = useState('');
   const [selectedList, setSelectedList] = useState([]);
   
 
-  /*
-  useEffect(() => {
-    async function fetchEquipTypeDropDown() {
-      const response = await fetch('api/dropdowns/getequipmenttype')
-      const data = await response.json()
-      setEquiptypeDropDown(data)
-      setIsLoading(false)
-    }
-    fetchEquipTypeDropDown()
-  }, [])
-  */
  
   useEffect(() => {
-    
+ /*   
     console.log("shipmentName", shipmentName);
     console.log("accountCuid", accountCuid);
     console.log("equipmentTypeCuid", equipmentTypeCuid);
@@ -84,7 +65,7 @@ export default function ShipmentForm() {
     console.log("moNumber", moNumber);
     console.log("houseBillNumber", houseBillNumber);
     console.log("APIResponse", APIResponse);
-    
+   */ 
   }, [
     shipmentName,
     shipmentCuid,
@@ -117,19 +98,7 @@ export default function ShipmentForm() {
     }
   };
 
-/*
-  const equipmentTypeChecked=(event)=>{
-    setequipmentTypeCuid(peopleInfos.map((info)=>{
-     return {...info, checked:event.target.checked};
-    }));
 
-   // or
-   
-    // const people = [...peopleInfos];
-    // people[index] = {...people[index], checked:event.target.checked};
-    // setPeopleInfo([...people]);
-  }
-*/
 
   const handleSubmit = async (e) => {
     e.preventDefault();
@@ -142,11 +111,7 @@ export default function ShipmentForm() {
       moNumber,
       houseBillNumber,
     };
-    //console.log(body)
-    //const newEQ = JSON.stringify(body.equipmentTypeCuid); 
-    //const newbody = JSON.stringify(body); 
-    //console.log(newEQ);
-    //console.log(newbody);
+    
     try {
       
       const response = await fetch("/api/shipment/createdata3", {
@@ -155,11 +120,6 @@ export default function ShipmentForm() {
         body: JSON.stringify(body),
       });
       
-
-      
-      console.log(body)
-
-      
       
       if (response.status !== 200) {
         console.log("something went wrong");
@@ -167,6 +127,7 @@ export default function ShipmentForm() {
       } else {
         //resetForm();
         seeShipments();
+        //console.log(response);
         console.log("form submitted successfully !!!");
         //set a success banner here
       }
@@ -189,75 +150,55 @@ export default function ShipmentForm() {
   };
 
   
- /*
+ 
   const handleChange = e => {
     let { options } = e.target;
+    let arrAn = [];  
     options = Array.apply(null, options)
     const selectedValues = options.filter(x => x.selected).map(x => x.value);
     setSelectedList(selectedValues);
-    setequipmentTypeCuid(selectedValues);
+
+    for ( let i= 0; i < selectedValues.length ; i++){  
+      arrAn.push( { 'equipmentTypeCuid' : selectedValues[i]} );  
+    }   
+
+    const myJsonString = JSON.stringify(arrAn);  //convert javascript array to JSON string
+
+    //setequipmentTypeCuid(arrAn)
+    setequipmentTypeCuid(myJsonString);
+
+    console.log(arrAn);
+
+    
+    //arrAn.push( { 'equipmentTypeCuid' : w.value } );  
   }
-*/
 
+/*
 const handleChange = e => { 
-
     let arrAn = [];  
-  
-    //var m = $('.myChk'); 
-    //let m = e.target.name; 
     let m = document.getElementsByClassName('myeqdd');
-    
-    /*
-    const allWithClass = Array.from(
-      document.getElementsByClassName('myeqdd')
-    );
-    
-   
-    const alleqdd = document.getElementsByClassName('myeqdd');
-
-    console.log("mykass" + allWithClass);
-    console.log("mykass2" + alleqdd);
-  */
-
-    //var arrLen = $('.myChk').length; 
-    //let arrLen = e.target.length; 
     let arrLen = document.getElementsByClassName('myeqdd').length;
     for ( let i= 0; i < arrLen ; i++){  
         let  w = m[i];                     
          if (w.checked){  
           arrAn.push( { 'equipmentTypeCuid' : w.value } );  
-
-          //console.log(w.value ); 
         }  
       }   
-    
     const myJsonString = JSON.stringify(arrAn);  //convert javascript array to JSON string
-
-    //setequipmentTypeCuid2(arrAn)
     setequipmentTypeCuid(myJsonString);
-
-    const newStr = myJsonString.substring(1, myJsonString.length-1);
-    //console.log(newStr);
-    //setequipmentTypeCuid(newStr);
-    //console.log(myJsonString);
-    //console.log(arrAn);
-    //console.log(newStr);
-    
-    //alert(myJsonString);
-
-    //return myJsonString;
+    //const newStr = myJsonString.substring(1, myJsonString.length-1);
   
    };
+*/
 
 
-/*
 const handleInputChange = (e, index) => {
   const { name, value } = e.target;
   const list = [...inputList];
   list[index][name] = value;
   setInputList(list);
 };
-*/
+
 
 
 if (isLoading && isLoading2) {
@@ -334,32 +275,36 @@ Shipment Number: {ShipmentRef}
 
 
 
+      <div className="col-span-4 sm:col-span-2">
+<label
+htmlFor="equipmentTypeCuid"
+className="block text-sm font-medium text-gray-700"
+>
+Equipment Type
+</label>
 
-<div className="col-span-4 sm:col-span-2">
 
 
-<button id="dropdownCheckboxButton" data-dropdown-toggle="dropdownDefaultCheckbox" className="text-gray-500 bg-gray-900 hover:bg-gray-900 hover:text-yellow-500 focus:ring-4 focus:outline-none focus:ring-blue-300 font-medium rounded-lg text-sm px-4 py-2.5 text-center inline-flex items-center" type="button">Equipment Type<svg className="ml-2 w-4 h-4" aria-hidden="true" fill="none" ><path strokeLinecap="round" strokeLinejoin="round" strokeWidth="2" d="M19 9l-7 7-7-7"></path></svg></button>
 
-<div id="dropdownDefaultCheckbox" className="hidden z-10 w-48 bg-white rounded divide-y divide-gray-100 shadow dark:bg-gray-700 dark:divide-gray-600">
-    <ul className="p-3 space-y-3 text-sm text-gray-700 dark:text-gray-200" aria-labelledby="dropdownCheckboxButton">
-    {data2?.map((equipmentDD) => (
-      <li key={equipmentDD.equipmentTypeCuid}>
-        <div className="flex items-center">
-          <input id="{equipmentDD.equipmentTypeCuid}" type="checkbox" value={equipmentDD.equipmentTypeCuid} name="equipmentTypeCuid" 
-          className="w-4 h-4 text-blue-600 bg-gray-100 rounded border-gray-300 focus:ring-blue-500 dark:focus:ring-blue-600 dark:ring-offset-gray-700 focus:ring-2 dark:bg-gray-600 dark:border-gray-500 myeqdd"
-          //onChange={(e) => setequipmentTypeCuid(e.target.value)}
-          onChange={handleChange}
-          />
-          <label htmlFor="equipmentTypeCuid" className="ml-2 text-sm font-medium text-gray-900 dark:text-gray-300">{equipmentDD.equipmentTypeName}</label>
-        </div>
-      </li>
-    ))}
-    </ul>
+<select
+        multiple
+        name="equipmentTypeCuid"
+        onChange={handleChange}>
+{data2?.map((equipmentDD) => (
+<option key={equipmentDD.equipmentTypeCuid} value={equipmentDD.equipmentTypeCuid}
+>{equipmentDD.equipmentTypeName}</option>
+))}
+      </select>
+
+      
+      <br /><br />
+      <b>Output:</b>
+      <pre>{JSON.stringify(selectedList)}</pre>
+
+
+
 </div>
 
-
-
-</div>
 
 
 

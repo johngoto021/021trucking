@@ -2,10 +2,19 @@ import { useState, useEffect } from "react";
 import useSWR from "swr"
 import Layout from "../components/layout";
 import Script from "next/script";
-import { data } from "autoprefixer";
 
 
+const fetcher1 = async () => {
+  const response = await fetch('api/account/getdataidname')
+  const data = await response.json()
+  return data
+}
 
+const fetcher2 = async () => {
+  const response = await fetch('api/dropdowns/getequipmenttype')
+  const data = await response.json()
+  return data
+}
 
 //
 /*
@@ -17,30 +26,15 @@ const fetcher2 = async () => {
 }
 */
 export default function ShipmentForm() {
-
-
-  const fetcher1 = async () => {
-    const response = await fetch('api/account/getdataidname')
-    const data = await response.json()
-    setIsLoading(false)
-    return data
-  }
-  
-  const fetcher2 = async () => {
-    const response = await fetch('api/dropdowns/getequipmenttype')
-    const data = await response.json()
-    setIsLoading2(false)
-    return data
-  }
   
   const { data: data1, error: error1 } = useSWR('name1', fetcher1)
   const { data: data2, error: error2 } = useSWR('name2', fetcher2)
-  
+
   const [shipmentName, setshipmentName] = useState("");
   const [shipmentCuid, setshipmentCuid] = useState("");
   const [accountCuid, setaccountCuid] = useState("");
   //const [equipmentTypeCuid, setequipmentTypeCuid] = useState([]);
-  const [equipmentTypeCuid2, setequipmentTypeCuid2] = useState([]);
+  //const [equipmentTypeCuid2, setequipmentTypeCuid2] = useState([]);
   //const [equipmentTypeCuid, setequipmentTypeCuid] = useState([{ equipmentTypeCuid: '' }]);
   const [equipmentTypeCuid, setequipmentTypeCuid] = useState();
   
@@ -54,7 +48,6 @@ export default function ShipmentForm() {
   //const [accountNameSelected, setAccountNameSelected] = useState("");
   
   const [isLoading, setIsLoading] = useState(true)
-  const [isLoading2, setIsLoading2] = useState(true)
   //const [accountDropDown, setAccountDropDown] = useState(null)
   const [equiptypeDropDown, setEquiptypeDropDown] = useState(null)
   
@@ -62,7 +55,6 @@ export default function ShipmentForm() {
   const [ShipmentRef, setShipmentRef] = useState('');
   const [selectedList, setSelectedList] = useState([]);
   
-
   /*
   useEffect(() => {
     async function fetchEquipTypeDropDown() {
@@ -143,6 +135,7 @@ export default function ShipmentForm() {
       houseBillNumber,
     };
     //console.log(body)
+
     //const newEQ = JSON.stringify(body.equipmentTypeCuid); 
     //const newbody = JSON.stringify(body); 
     //console.log(newEQ);
@@ -157,7 +150,7 @@ export default function ShipmentForm() {
       
 
       
-      console.log(body)
+      //console.log(body)
 
       
       
@@ -242,12 +235,10 @@ const handleChange = e => {
     //console.log(myJsonString);
     //console.log(arrAn);
     //console.log(newStr);
-    
     //alert(myJsonString);
-
     //return myJsonString;
   
-   };
+   }
 
 
 /*
@@ -259,23 +250,17 @@ const handleInputChange = (e, index) => {
 };
 */
 
-
-if (isLoading && isLoading2) {
-  return <h2>Loading...</h2>;
-}
-
-
-/*
-if (!data1 || !data2) {
-  return <h2>Loading...</h2>;
-}
-*/
+   if (isLoading) {
+    return <h2>Loading...</h2>;
+  }
 
   return (
 
 
 
 <>
+
+
 
 <header className="bg-white shadow">
 <div className="mx-auto max-w-8xl py-6 px-4 sm:px-6 lg:px-4">
@@ -331,14 +316,10 @@ Shipment Number: {ShipmentRef}
       <div className="grid grid-cols-6 gap-3">
 
 
-
-
-
-
 <div className="col-span-4 sm:col-span-2">
 
 
-<button id="dropdownCheckboxButton" data-dropdown-toggle="dropdownDefaultCheckbox" className="text-gray-500 bg-gray-900 hover:bg-gray-900 hover:text-yellow-500 focus:ring-4 focus:outline-none focus:ring-blue-300 font-medium rounded-lg text-sm px-4 py-2.5 text-center inline-flex items-center" type="button">Equipment Type<svg className="ml-2 w-4 h-4" aria-hidden="true" fill="none" ><path strokeLinecap="round" strokeLinejoin="round" strokeWidth="2" d="M19 9l-7 7-7-7"></path></svg></button>
+<button id="dropdownCheckboxButton" data-dropdown-toggle="dropdownDefaultCheckbox" className="text-gray-500 bg-gray-900 hover:bg-gray-900 hover:text-yellow-500 focus:ring-4 focus:outline-none focus:ring-blue-300 font-medium rounded-lg text-sm px-4 py-2.5 text-center inline-flex items-center" type="button">Equipment Type<svg className="ml-2 w-4 h-4" aria-hidden="true" fill="none" stroke="currentColor" viewBox="0 0 24 24" xmlns="http://www.w3.org/2000/svg"><path strokeLinecap="round" strokeLinejoin="round" strokeWidth="2" d="M19 9l-7 7-7-7"></path></svg></button>
 
 <div id="dropdownDefaultCheckbox" className="hidden z-10 w-48 bg-white rounded divide-y divide-gray-100 shadow dark:bg-gray-700 dark:divide-gray-600">
     <ul className="p-3 space-y-3 text-sm text-gray-700 dark:text-gray-200" aria-labelledby="dropdownCheckboxButton">
