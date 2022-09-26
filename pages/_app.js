@@ -2,7 +2,7 @@ import '../styles/globals.css';
 import React from 'react';
 import { Fragment } from 'react';
 import { useEffect } from "react";
-import  { Provider }  from 'next-auth/providers/google';
+import { Provider }  from 'next-auth/providers/google';
 import { SessionProvider } from 'next-auth/react'
 
 /*

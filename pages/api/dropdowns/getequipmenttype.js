@@ -5,7 +5,6 @@ const prisma = new PrismaClient();
 export default async function handler(req, res) {
   
   const mylist = await prisma.equipmentType.findMany();
- console.log(mylist);
   return res.status(200).json(mylist, { success: true });
 
 }

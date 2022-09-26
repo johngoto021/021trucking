@@ -24,10 +24,7 @@ export default function Navbar() {
     src="https://unpkg.com/flowbite@1.5.3/dist/flowbite.js"
     strategy="lazyOnload" />  
 
-    
-
-      
-      <nav className="border-gray-600 bg-gray-900 ">
+      <nav className="border-gray-600 bg-gray-900">
           <div className="flex flex-wrap justify-between items-center mx-auto max-w-screen-8xl px-4 md:px-6 py-2.5">
               <Link href={'/'}> 
               <a className="flex items-center">
@@ -82,7 +79,7 @@ export default function Navbar() {
               <div className="grid py-5 px-4 mx-auto max-w-screen-xl text-gray-900 dark:text-white sm:grid-cols-2 md:grid-cols-3 md:px-6">
                   <ul aria-labelledby="mega-menu-full-dropdown-button">
                       <li>
-                      <Link href="shipmentform" >          
+                      <Link href="shipmentformd" >          
                           <a className="block p-3 rounded-lg hover:bg-gray-50 dark:hover:bg-gray-700">
                               <div className="font-semibold">Create Shipment</div>
                               <span className="text-sm font-light text-gray-500 dark:text-gray-400">Create a shipment order here.</span>

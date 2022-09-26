@@ -2,15 +2,16 @@ import useSWR from 'swr'
 import Layout from '../components/layout'
 import Link from 'next/link'
 
-
 const fetcher = async () => {
   const response = await fetch('api/shipment/getdata')
-  const data = await response.json()
+  const data = await response.json();
   return data
 }
 
 export default function DashboardSWR() {
   const { data, error } = useSWR('dashboard', fetcher)
+
+
 
   if (error) return 'An error has occurred.'
   if (!data) return 'Loading...'

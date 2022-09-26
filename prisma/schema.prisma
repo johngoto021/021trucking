@@ -50,32 +50,43 @@ model Account {
 }
 
 model Shipment {
-  shipmentId                Int             @id @default(autoincrement())
-  shipmentCuid              String?         @unique @default(cuid()) @db.VarChar(32)
-  shipmentName              String          @db.VarChar(255)
-  accountCuid               String?         @db.VarChar(32)
-  accounts                  Account?        @relation(fields: [accountCuid], references: [accountCuid]) //establish foreign key relationship between accounts and users
-  createdByAccountUserCuid  String?         @db.VarChar(32)
+  shipmentId                Int                 @id @default(autoincrement())
+  shipmentCuid              String?             @unique @default(cuid()) @db.VarChar(32)
+  shipmentName              String              @db.VarChar(255)
+  accountCuid               String?             @db.VarChar(32)
+  accounts                  Account?            @relation(fields: [accountCuid], references: [accountCuid]) //establish foreign key relationship between accounts and users
+  createdByAccountUserCuid  String?             @db.VarChar(32)
   //createdByAccountUserCuidFk             AccountUsers    @relation(fields: [createdByAccountUserCuid], references: [accountUserId]) //establish foreign key relationship between accounts and users
-  shipmentDateAdded         DateTime?       @default(now())
-  shipmentDateUpdated       DateTime?       @updatedAt
-  trackingNumber            String?         @db.VarChar(255)
-  moNumber                  String?         @db.VarChar(255)
-  houseBillNumber           String?         @db.VarChar(255)
-  trackingUrl               String?         @db.VarChar(255)
-  shipmentActive            Int?            @db.TinyInt
-  shipmentStatus            Int?            @db.TinyInt
-  shipmentPaid              Int?            @db.TinyInt
-  shipmentCustomerRate      Decimal?        @db.Decimal(5, 2)
-  internalRate              Decimal?        @db.Decimal(5, 2)
-  shipmentCustomerTotalCost Decimal?        @db.Decimal(8, 2)
-  internalTotalCost         Decimal?        @db.Decimal(8, 2)
-  dateCreated               DateTime?       @default(now())
-  dateUpdated               DateTime?       @updatedAt
-  equipmentTypeCuid         String?         @db.VarChar(32)
+  shipmentDateAdded         DateTime?           @default(now())
+  shipmentDateUpdated       DateTime?           @updatedAt
+  trackingNumber            String?             @db.VarChar(255)
+  moNumber                  String?             @db.VarChar(255)
+  houseBillNumber           String?             @db.VarChar(255)
+  trackingUrl               String?             @db.VarChar(255)
+  shipmentActive            Int?                @db.TinyInt
+  shipmentStatus            Int?                @db.TinyInt
+  shipmentPaid              Int?                @db.TinyInt
+  shipmentCustomerRate      Decimal?            @db.Decimal(5, 2)
+  internalRate              Decimal?            @db.Decimal(5, 2)
+  shipmentCustomerTotalCost Decimal?            @db.Decimal(8, 2)
+  internalTotalCost         Decimal?            @db.Decimal(8, 2)
+  dateCreated               DateTime?           @default(now())
+  dateUpdated               DateTime?           @updatedAt
+  equipmentTypeCuid         String?             @db.VarChar(32)
+  //equipmentTypes            EquipmentType?      @relation(fields: [equipmentTypeCuid], references: [equipmentTypeCuid])
   shipmentLoads             ShipmentLoad[]
   shipmentRoutes            ShipmentRoute[]
-  equipmentTypes            EquipmentType?  @relation(fields: [equipmentTypeCuid], references: [equipmentTypeCuid])
+  shipmentEquipments        ShipmentEquipment[]
+}
+
+model ShipmentEquipment {
+  shipmentEquipmentId   Int            @id @default(autoincrement())
+  shipmentEquipmentCuid String?        @unique @default(cuid()) @db.VarChar(32)
+  shipmentCuid          String?        @db.VarChar(255)
+  shipments             Shipment?      @relation(fields: [shipmentCuid], references: [shipmentCuid]) //establish foreign key relationship between accounts and users
+  equipmentTypeCuid     String?        @db.VarChar(255)
+  equipmentTypes        EquipmentType? @relation(fields: [equipmentTypeCuid], references: [equipmentTypeCuid]) //establish foreign key relationship between accounts and users
+  equipmentTypeActive   Int?           @default(1) @db.TinyInt
 }
 
 model ShipmentLoad {
@@ -147,11 +158,12 @@ model LoadType {
 }
 
 model EquipmentType {
-  equipmentTypeId     Int        @id @default(autoincrement())
-  equipmentTypeCuid   String?    @unique @default(cuid()) @db.VarChar(32)
-  equipmentTypeName   String     @db.VarChar(128)
-  equipmentTypeActive Int?       @default(1) @db.TinyInt
-  shipments           Shipment[]
+  equipmentTypeId     Int                 @id @default(autoincrement())
+  equipmentTypeCuid   String?             @unique @default(cuid()) @db.VarChar(32)
+  equipmentTypeName   String              @db.VarChar(128)
+  equipmentTypeActive Int?                @default(1) @db.TinyInt
+  //shipments           Shipment[]
+  shipmentEquipments  ShipmentEquipment[]
 }
 
 model User {
