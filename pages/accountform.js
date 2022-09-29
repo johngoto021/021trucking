@@ -1,9 +1,9 @@
-import Head from "next/head";
-import Image from "next/image";
+//import Head from "next/head";
+//import Image from "next/image";
 import { useState } from "react";
 import { useEffect } from "react";
 import styles from "../styles/Home.module.css";
-import { Switch } from "@headlessui/react";
+//import { Switch } from "@headlessui/react";
 import Layout from "../components/layout";
 
 export default function AccountForm() {

@@ -19,7 +19,7 @@ async function listShipments(req, res) {
   try {
     const Shipmentslist = await prisma.shipment.findMany();
     return res.status(200).json(Shipmentslist, { success: true });
-    console.log(Shipmentslist);
+    //console.log(Shipmentslist);
     
   } catch (error) {
     console.log(error);

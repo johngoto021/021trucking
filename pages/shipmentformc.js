@@ -90,7 +90,7 @@ export default function ShipmentForm() {
         console.log("something went wrong");
         //set an error banner here
       } else {
-        resetForm();
+        //resetForm();
         console.log("form submitted successfully !!!");
       }
     } catch (error) {
@@ -114,20 +114,20 @@ export default function ShipmentForm() {
     
     try {
       
-      const response = await fetch("/api/shipment/createdata3", {
+      const createdshipment = await fetch("/api/shipment/createdata3", {
         method: "POST",
         headers: { "Content-Type": "application/json" },
         body: JSON.stringify(body),
       });
       
       
-      if (response.status !== 200) {
+      if (createdshipment.status !== 200) {
         console.log("something went wrong");
         //set an error banner here
       } else {
         //resetForm();
         seeShipments();
-        //console.log(response);
+        console.log(createdshipment);
         console.log("form submitted successfully !!!");
         //set a success banner here
       }

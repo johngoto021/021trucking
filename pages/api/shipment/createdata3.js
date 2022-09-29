@@ -38,9 +38,9 @@ export default async function handler(req, res) {
           }
         } 
       });
-      const jobj = JSON.stringify(myrecord); 
+      //const jobj = JSON.stringify(myrecord); 
 
-      console.log("hello" +  jobj);
+      //console.log("hello" +  jobj);
       return res.status(200).json(myrecord, {message: "data saved", success: true });
   }
   
@@ -48,12 +48,7 @@ catch {
 
   return res.status(500).json({message: "data not saved", success: false });
 }
-     
-
-}
-
-
- //console.log(body.equipmentTypeCuid);
+    //console.log(body.equipmentTypeCuid);
   
   /*
   const myrecord = await prisma.shipment.create({
@@ -110,3 +105,10 @@ catch {
       },
     });
 */
+
+
+ 
+
+  
+
+}

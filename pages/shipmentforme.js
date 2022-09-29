@@ -4,17 +4,7 @@ import Layout from "../components/layout";
 import Script from "next/script";
 
 
-const fetcher1 = async () => {
-  const response = await fetch('api/account/getdataidname')
-  const data = await response.json()
-  return data
-}
 
-const fetcher2 = async () => {
-  const response = await fetch('api/dropdowns/getequipmenttype')
-  const data = await response.json()
-  return data
-}
 
 //
 /*
@@ -26,6 +16,22 @@ const fetcher2 = async () => {
 }
 */
 export default function ShipmentForm() {
+  const [isLoading, setIsLoading] = useState(true)
+  const [isLoading2, setIsLoading2] = useState(true)
+
+  const fetcher1 = async () => {
+    const response = await fetch('api/account/getdataidname')
+    const data = await response.json()
+    setIsLoading(false)
+    return data
+  }
+  
+  const fetcher2 = async () => {
+    const response = await fetch('api/dropdowns/getequipmenttype')
+    const data = await response.json()
+    setIsLoading2(false)
+    return data
+  }
   
   const { data: data1, error: error1 } = useSWR('name1', fetcher1)
   const { data: data2, error: error2 } = useSWR('name2', fetcher2)
@@ -47,7 +53,8 @@ export default function ShipmentForm() {
   //const [accountName, setAccountName] = useState("");
   //const [accountNameSelected, setAccountNameSelected] = useState("");
   
-  const [isLoading, setIsLoading] = useState(true)
+
+
   //const [accountDropDown, setAccountDropDown] = useState(null)
   const [equiptypeDropDown, setEquiptypeDropDown] = useState(null)
   
@@ -55,6 +62,8 @@ export default function ShipmentForm() {
   const [ShipmentRef, setShipmentRef] = useState('');
   const [selectedList, setSelectedList] = useState([]);
   
+  const [formValues, setFormValues] = useState([{ loadTypeCuid: "", quantity: "", length: "", width: "", height: "", totalWeight: "", stackable: ""}])
+
   /*
   useEffect(() => {
     async function fetchEquipTypeDropDown() {
@@ -250,9 +259,10 @@ const handleInputChange = (e, index) => {
 };
 */
 
-   if (isLoading) {
-    return <h2>Loading...</h2>;
-  }
+if (isLoading && isLoading2) {
+  return <h2>Loading...</h2>;
+}
+
 
   return (
 
@@ -270,6 +280,7 @@ const handleInputChange = (e, index) => {
 <main>
 
 <div className="accordion" id="accordionExample">
+  
   <div className="accordion-item bg-white border border-gray-200">
     <h2 className="accordion-header mb-0" id="headingOne">
       <button className="
@@ -293,180 +304,149 @@ const handleInputChange = (e, index) => {
         STEP 1: Create Shipment 
       </button>
     </h2>
-    <div id="collapseOne" className="accordion-collapse collapse show" aria-labelledby="headingOne"
-      data-bs-parent="#accordionExample">
+    <div id="collapseOne" className="accordion-collapse collapse show" aria-labelledby="headingOne" data-bs-parent="#accordionExample">
       <div className="accordion-body py-4 px-5">
-        
 
+        <form action="#" method="POST" onSubmit={handleSubmit}>
 
-      <form action="#" method="POST" onSubmit={handleSubmit}>
+          <div className="md:grid md:grid-cols-2 md:gap-6 px-6">
+            Shipment Number: {ShipmentRef}
+            <input type="hidden" name="shipmentCuid" value={ShipmentRef} />
+          </div>
 
+          <div className="col-span-4 sm:col-span-2">
+            <button id="dropdownCheckboxButton" data-dropdown-toggle="dropdownDefaultCheckbox" className="text-gray-500 bg-gray-900 hover:bg-gray-900 hover:text-yellow-500 focus:ring-4 focus:outline-none focus:ring-blue-300 font-medium rounded-lg text-sm px-4 py-2.5 text-center inline-flex items-center" type="button">Equipment Type<svg className="ml-2 w-4 h-4" aria-hidden="true" fill="none" stroke="currentColor" viewBox="0 0 24 24" xmlns="http://www.w3.org/2000/svg"><path strokeLinecap="round" strokeLinejoin="round" strokeWidth="2" d="M19 9l-7 7-7-7"></path></svg></button>
+            <div id="dropdownDefaultCheckbox" className="hidden z-10 w-48 bg-white rounded divide-y divide-gray-100 shadow dark:bg-gray-700 dark:divide-gray-600">
+              <ul className="p-3 space-y-3 text-sm text-gray-700 dark:text-gray-200" aria-labelledby="dropdownCheckboxButton">
+              {data2?.map((equipmentDD) => (
+                <li key={equipmentDD.equipmentTypeCuid}>
+                  <div className="flex items-center">
+                    <input id="{equipmentDD.equipmentTypeCuid}" type="checkbox" value={equipmentDD.equipmentTypeCuid} name="equipmentTypeCuid" 
+                    className="w-4 h-4 text-blue-600 bg-gray-100 rounded border-gray-300 focus:ring-blue-500 dark:focus:ring-blue-600 dark:ring-offset-gray-700 focus:ring-2 dark:bg-gray-600 dark:border-gray-500 myeqdd"
+                    //onChange={(e) => setequipmentTypeCuid(e.target.value)}
+                    onChange={handleChange}
+                    />
+                    <label htmlFor="equipmentTypeCuid" className="ml-2 text-sm font-medium text-gray-900 dark:text-gray-300">{equipmentDD.equipmentTypeName}</label>
+                  </div>
+                </li>
+              ))}
+              </ul>
+            </div>
+          </div>
+      
+          <div className="col-span-4 sm:col-span-2">
+            Total Weight: 
+          </div>
 
- 
+          <div className="col-span-6 sm:col-span-3">
+            <label
+            htmlFor="shipmentName"
+            className="block text-sm font-medium text-gray-700"
+            >
+            Shipment Name
+            </label>
+            <input
+            type="text"
+            name="shipmentName"
+            id="shipmentName"
+            autoComplete="shipmentName"
+            className="mt-1 block w-full rounded-md border-gray-300 shadow-sm focus:border-indigo-500 focus:ring-indigo-500 sm:text-sm"
+            onChange={(e) => setshipmentName(e.target.value)}
+            value={shipmentName}
+            />
+          </div>
 
+          <div className="col-span-6 sm:col-span-3">
+            <label
+            htmlFor="accountCuid"
+            className="block text-sm font-medium text-gray-700"
+            >
+            Customer Account
+            </label>
 
-<div className="md:grid md:grid-cols-2 md:gap-6 px-6">
-Shipment Number: {ShipmentRef}
-<input type="hidden" name="shipmentCuid" value={ShipmentRef} />
-</div>
+            <select name="accountCuid" className="mt-1 block w-full rounded-md border-gray-300 shadow-sm focus:border-indigo-500 focus:ring-indigo-500 sm:text-sm" 
+            value={accountCuid}
+            onChange={(e) => {
+            setaccountCuid(e.target.value);
+            }}
+            >
+            <option value={''} >Please select customer account</option>
+            {data1?.map((accountDD) => (
+            <option key={accountDD.accountCuid} value={accountDD.accountCuid}
+            >{accountDD.accountName}</option>
+            ))}
+            </select>
+          </div>
 
-  <div className="overflow-hidden shadow sm:rounded-md">
-    
-    <div className="bg-white px-4 py-5 sm:p-6">
-      <div className="grid grid-cols-6 gap-3">
+          <div className="col-span-6 sm:col-span-2">
+            <label
+            htmlFor="trackingNumber"
+            className="block text-sm font-medium text-gray-700"
+            >
+            Tracking Id
+            </label>
+            <input
+            type="text"
+            name="trackingNumber"
+            id="trackingNumber"
+            autoComplete="trackingNumber"
+            className="mt-1 block w-full rounded-md border-gray-300 shadow-sm focus:border-indigo-500 focus:ring-indigo-500 sm:text-sm"
+            onChange={(e) => settrackingNumber(e.target.value)}
+            value={trackingNumber}
+            />
+          </div>
 
+          <div className="col-span-6 sm:col-span-2">
+            <label
+            htmlFor="moNumber"
+            className="block text-sm font-medium text-gray-700"
+            >
+            MO Number
+            </label>
+            <input
+            type="text"
+            name="moNumber"
+            id="moNumber"
+            autoComplete="moNumber"
+            className="mt-1 block w-full rounded-md border-gray-300 shadow-sm focus:border-indigo-500 focus:ring-indigo-500 sm:text-sm"
+            onChange={(e) => setmoNumber(e.target.value)}
+            value={moNumber}
+            />
+          </div>
 
-<div className="col-span-4 sm:col-span-2">
-
-
-<button id="dropdownCheckboxButton" data-dropdown-toggle="dropdownDefaultCheckbox" className="text-gray-500 bg-gray-900 hover:bg-gray-900 hover:text-yellow-500 focus:ring-4 focus:outline-none focus:ring-blue-300 font-medium rounded-lg text-sm px-4 py-2.5 text-center inline-flex items-center" type="button">Equipment Type<svg className="ml-2 w-4 h-4" aria-hidden="true" fill="none" stroke="currentColor" viewBox="0 0 24 24" xmlns="http://www.w3.org/2000/svg"><path strokeLinecap="round" strokeLinejoin="round" strokeWidth="2" d="M19 9l-7 7-7-7"></path></svg></button>
-
-<div id="dropdownDefaultCheckbox" className="hidden z-10 w-48 bg-white rounded divide-y divide-gray-100 shadow dark:bg-gray-700 dark:divide-gray-600">
-    <ul className="p-3 space-y-3 text-sm text-gray-700 dark:text-gray-200" aria-labelledby="dropdownCheckboxButton">
-    {data2?.map((equipmentDD) => (
-      <li key={equipmentDD.equipmentTypeCuid}>
-        <div className="flex items-center">
-          <input id="{equipmentDD.equipmentTypeCuid}" type="checkbox" value={equipmentDD.equipmentTypeCuid} name="equipmentTypeCuid" 
-          className="w-4 h-4 text-blue-600 bg-gray-100 rounded border-gray-300 focus:ring-blue-500 dark:focus:ring-blue-600 dark:ring-offset-gray-700 focus:ring-2 dark:bg-gray-600 dark:border-gray-500 myeqdd"
-          //onChange={(e) => setequipmentTypeCuid(e.target.value)}
-          onChange={handleChange}
+          <div className="col-span-6 sm:col-span-2">
+          <label
+          htmlFor="houseBillNumber"
+          className="block text-sm font-medium text-gray-700"
+          >
+          House Bill Number
+          </label>
+          <input
+          type="text"
+          name="houseBillNumber"
+          id="houseBillNumber"
+          autoComplete="houseBillNumber"
+          className="mt-1 block w-full rounded-md border-gray-300 shadow-sm focus:border-indigo-500 focus:ring-indigo-500 sm:text-sm"
+          onChange={(e) => sethouseBillNumber(e.target.value)}
+          value={houseBillNumber}
           />
-          <label htmlFor="equipmentTypeCuid" className="ml-2 text-sm font-medium text-gray-900 dark:text-gray-300">{equipmentDD.equipmentTypeName}</label>
-        </div>
-      </li>
-    ))}
-    </ul>
-</div>
+          </div>
 
-
-
-</div>
-
-
-
-<div className="col-span-4 sm:col-span-2">
-Total Weight
-</div>
-
-
-<div className="col-span-6 sm:col-span-3">
-<label
-htmlFor="shipmentName"
-className="block text-sm font-medium text-gray-700"
->
-Shipment Name
-</label>
-<input
-type="text"
-name="shipmentName"
-id="shipmentName"
-autoComplete="shipmentName"
-className="mt-1 block w-full rounded-md border-gray-300 shadow-sm focus:border-indigo-500 focus:ring-indigo-500 sm:text-sm"
-onChange={(e) => setshipmentName(e.target.value)}
-value={shipmentName}
-/>
-</div>
-
-<div className="col-span-6 sm:col-span-3">
-<label
-htmlFor="accountCuid"
-className="block text-sm font-medium text-gray-700"
->
-Customer Account
-</label>
-
-<select name="accountCuid" className="mt-1 block w-full rounded-md border-gray-300 shadow-sm focus:border-indigo-500 focus:ring-indigo-500 sm:text-sm" 
-value={accountCuid}
-onChange={(e) => {
-setaccountCuid(e.target.value);
-}}
->
-<option value={''} >Please select customer account</option>
-{data1?.map((accountDD) => (
-<option key={accountDD.accountCuid} value={accountDD.accountCuid}
->{accountDD.accountName}</option>
-))}
-
-
-</select>
-</div>
-
+          <div className="px-4 py-2 text-left sm:px-6">
+            <button
+            type="submit"
+            className="inline-flex justify-center rounded-md border border-transparent bg-blue-500 py-2 px-4 text-sm font-medium text-white shadow-sm hover:bg-indigo-700 focus:outline-none focus:ring-2 focus:ring-indigo-500 focus:ring-offset-2"
+            >
+            Save
+            </button>
+          </div>
         
-
-<div className="col-span-6 sm:col-span-2">
-<label
-htmlFor="trackingNumber"
-className="block text-sm font-medium text-gray-700"
->
-Tracking Id
-</label>
-<input
-type="text"
-name="trackingNumber"
-id="trackingNumber"
-autoComplete="trackingNumber"
-className="mt-1 block w-full rounded-md border-gray-300 shadow-sm focus:border-indigo-500 focus:ring-indigo-500 sm:text-sm"
-onChange={(e) => settrackingNumber(e.target.value)}
-value={trackingNumber}
-/>
-</div>
-
-<div className="col-span-6 sm:col-span-2">
-<label
-htmlFor="moNumber"
-className="block text-sm font-medium text-gray-700"
->
-MO Number
-</label>
-<input
-type="text"
-name="moNumber"
-id="moNumber"
-autoComplete="moNumber"
-className="mt-1 block w-full rounded-md border-gray-300 shadow-sm focus:border-indigo-500 focus:ring-indigo-500 sm:text-sm"
-onChange={(e) => setmoNumber(e.target.value)}
-value={moNumber}
-/>
-</div>
-
-<div className="col-span-6 sm:col-span-2">
-<label
-htmlFor="houseBillNumber"
-className="block text-sm font-medium text-gray-700"
->
-House Bill Number
-</label>
-<input
-type="text"
-name="houseBillNumber"
-id="houseBillNumber"
-autoComplete="houseBillNumber"
-className="mt-1 block w-full rounded-md border-gray-300 shadow-sm focus:border-indigo-500 focus:ring-indigo-500 sm:text-sm"
-onChange={(e) => sethouseBillNumber(e.target.value)}
-value={houseBillNumber}
-/>
-</div>
-        
-      </div>
-    </div>
-    <div className="px-4 py-2 text-left sm:px-6">
-      <button
-        type="submit"
-        className="inline-flex justify-center rounded-md border border-transparent bg-blue-500 py-2 px-4 text-sm font-medium text-white shadow-sm hover:bg-indigo-700 focus:outline-none focus:ring-2 focus:ring-indigo-500 focus:ring-offset-2"
-      >
-        Save
-      </button>
-    </div>
-  </div>
-</form>
-
-
-
-
+        </form>
 
       </div>
     </div>
   </div>
+
   <div className="accordion-item bg-white border border-gray-200">
     <h2 className="accordion-header mb-0" id="headingTwo">
       <button className="
@@ -489,8 +469,7 @@ value={houseBillNumber}
         STEP 2: Add Accessorials
       </button>
     </h2>
-    <div id="collapseTwo" className="accordion-collapse collapse" aria-labelledby="headingTwo"
-      data-bs-parent="#accordionExample">
+    <div id="collapseTwo" className="accordion-collapse collapse" aria-labelledby="headingTwo" data-bs-parent="#accordionExample">
       <div className="accordion-body py-4 px-5">
         <strong>This is the second item&apos;s accordion body.</strong> It is hidden by default,
         until the collapse plugin adds the appropriate classes that we use to style each
@@ -501,6 +480,7 @@ value={houseBillNumber}
       </div>
     </div>
   </div>
+  
   <div className="accordion-item bg-white border border-gray-200">
     <h2 className="accordion-header mb-0" id="headingThree">
       <button className="
@@ -524,7 +504,7 @@ value={houseBillNumber}
       </button>
     </h2>
     <div id="collapseThree" className="accordion-collapse collapse" aria-labelledby="headingThree"
-      data-bs-parent="#accordionExample">
+    data-bs-parent="#accordionExample">
       <div className="accordion-body py-4 px-5">
         <strong>This is the third item&apos;s accordion body.</strong> It is hidden by default,
         until the collapse plugin adds the appropriate classes that we use to style each
@@ -535,6 +515,7 @@ value={houseBillNumber}
       </div>
     </div>
   </div>
+
 </div>
 
 

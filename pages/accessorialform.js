@@ -1,29 +1,33 @@
 import Link from "next/link";
-import { useState } from "react";
-import { useEffect } from "react";
+import { useState, useEffect } from "react";
 import Layout from "../components/layout";
 
-export default function EquipmentForm() {
-
-  const [equipmentTypeId, setEquipmentTypeId] = useState("");
-  const [equipmentTypeCuid, setEquipmentTypeCuid] = useState("");
-  const [equipmentTypeName, setEquipmentTypeName] = useState("");
-  const [equipmentTypeActive, setEquipmentTypeActive] = useState("");
+export default function AccessorialForm() {
+  const [accessorialCuid, setAccessorialCuid] = useState("");
+  const [accessorialId, setAccessorialId] = useState("");
+  const [accessorialName, setAccessorialName] = useState("");
+  const [accessorialActive, setAccessorialActive] = useState(1);
   const [APIResponse, setAPIResponse] = useState(null);
+  const [createResponse, setCreateResponse] = useState('');
 
-  /*
-  useEffect(() =>  [{},
-    equipmentTypeId,
-    equipmentTypeCuid,
-    equipmentTypeName,
-    equipmentTypeActive,
+  useEffect(() => 
+  /*{
+    console.log("accessorialName", accessorialName)
+    console.log("accessorialActive", accessorialActive)
+    },
+    */
+    [
+    accessorialName,
+    accessorialActive,
     APIResponse,
-  ]);
-  */
+    createResponse
+    ]
+    );
+  
  
-  const seeShipments = async () => {
+  const seeLists = async () => {
     try {
-      const response = await fetch("/api/dropdowns/getequipmenttype", {
+      const response = await fetch("/api/dropdowns/accessorial", {
         method: "GET",
         headers: { "Content-Type": "application/json" },
       });
@@ -43,25 +47,32 @@ export default function EquipmentForm() {
   const handleSubmit = async (e) => {
     e.preventDefault();
     const body = {
-      equipmentTypeId,
-      equipmentTypeCuid,
-      equipmentTypeName,
-      equipmentTypeActive,
+      accessorialName,
+      accessorialActive
       };
     try {
-      const response = await fetch("/api/dropdowns/createequipmenttype", {
+      const response2 = await fetch("/api/dropdowns/accessorial", {
         method: "POST",
         headers: { "Content-Type": "application/json" },
         body: JSON.stringify(body),
       });
-      if (response.status !== 200) {
+      
+      
+      setCreateResponse(response2.json());
+      setAccessorialId(createResponse.accessorialId)
+      console.log (createResponse.accessorialId)
+      console.log(createResponse);
+      
+      
+      if (response2.status !== 200) {
         console.log("something went wrong");
         //set an error banner here
       } else {
-        resetForm();
-        seeShipments();
+        //resetForm();
+        //seeLists();
+        
         console.log("form submitted successfully !!!");
-        console.log(response);
+        //console.log(response);
         //set a success banner here
       }
       //check response, if success is false, dont take them to success page
@@ -70,12 +81,14 @@ export default function EquipmentForm() {
     }
   };
   
+
+  //console.log({'test is what was created' : createResponse});
+  //console.log(createResponse['accessorialCuid']);
   
   const resetForm = () => {
-    setEquipmentTypeName("");
-    //setEquipmentTypeCuid("");
-    //setEquipmentTypeActive("");
-    //setEquipmentTypeId("");
+    setAccessorialName("");
+    setAccessorialActive(1);
+
   };
    
 
@@ -84,10 +97,10 @@ export default function EquipmentForm() {
       <header className="bg-white shadow">
         <div className="mx-auto max-w-8xl py-4 px-4 sm:px-6 lg:px-4">
           <h1 className="text-3xl font-bold tracking-tight text-gray-900">
-            Add Equipment
+            Add Accessorial
           </h1>
           <p>
-            Use this form to equipment for shipment option.
+            Use this form to accessorial for shipment option.
           </p>
         </div>
       </header>
@@ -95,19 +108,24 @@ export default function EquipmentForm() {
 
     
   <form className="bg-white shadow-md rounded px-8 pt-6 pb-8 mb-4" onSubmit={handleSubmit}>
+    Accessorial ID:  {accessorialId}
+
     <div className="mb-4">
-      <label className="block text-gray-700 text-sm font-bold mb-2" htmlFor="equipmentTypeName">
-        Equipment Type
+      <label className="block text-gray-700 text-sm font-bold mb-2" htmlFor="accessorialName">
+        Accessorial Name
       </label>
-      <input className="shadow appearance-none border rounded w-full py-2 px-3 text-gray-700 leading-tight focus:outline-none focus:shadow-outline" id="equipmentTypeName" name="equipmentTypeName" type="text" placeholder="Name of Equipment Type" />
+      <input className="shadow appearance-none border rounded w-full py-2 px-3 text-gray-700 leading-tight focus:outline-none focus:shadow-outline" id="accessorialName" name="accessorialName" type="text" placeholder="Name of Accessorial"
+      onChange={(e)=>setAccessorialName(e.target.value)}
+      required="required" />
       <p className="text-red-500 text-xs italic">Please enter required field.  Field can only store up to 128 characters long including space.</p>
     </div>
     <div className="mb-6">
-      <label className="block text-gray-700 text-sm font-bold mb-2" htmlFor="equipmentTypeActive">
+      <label className="block text-gray-700 text-sm font-bold mb-2" htmlFor="accessorialActive">
         Status
       </label>
-    <select name="equipmentTypeActive"
-    className="shadow appearance-none w-full rounded w-full py-2 px-3 text-gray-700 leading-tight focus:outline-none focus:shadow-outline focus:border-gray-500" id="grid-state">
+    <select name="accessorialActive"
+    className="shadow appearance-none w-full rounded w-full py-2 px-3 text-gray-700 leading-tight focus:outline-none focus:shadow-outline focus:border-gray-500" id="accessorialActive"
+    onChange={(e)=>setAccessorialActive(e.target.value)}>
       <option value="1">Active</option>
       <option value="0">Archive</option>
     </select>
@@ -116,7 +134,7 @@ export default function EquipmentForm() {
       <button className="bg-blue-500 hover:bg-blue-700 text-white font-bold py-2 px-4 rounded focus:outline-none focus:shadow-outline" type="submit">
         Submit
       </button>
-      <Link href="equipmenttypes">
+      <Link href="accessorials">
       <a className="inline-block align-baseline font-bold text-sm text-blue-500 hover:text-blue-800">
         view list
       </a>
@@ -130,6 +148,6 @@ export default function EquipmentForm() {
   );
 }
 
-EquipmentForm.getLayout = function getLayout(page) {
+AccessorialForm.getLayout = function getLayout(page) {
   return <Layout>{page}</Layout>;
 };
