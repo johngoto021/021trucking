@@ -16,8 +16,14 @@ export default async function handler(req, res) {
     houseBillNumber: true,
     equipmentTypeCuid: true,
     accountCuid: true,
-  }
+  },
+  orderBy: [
+        {
+          shipmentId: 'desc',
+        }
+      ]
 }
+
   
   );
  

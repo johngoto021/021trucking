@@ -2,7 +2,7 @@ import { useState, useEffect } from "react";
 import useSWR from "swr"
 import Layout from "../components/layout";
 import Script from "next/script";
-import { data } from "autoprefixer";
+//import { data } from "autoprefixer";
 
 
 //

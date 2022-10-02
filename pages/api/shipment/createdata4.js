@@ -19,9 +19,25 @@ const Data = {
 }
 */
 
+
+function replacer(key, value) {
+  console.log(typeof value);
+  if (key === 'number') {
+    return parseFloat;
+  }
+  return value;
+}
+
+
 export default async function handler(req, res) {
   const body = req.body;
   const equipments = JSON.parse(body.equipmentTypeCuid);
+  const loads = body.formValues;
+
+  //let userStrReplacer = JSON.stringify(loads, replacer);
+  //console.log(userStrReplacer)
+  //window.alert(userStrReplacer)
+  
   try{
     const myrecord = await prisma.shipment.create({
       data: {
@@ -35,7 +51,25 @@ export default async function handler(req, res) {
           //create: [{"equipmentTypeCuid":"cl81y57mj00144wmnmn12cemm"},{"equipmentTypeCuid":"cl81y5k3000224wmn7c2secic"},{"equipmentTypeCuid":"cl81y5tl800304wmnoaw7lb9n"},{"equipmentTypeCuid":"cl81y64fp00384wmn87q01g3m"}]
           create: equipments
           //body.equipmentTypeCuid 
-          }
+          },
+          
+          shipmentLoads:{
+            //create: [{"loadTypeCuid":"cl8rljpp00228z8mnkrpnwhe6","quantity":3.0}]
+            //create:  [{loadTypeCuid: 'cl8rljpp00228z8mnkrpnwhe6',quantity: 3}]
+          /*create:  [{loadTypeCuid: 'cl8rljpp00228z8mnkrpnwhe6',
+                quantity: 3,
+                length: 7,
+                width: 5,
+                height: 6,
+                totalWeight: 6,
+                stackable: 1
+              }
+            ]
+            */
+            create: loads
+            //body.equipmentTypeCuid 
+            }
+            
         } 
       });
       //const jobj = JSON.stringify(myrecord); 
@@ -49,7 +83,12 @@ catch {
 
   return res.status(500).json({message: "data not saved", success: false });
 }
-    //console.log(body.equipmentTypeCuid);
+   
+return res.status(200).json({message: "data not saved", success: true });
+}
+
+
+  //console.log(body.equipmentTypeCuid);
   
   /*
   const myrecord = await prisma.shipment.create({
@@ -106,10 +145,3 @@ catch {
       },
     });
 */
-
-
- 
-
-  
-
-}

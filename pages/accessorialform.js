@@ -3,19 +3,19 @@ import { useState, useEffect } from "react";
 import Layout from "../components/layout";
 
 export default function AccessorialForm() {
-  const [accessorialCuid, setAccessorialCuid] = useState("");
-  const [accessorialId, setAccessorialId] = useState("");
-  const [accessorialName, setAccessorialName] = useState("");
+  const [accessorialCuid, setAccessorialCuid] = useState('');
+  const [accessorialId, setAccessorialId] = useState('');
+  const [accessorialName, setAccessorialName] = useState('');
   const [accessorialActive, setAccessorialActive] = useState(1);
   const [APIResponse, setAPIResponse] = useState(null);
   const [createResponse, setCreateResponse] = useState('');
 
+/*
   useEffect(() => 
-  /*{
+  {
     console.log("accessorialName", accessorialName)
     console.log("accessorialActive", accessorialActive)
     },
-    */
     [
     accessorialName,
     accessorialActive,
@@ -23,7 +23,7 @@ export default function AccessorialForm() {
     createResponse
     ]
     );
-  
+*/
  
   const seeLists = async () => {
     try {
@@ -51,26 +51,25 @@ export default function AccessorialForm() {
       accessorialActive
       };
     try {
-      const response2 = await fetch("/api/dropdowns/accessorial", {
+      const response = await fetch("/api/dropdowns/accessorial", {
         method: "POST",
         headers: { "Content-Type": "application/json" },
         body: JSON.stringify(body),
       });
       
       
-      setCreateResponse(response2.json());
-      setAccessorialId(createResponse.accessorialId)
-      console.log (createResponse.accessorialId)
-      console.log(createResponse);
-      
-      
-      if (response2.status !== 200) {
+      if (response.status !== 200) {
         console.log("something went wrong");
         //set an error banner here
       } else {
-        //resetForm();
-        //seeLists();
+        resetForm();
+        seeLists();
         
+        console.log(await response.json());
+        //setCreateResponse(response);
+        //setAccessorialId(createResponse.accessorialId)
+        //console.log (createResponse);
+        //console.log(createResponse);
         console.log("form submitted successfully !!!");
         //console.log(response);
         //set a success banner here
@@ -86,9 +85,9 @@ export default function AccessorialForm() {
   //console.log(createResponse['accessorialCuid']);
   
   const resetForm = () => {
-    setAccessorialName("");
+    setAccessorialName('');
     setAccessorialActive(1);
-
+    setCreateResponse('');
   };
    
 
@@ -116,7 +115,7 @@ export default function AccessorialForm() {
       </label>
       <input className="shadow appearance-none border rounded w-full py-2 px-3 text-gray-700 leading-tight focus:outline-none focus:shadow-outline" id="accessorialName" name="accessorialName" type="text" placeholder="Name of Accessorial"
       onChange={(e)=>setAccessorialName(e.target.value)}
-      required="required" />
+      required="required" value={accessorialName}/>
       <p className="text-red-500 text-xs italic">Please enter required field.  Field can only store up to 128 characters long including space.</p>
     </div>
     <div className="mb-6">

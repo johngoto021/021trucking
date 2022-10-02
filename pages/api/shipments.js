@@ -17,7 +17,15 @@ export default async function handler(req, res) {
 
 async function listShipments(req, res) {
   try {
-    const Shipmentslist = await prisma.shipment.findMany();
+    const Shipmentslist = await prisma.shipment.findMany({
+
+      orderBy: [
+        {
+          shipmentId: 'desc',
+        }
+      ]
+
+    });
     return res.status(200).json(Shipmentslist, { success: true });
     //console.log(Shipmentslist);
     

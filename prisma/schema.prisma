@@ -105,10 +105,10 @@ model ShipmentLoad {
   shipmentLoadCuid         String?   @unique @default(cuid()) @db.VarChar(32)
   shipmentCuid             String?   @db.VarChar(255)
   shipments                Shipment? @relation(fields: [shipmentCuid], references: [shipmentCuid]) //establish foreign key relationship between accounts and users
-  loadName                 String    @db.VarChar(255)
+  //loadName                 String?   @db.VarChar(255)
   loadTypeCuid             String    @db.VarChar(32)
   quantity                 Int?
-  lenght                   Decimal?  @db.Decimal(5, 2)
+  length                   Decimal?  @db.Decimal(5, 2)
   width                    Decimal?  @db.Decimal(5, 2)
   height                   Decimal?  @db.Decimal(5, 2)
   totalWeight              Decimal?  @db.Decimal(8, 2)

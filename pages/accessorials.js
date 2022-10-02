@@ -5,14 +5,14 @@ import Layout from '../components/layout'
 export default function Home() {
 
 const [isLoading, setIsLoading] = useState(true)
-const [equipmentTypeData, setEquipmentTypeData] = useState([])
+const [accessorialData, setAccessorial] = useState([])
 useEffect(() => {
 async function fetchDashboardData() {
-const response = await fetch('api/dropdowns/getequipmenttype')
+const response = await fetch('api/dropdowns/accessorial')
 const data = await response.json()
 
 //setDashboardData(JSON.parse(data))
-setEquipmentTypeData(data)
+setAccessorial(data)
 setIsLoading(false)
 }
 fetchDashboardData()
@@ -47,22 +47,22 @@ return (
 </tr>
 </thead>
 <tbody>
-{equipmentTypeData?.map((fetchedViews) => (
-<tr className="border-b"  key={fetchedViews.equipmentTypeCuid}> 
+{accessorialData?.map((fetchedViews) => (
+<tr className="border-b"  key={fetchedViews.accessorialCuid}> 
 <td className={"px-6 py-4 whitespace-nowrap text-sm font-medium text-gray-900"}>
-  {fetchedViews.equipmentTypeId}
+  {fetchedViews.accessorialId}
 </td>
 <td className={"px-6 py-4 whitespace-nowrap text-sm font-medium text-gray-900"}>
   <a href="#">
-    {fetchedViews.equipmentTypeCuid}   
+    {fetchedViews.accessorialCuid}   
   </a>
 </td>
 <td className="text-sm text-gray-900 font-light px-6 py-4 whitespace-nowrap">
-  {fetchedViews.equipmentTypeName}   
+  {fetchedViews.accessorialName}   
 </td>
 <td className="text-sm text-gray-900 font-light px-6 py-4 whitespace-nowrap">
   
-  {fetchedViews.equipmentTypeActive ? 'Active' : 'Archived'}
+  {fetchedViews.accessorialActive ? 'Active' : 'Archived'}
 </td>
 <td className="text-sm text-gray-900 font-light px-6 py-4 whitespace-nowrap">
   <a href="#" className="text-sm text-blue-600">edit</a> | <a href="#" className="text-sm text-blue-600">archive</a>

@@ -40,9 +40,9 @@ async function createAccessorial(req, res) {
         accessorialActive: parseInt(body.accessorialActive),
       },
     });
-    
       
-    return res.status(200).json(newEntry, { success: true });
+    //return res.status(200).json(newEntry, { success: true });
+    return res.json(newEntry);
 
   } catch (error) {
     console.error("Request error", error);
