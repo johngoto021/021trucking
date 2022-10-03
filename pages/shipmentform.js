@@ -3,16 +3,6 @@ import useSWR from "swr"
 import Layout from "../components/layout";
 import Script from "next/script";
 
-
-//
-/*
-const fetcher2 = async () => {
-  const response2 = await fetch(&apos;api/dropdown/getequipmenttype&apos;)
-  const equiptype = await response2.json()
-  console.log(equiptype)
-  return equiptype
-}
-*/
 export default function ShipmentForm() {
 
   const fetcher1 = async () => {
@@ -20,30 +10,39 @@ export default function ShipmentForm() {
     const data = await response.json()
     setIsLoading(false)
     return data
-  }
+  };
   
   const fetcher2 = async () => {
     const response = await fetch('api/dropdowns/getequipmenttype')
     const data = await response.json()
     setIsLoading2(false)
     return data
-  }
+  };
 
+  const fetcher4 = async () => {
+    const response = await fetch('api/dropdowns/getaccessorial')
+    const data = await response.json()
+    setIsLoading4(false)
+    return data
+  };
+  
   const fetcher3 = async () => {
     const response = await fetch('api/dropdowns/getloadtype')
     const data = await response.json()
-    //setIsLoading(false)
+    setIsLoading3(false)
     return data
-  }
+  };
   
-  const { data: data1, error: error1 } = useSWR('name1', fetcher1)
-  const { data: data2, error: error2 } = useSWR('name2', fetcher2)
-  const { data: data3, error: error3 } = useSWR('name3', fetcher3)
+  const { data: data1, error: error1 } = useSWR('name1', fetcher1);
+  const { data: data2, error: error2 } = useSWR('name2', fetcher2);
+  const { data: data3, error: error3 } = useSWR('name3', fetcher3);
+  const { data: data4, error: error4 } = useSWR('name4', fetcher4);
   
   const [shipmentName, setshipmentName] = useState("");
   const [shipmentCuid, setshipmentCuid] = useState("");
   const [accountCuid, setaccountCuid] = useState("");
   const [equipmentTypeCuid, setequipmentTypeCuid] = useState([]);
+  const [accessorialCuid, setaccessorialCuid] = useState([]);
   //const [equipmentTypeCuid2, setequipmentTypeCuid2] = useState([]);
   //const [equipmentTypeCuid, setequipmentTypeCuid] = useState([{ equipmentTypeCuid: '' }]);
   //const [equipmentTypeCuid, setequipmentTypeCuid] = useState();
@@ -52,14 +51,14 @@ export default function ShipmentForm() {
   const [houseBillNumber, sethouseBillNumber] = useState("");
 
   const [APIResponse, setAPIResponse] = useState(null);
-  const [APIResponse2, setAPIResponse2] = useState(null);
   
- 
   const [isLoading, setIsLoading] = useState(true)
   const [isLoading2, setIsLoading2] = useState(true)
+  const [isLoading3, setIsLoading3] = useState(true)
+  const [isLoading4, setIsLoading4] = useState(true)
 
   const [ShipmentRef, setShipmentRef] = useState('');
-  const [selectedList, setSelectedList] = useState([]);
+  //const [selectedList, setSelectedList] = useState([]);
   
  
   const [formValues, setFormValues] = useState([{ loadTypeCuid: '', quantity : 0, length : 0, width : 0, height : 0, totalWeight : 0, stackable : 0 }])
@@ -84,6 +83,7 @@ export default function ShipmentForm() {
     houseBillNumber,
     APIResponse,
     ShipmentRef,
+    accessorialCuid,
     
   ]);
 
@@ -106,8 +106,6 @@ export default function ShipmentForm() {
     }
   };
 
-
-
   const handleSubmit = async (e) => {
     e.preventDefault();
     const body = {
@@ -121,7 +119,7 @@ export default function ShipmentForm() {
       formValues,
     };
     
-    console.log(JSON.stringify(formValues))
+    //console.log(JSON.stringify(formValues))
     //alert(JSON.stringify(formValues));
 
     try {
@@ -134,13 +132,16 @@ export default function ShipmentForm() {
       //setAPIResponse2(createdshipment.json());
       
       if (createdshipment.status !== 200) {
+        
         console.log("something went wrong");
         //set an error banner here
       } else {
         //resetForm();
     
         //console.log(APIResponse2);
-        console.log(createdshipment.json());
+        
+        //console.log(createdshipment.json());
+
         //setAPIResponse2(createdshipment.json());
         //console.log(setAPIResponse2);
         //setShipmentRef(createdshipment.shipmentCuid);
@@ -189,7 +190,7 @@ export default function ShipmentForm() {
     //setequipmentTypeCuid(arrAn)
     setequipmentTypeCuid(myJsonString);
 
-    console.log(arrAn);
+    //console.log(arrAn);
 
     
     //arrAn.push( { 'equipmentTypeCuid' : w.value } );  
@@ -215,6 +216,26 @@ const handleChange2 = e => {
   
    };
 
+
+   const handleChange9 = e => { 
+    let arrAn2 = [];  
+    let n = document.getElementsByClassName('myaccdd');
+    let arrLen2 = document.getElementsByClassName('myaccdd').length;
+    for ( let i= 0; i < arrLen2 ; i++){  
+        let  z = n[i];                     
+         if (z.checked){  
+          arrAn2.push( { 'accessorialCuid' : z.value } );  
+        }  
+      }   
+    const myJsonString3 = JSON.stringify(arrAn2);  //convert javascript array to JSON string
+    setaccessorialCuid(myJsonString3);
+    console.log(myJsonString3);
+    console.log(arrAn2);
+    
+    //const newStr = myJsonString.substring(1, myJsonString.length-1);
+  
+   };
+
    let handleChange3 = (i, e) => {
     let newFormValues = [...formValues];
     newFormValues[i][e.target.name] = e.target.value;
@@ -233,8 +254,8 @@ const handleChange2 = e => {
     }   
   const myJsonString = JSON.stringify(arrAn);  //convert javascript array to JSON string
   setequipmentTypeCuid(myJsonString);
-  console.log(myJsonString);
-  console.log(arrAn);
+  //console.log(myJsonString);
+  //console.log(arrAn);
   
   //const newStr = myJsonString.substring(1, myJsonString.length-1);
 
@@ -295,14 +316,10 @@ const handleInputChange = (e, index) => {
 };
 
 
-
-
-
-/*
-if (!data1 || !data2) {
+if (!data1 || !data2 || !data3 || !data4) {
   return <h2>Loading...</h2>;
 }
-*/
+
 
   return (
 
@@ -334,7 +351,7 @@ if (!data1 || !data2) {
     <div className="p-5 font-light border border-b-0 border-gray-200 dark:border-gray-700 dark:bg-gray-900">
       <form action="#" method="POST" onSubmit={handleSubmit} className="w-full, max-w-full">
 
-      <span className="font-medium text-gray-700 mx-2 text-1xl">Equipment Type </span> 
+        <span className="font-medium text-gray-700 mx-2 text-1xl">Equipment Type </span> 
 
         <ul className="items-center w-full text-sm font-medium text-gray-900 bg-white rounded-lg border border-gray-200 sm:flex dark:bg-gray-700 dark:border-gray-600 dark:text-white mb-4">
         
@@ -390,8 +407,8 @@ if (!data1 || !data2) {
                 onChange={(e) => {
                 setaccountCuid(e.target.value);
                 }}
-                >
-                <option value={''} >Please select customer account</option>
+                required="required">
+                <option value="">Please select customer account</option>
                 {data1?.map((accountDD) => (
                 <option key={accountDD.accountCuid} value={accountDD.accountCuid}
                 >{accountDD.accountName}</option>
@@ -501,30 +518,35 @@ if (!data1 || !data2) {
                           name="quantity"
                           className="mt-1 block w-full rounded-md border-gray-300 shadow-sm focus:border-indigo-500 focus:ring-indigo-500 sm:text-sm"
                           value={element.quantity || "0"} onChange={e => handleChange7(index, e)}
+                          min="-1" max="200" step="1" maxLength={9}
                           required="required" />
                       </td>
                       <td>
                         <input type="number" name="length" 
                         className="mt-1 block w-full rounded-md border-gray-300 shadow-sm focus:border-indigo-500 focus:ring-indigo-500 sm:text-sm"
                         value={element.length || "0"} onChange={e => handleChange7(index, e)} 
-                        required="required"/>
+                        min="-1" max="200" step="1" maxLength={9}
+                        required="required" />
                       </td>
                       <td>
                         <input type="number" name="width" 
                         className="mt-1 block w-full rounded-md border-gray-300 shadow-sm focus:border-indigo-500 focus:ring-indigo-500 sm:text-sm"
                         value={element.width || "0"} onChange={e => handleChange7(index, e)}
+                        min="-1" max="200" step="1" maxLength={9}
                         required="required" />
                       </td>
                       <td>
                         <input type="number" name="height" 
                         className="mt-1 block w-full rounded-md border-gray-300 shadow-sm focus:border-indigo-500 focus:ring-indigo-500 sm:text-sm"
                         value={element.height || "0"} onChange={e => handleChange7(index, e)}
+                        min="-1" max="200" step="1" maxLength={9}
                         required="required" />
                       </td>
                       <td>
                         <input type="number" name="totalWeight" 
                         className="mt-1 block w-full rounded-md border-gray-300 shadow-sm focus:border-indigo-500 focus:ring-indigo-500 sm:text-sm"
                         value={element.totalWeight || "0"} onChange={e => handleChange7(index, e)}
+                        min="-1" max="9999" step="1" maxLength={11}
                         required="required" />
                       </td>
                       <td>
@@ -546,6 +568,20 @@ if (!data1 || !data2) {
                   </tbody>
                 </table>
               </div>
+
+              <fieldset className="py-2 text-left col-span-12 sm:col-span-12 border rounded-lg">
+                <legend className="font-medium text-gray-700 mx-2 text-2xl">Accessorial</legend> 
+                <div className="grid grid-cols-4 gap-2">
+                  {data4?.map((accDD) => (
+                    <div key={accDD.accessorialCuid}>
+                      <div className="flex items-center pl-3">
+                        <input id={accDD.accessorialCuid} type="checkbox" value={accDD.accessorialCuid} className="w-4 h-4 text-blue-600 bg-gray-100 rounded border-gray-300 focus:ring-blue-500 dark:focus:ring-blue-600 dark:ring-offset-gray-700 focus:ring-2 dark:bg-gray-600 dark:border-gray-500 myaccdd" name="accessorialCuid" onClick={handleChange9} />
+                        <label htmlFor="accessorialCuid" className="py-3 ml-2 w-full font-medium text-gray-900">{accDD.accessorialName}</label>
+                      </div>
+                      </div>
+                  ))}
+                </div>
+              </fieldset>
 
               <div className="py-2 text-left col-span-12 sm:col-span-12">
                 <button
@@ -758,6 +794,19 @@ Equipment Type
                   <b>Output:</b>
                   <pre>{JSON.stringify(selectedList)}</pre>
                 </div>
+
+
+<ul className="items-center w-full text-sm font-medium text-gray-900 bg-white rounded-lg border border-gray-200 sm:flex dark:bg-gray-700 dark:border-gray-600 dark:text-white mb-4">
+        
+        {data4?.map((accessorialDD) => (
+          <li className="w-full border-b border-gray-200 sm:border-b-0 sm:border-r dark:border-gray-600" key={accessorialDD.accessorialId}>
+            <div className="flex items-center pl-3">
+              <input id={accessorialDD.accessorialCuid} type="checkbox" value={accessorialDD.accessorialCuid} className="w-4 h-4 text-blue-600 bg-gray-100 rounded border-gray-300 focus:ring-blue-500 dark:focus:ring-blue-600 dark:ring-offset-gray-700 focus:ring-2 dark:bg-gray-600 dark:border-gray-500 myaccdd" name="accessorialCuid" onChange={handleChange9} />
+              <label htmlFor="accessorialCuid" className="py-3 ml-2 w-full font-medium text-gray-900">{accessorialDD.accessorialName}</label>
+            </div>
+          </li>
+        ))}
+        </ul>
 
 
 */

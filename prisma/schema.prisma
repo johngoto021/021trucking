@@ -108,10 +108,10 @@ model ShipmentLoad {
   //loadName                 String?   @db.VarChar(255)
   loadTypeCuid             String    @db.VarChar(32)
   quantity                 Int?
-  length                   Decimal?  @db.Decimal(5, 2)
-  width                    Decimal?  @db.Decimal(5, 2)
-  height                   Decimal?  @db.Decimal(5, 2)
-  totalWeight              Decimal?  @db.Decimal(8, 2)
+  length                   Decimal?  @db.Decimal(10, 2)
+  width                    Decimal?  @db.Decimal(10, 2)
+  height                   Decimal?  @db.Decimal(10, 2)
+  totalWeight              Decimal?  @db.Decimal(10, 2)
   stackable                Int?      @db.TinyInt
   shipmentOrderCount       Int?
   shipmentLoadActive       Int?      @db.TinyInt

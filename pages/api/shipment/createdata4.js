@@ -19,23 +19,12 @@ const Data = {
 }
 */
 
-
-function replacer(key, value) {
-  console.log(typeof value);
-  if (key === 'number') {
-    return parseFloat;
-  }
-  return value;
-}
-
-
 export default async function handler(req, res) {
   const body = req.body;
   const equipments = JSON.parse(body.equipmentTypeCuid);
   const loads = body.formValues;
 
   //let userStrReplacer = JSON.stringify(loads, replacer);
-  //console.log(userStrReplacer)
   //window.alert(userStrReplacer)
   
   try{
@@ -56,16 +45,8 @@ export default async function handler(req, res) {
           shipmentLoads:{
             //create: [{"loadTypeCuid":"cl8rljpp00228z8mnkrpnwhe6","quantity":3.0}]
             //create:  [{loadTypeCuid: 'cl8rljpp00228z8mnkrpnwhe6',quantity: 3}]
-          /*create:  [{loadTypeCuid: 'cl8rljpp00228z8mnkrpnwhe6',
-                quantity: 3,
-                length: 7,
-                width: 5,
-                height: 6,
-                totalWeight: 6,
-                stackable: 1
-              }
-            ]
-            */
+            //create:  [{"loadTypeCuid":"cl8rlk1680234z8mnmhux7mjo","quantity":3,"length":5,"width":78,"height":5,"totalWeight":5,"stackable":1}]
+            
             create: loads
             //body.equipmentTypeCuid 
             }
