@@ -22,7 +22,10 @@ const Data = {
 export default async function handler(req, res) {
   const body = req.body;
   const equipments = JSON.parse(body.equipmentTypeCuid);
+  const accessories = JSON.parse(body.accessorialCuid);
   const loads = body.formValues;
+
+
 
   //let userStrReplacer = JSON.stringify(loads, replacer);
   //window.alert(userStrReplacer)
@@ -41,16 +44,16 @@ export default async function handler(req, res) {
           create: equipments
           //body.equipmentTypeCuid 
           },
-          
-          shipmentLoads:{
-            //create: [{"loadTypeCuid":"cl8rljpp00228z8mnkrpnwhe6","quantity":3.0}]
-            //create:  [{loadTypeCuid: 'cl8rljpp00228z8mnkrpnwhe6',quantity: 3}]
-            //create:  [{"loadTypeCuid":"cl8rlk1680234z8mnmhux7mjo","quantity":3,"length":5,"width":78,"height":5,"totalWeight":5,"stackable":1}]
-            
-            create: loads
-            //body.equipmentTypeCuid 
-            }
-            
+        shipmentAccessorials:{
+          //create: accessories
+          create: [{"accessorialCuid":"cl8rw5y6t0000vjw8eg0ljccs"},{"accessorialCuid":"cl8rw871v0008vjw8s23g06pu"},{"accessorialCuid":"cl8rw9mt0000gvjw8f6o09yjs"}]
+          },
+        shipmentLoads:{
+          //create: [{"loadTypeCuid":"cl8rljpp00228z8mnkrpnwhe6","quantity":3.0}]
+          //create:  [{loadTypeCuid: 'cl8rljpp00228z8mnkrpnwhe6',quantity: 3}]
+          //create:  [{"loadTypeCuid":"cl8rlk1680234z8mnmhux7mjo","quantity":3,"length":5,"width":78,"height":5,"totalWeight":5,"stackable":1}]
+          create: loads
+          },    
         } 
       });
       //const jobj = JSON.stringify(myrecord); 

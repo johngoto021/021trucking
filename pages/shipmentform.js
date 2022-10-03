@@ -56,7 +56,9 @@ export default function ShipmentForm() {
   const [isLoading2, setIsLoading2] = useState(true)
   const [isLoading3, setIsLoading3] = useState(true)
   const [isLoading4, setIsLoading4] = useState(true)
-
+  const [dataSaved, setdataSaved] = useState("")
+  const [submitmessage, setsubmitmessage] = useState("")
+  
   const [ShipmentRef, setShipmentRef] = useState('');
   //const [selectedList, setSelectedList] = useState([]);
   
@@ -117,6 +119,7 @@ export default function ShipmentForm() {
       moNumber,
       houseBillNumber,
       formValues,
+      accessorialCuid,
     };
     
     //console.log(JSON.stringify(formValues))
@@ -132,7 +135,8 @@ export default function ShipmentForm() {
       //setAPIResponse2(createdshipment.json());
       
       if (createdshipment.status !== 200) {
-        
+        //setdataSaved(false);
+        setsubmitmessage('Something went wrong, your entries were NOT saved');
         console.log("something went wrong");
         //set an error banner here
       } else {
@@ -148,16 +152,14 @@ export default function ShipmentForm() {
         //setShipmentRef(createdshipment.shipmentCuid);
         //console.log(createdshipment.shipmentCuid);
         seeShipments();
-        
+        //setdataSaved(true);
+        setsubmitmessage('Your entries were saved');
         console.log("form submitted successfully !!!");
         //return createdshipment.json();
         //set a success banner here
       }
       
-      
       //check response, if success is false, dont take them to success page
-      
-
     } catch (error) {
       console.log("there was an error submitting", error);
     }
@@ -315,11 +317,11 @@ const handleInputChange = (e, index) => {
   setInputList(list);
 };
 
-
+/*
 if (!data1 || !data2 || !data3 || !data4) {
   return <h2>Loading...</h2>;
 }
-
+*/
 
   return (
 
@@ -343,7 +345,7 @@ if (!data1 || !data2 || !data3 || !data4) {
 <div id="accordion-collapse" data-accordion="collapse">
   <h2 id="accordion-collapse-heading-1">
     <button type="button" className="flex items-center justify-between w-full p-5 font-medium text-left border border-b-0 border-gray-200 rounded-t-xl focus:ring-4 focus:ring-gray-200 dark:focus:ring-gray-800 dark:border-gray-700 hover:bg-gray-100 dark:hover:bg-gray-800 bg-gray-100 dark:bg-gray-800 text-gray-900 dark:text-white" data-accordion-target="#accordion-collapse-body-1" aria-expanded="true" aria-controls="accordion-collapse-body-1">
-      <span>Step 1 Create Shipment</span>
+      <span>Step 1 Create Shipment</span><span className="text-red-500 mx-5 text-sm font-medium">{ submitmessage }</span>
       <svg data-accordion-icon="" className="w-6 h-6 rotate-180 shrink-0" fill="currentColor" viewBox="0 0 20 20" xmlns="http://www.w3.org/2000/svg"><path fillRule="evenodd" d="M5.293 7.293a1 1 0 011.414 0L10 10.586l3.293-3.293a1 1 0 111.414 1.414l-4 4a1 1 0 01-1.414 0l-4-4a1 1 0 010-1.414z" clipRule="evenodd"></path></svg>
     </button>
   </h2>
@@ -589,6 +591,9 @@ if (!data1 || !data2 || !data3 || !data4) {
                 className="inline-flex justify-center rounded-md border border-transparent bg-blue-500 py-2 px-4 text-sm font-medium text-white shadow-sm hover:bg-indigo-700 focus:outline-none focus:ring-2 focus:ring-indigo-500 focus:ring-offset-2"
                 >Save
                 </button>
+
+                <span className="text-red-500 mx-5 text-sm font-medium">{ submitmessage }</span>
+                
               </div>
             </div>
           </div>
