@@ -51,6 +51,8 @@ export default function ShipmentForm() {
   const [trackingNumber, settrackingNumber] = useState("");
   const [moNumber, setmoNumber] = useState("");
   const [houseBillNumber, sethouseBillNumber] = useState("");
+  const [shipmentStatus, setShipmentStatus] = useState(1);
+  
 
   const [APIResponse, setAPIResponse] = useState(null);
   
@@ -89,7 +91,7 @@ export default function ShipmentForm() {
     APIResponse,
     ShipmentRef,
     accessorialCuid,
-    
+    shipmentStatus,
   ]);
 
   const seeShipments = async () => {
@@ -124,6 +126,7 @@ export default function ShipmentForm() {
       formValues,
       accessorialCuid,
       formLocationValues,
+      shipmentStatus,
     };
     
     //console.log(JSON.stringify(formValues))
@@ -131,6 +134,14 @@ export default function ShipmentForm() {
 
     try {
       
+
+      if (equipmentTypeCuid.length === 0) { 
+        console.log("Equipment Type is not checked!");
+        window.alert('You must select an equipment checkbox!');
+        setsubmitmessage('You must select an equipment checkbox!');
+        return true;
+        }
+
       const createdshipment = await fetch("/api/shipment/createdata5", {
         method: "POST",
         headers: { "Content-Type": "application/json" },
@@ -287,6 +298,9 @@ let removeFormLocationFields = (i) => {
   setFormLocationValues(newFormLocationValues)
 }
 
+let handleQuoteButtonClick = () => {
+  setShipmentStatus(2);
+}
 
 /*
 if (!data1 || !data2 || !data3 || !data4) {
@@ -720,7 +734,7 @@ if (!data1 || !data2 || !data3 || !data4) {
                 <button
                 type="submit"
                 className="inline-flex justify-center rounded-md border border-transparent bg-green-500 py-2 px-4 text-sm font-medium text-white shadow-sm hover:bg-indigo-700 focus:outline-none focus:ring-2 focus:ring-indigo-500 focus:ring-offset-2 ml-2"
-                >Save Quote
+                onClick={handleQuoteButtonClick}>Save Quote
                 </button>
 
                 

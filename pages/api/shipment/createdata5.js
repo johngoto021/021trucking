@@ -17,6 +17,7 @@ export default async function handler(req, res) {
         trackingNumber: body.trackingNumber,
         moNumber: body.moNumber,
         houseBillNumber: body.houseBillNumber,
+        shipmentStatus : body.shipmentStatus,
         shipmentEquipments:{
           create: equipments
           },
