@@ -51,6 +51,7 @@ export default function ShipmentForm() {
   const [trackingNumber, settrackingNumber] = useState("");
   const [moNumber, setmoNumber] = useState("");
   const [houseBillNumber, sethouseBillNumber] = useState("");
+  const [shipmentNote, setShipmentNote] = useState("");
   const [shipmentStatus, setShipmentStatus] = useState(1);
   
 
@@ -96,7 +97,7 @@ export default function ShipmentForm() {
 
   const seeShipments = async () => {
     try {
-      const response = await fetch("/api/shipments", {
+      const response = await fetch("/api/shipment/getpagingdata", {
         method: "GET",
         headers: { "Content-Type": "application/json" },
       });
@@ -127,6 +128,7 @@ export default function ShipmentForm() {
       accessorialCuid,
       formLocationValues,
       shipmentStatus,
+      shipmentNote,
     };
     
     //console.log(JSON.stringify(formValues))
@@ -456,120 +458,114 @@ if (!data1 || !data2 || !data3 || !data4) {
                 />
               </div>
 
-              <div className="col-span-12 sm:col-span-12">
-                <span className="font-medium text-gray-700 mx-2 text-2xl">Load </span> 
-                  <button className="p-0 w-7 h-7 bg-green-600 rounded-full hover:bg-green-700 active:shadow-lg mouse shadow transition ease-in duration-200 focus:outline-none" type="button" onClick={() => addFormFields()}>
-                              <svg viewBox="0 0 20 20" enableBackground="new 0 0 20 20" className="w-6 h-6 inline-block">
-                                <path fill="#FFFFFF" d="M16,10c0,0.553-0.048,1-0.601,1H11v4.399C11,15.951,10.553,16,10,16c-0.553,0-1-0.049-1-0.601V11H4.601
-                                                        C4.049,11,4,10.553,4,10c0-0.553,0.049-1,0.601-1H9V4.601C9,4.048,9.447,4,10,4c0.553,0,1,0.048,1,0.601V9h4.399
-                                                        C15.952,9,16,9.447,16,10z" />
-                              </svg>
-                              
-                  </button>
-                 
-              </div>
+              <fieldset className="py-2 text-left col-span-12 sm:col-span-12 border rounded-lg p-5">
+                <legend className="font-medium text-gray-700 mx-2 text-2xl">Load 
+                
+                <button className="inline-flex justify-center rounded-md border border-transparent bg-green-500  mx-2 px-2 text-xs font-normal text-white shadow-sm hover:bg-green-600 focus:outline-none focus:ring-2 focus:ring-yellow-700 focus:ring-offset-1"
+                  type="button" onClick={() => addFormFields()}>Add Routes</button>
+                </legend>
 
-              <div className="py-2 text-left col-span-12 sm:col-span-12 block">
-                <table>
-                  <thead>
-                  <tr className="text-sm font-medium text-gray-700">
-                  <td>Type</td>
-                  <td>Quantity</td>
-                  <td>Length</td>
-                  <td>Width</td>
-                  <td>Height</td>
-                  <td>Total Weight</td>
-                  <td>Stackable?</td>
-                  </tr>
-                  </thead>
-                  <tbody>
-                {formValues.map((element, index) => (
-            
-                    <tr key={index}>
-                      <td>
-                        <select name="loadTypeCuid" className="mt-1 block w-full rounded-md border-gray-300 shadow-sm focus:border-blue-500 focus:ring-blue-500 myltdd" 
-                            onChange={(e) => {
-                            handleChange5(index, e);
-                            }}
-                            required="required">
-                            
-                            {data3?.map((loadtypeDD) => (
-                            <option key={loadtypeDD.loadTypeCuid} value={loadtypeDD.loadTypeCuid}
-                            >{loadtypeDD.loadTypeName}</option>
-                            ))}
-                            </select>
-                      </td>
-                      <td>
-                        <input
-                          type="number"
-                          name="quantity"
+                <div className="py-2 text-left col-span-12 sm:col-span-12 block">
+                  <table>
+                    <thead>
+                    <tr className="text-sm font-medium text-gray-700">
+                    <td>Type</td>
+                    <td>Quantity</td>
+                    <td>Length</td>
+                    <td>Width</td>
+                    <td>Height</td>
+                    <td>Total Weight</td>
+                    <td>Stackable?</td>
+                    </tr>
+                    </thead>
+                    <tbody>
+                  {formValues.map((element, index) => (
+              
+                      <tr key={index}>
+                        <td>
+                          <select name="loadTypeCuid" className="mt-1 block w-full rounded-md border-gray-300 shadow-sm focus:border-blue-500 focus:ring-blue-500 myltdd" 
+                              onChange={(e) => {
+                              handleChange5(index, e);
+                              }}
+                              required="required">
+                              
+                              {data3?.map((loadtypeDD) => (
+                              <option key={loadtypeDD.loadTypeCuid} value={loadtypeDD.loadTypeCuid}
+                              >{loadtypeDD.loadTypeName}</option>
+                              ))}
+                              </select>
+                        </td>
+                        <td>
+                          <input
+                            type="number"
+                            name="quantity"
+                            className="mt-1 block w-full rounded-md border-gray-300 shadow-sm focus:border-indigo-500 focus:ring-indigo-500 sm:text-sm"
+                            value={element.quantity || "0"} onChange={e => handleChange7(index, e)}
+                            min="-1" max="200" step="1" maxLength={9}
+                            required="required" />
+                        </td>
+                        <td>
+                          <input type="number" name="length" 
                           className="mt-1 block w-full rounded-md border-gray-300 shadow-sm focus:border-indigo-500 focus:ring-indigo-500 sm:text-sm"
-                          value={element.quantity || "0"} onChange={e => handleChange7(index, e)}
+                          value={element.length || "0"} onChange={e => handleChange7(index, e)} 
                           min="-1" max="200" step="1" maxLength={9}
                           required="required" />
-                      </td>
-                      <td>
-                        <input type="number" name="length" 
-                        className="mt-1 block w-full rounded-md border-gray-300 shadow-sm focus:border-indigo-500 focus:ring-indigo-500 sm:text-sm"
-                        value={element.length || "0"} onChange={e => handleChange7(index, e)} 
-                        min="-1" max="200" step="1" maxLength={9}
-                        required="required" />
-                      </td>
-                      <td>
-                        <input type="number" name="width" 
-                        className="mt-1 block w-full rounded-md border-gray-300 shadow-sm focus:border-indigo-500 focus:ring-indigo-500 sm:text-sm"
-                        value={element.width || "0"} onChange={e => handleChange7(index, e)}
-                        min="-1" max="200" step="1" maxLength={9}
-                        required="required" />
-                      </td>
-                      <td>
-                        <input type="number" name="height" 
-                        className="mt-1 block w-full rounded-md border-gray-300 shadow-sm focus:border-indigo-500 focus:ring-indigo-500 sm:text-sm"
-                        value={element.height || "0"} onChange={e => handleChange7(index, e)}
-                        min="-1" max="200" step="1" maxLength={9}
-                        required="required" />
-                      </td>
-                      <td>
-                        <input type="number" name="totalWeight" 
-                        className="mt-1 block w-full rounded-md border-gray-300 shadow-sm focus:border-indigo-500 focus:ring-indigo-500 sm:text-sm"
-                        value={element.totalWeight || "0"} onChange={e => handleChange7(index, e)}
-                        min="-1" max="9999" step="1" maxLength={11}
-                        required="required" />
-                      </td>
-                      <td>
-                        <input type="checkbox" name="stackable" 
-                        className="h-4 w-4 rounded border-gray-300 text-blue-600 focus:ring-blue-500"
-                        value="1" onChange={e => handleChange6(index, e)} />
-                      </td>
-                    
-                      {
-                        index ? 
-                          <td><button type="button"  
-                          className="inline-flex justify-center rounded-md border border-transparent bg-red-500 py-1 px-2 text-sm font-small text-white shadow-sm hover:bg-red-700 focus:outline-none focus:ring-2 focus:ring-red-500 focus:ring-offset-2 button remove"
-                          onClick={() => removeFormFields(index)}>Remove</button></td>
-                        : null
-                      }
-                    </tr>
-                    
-                  ))}
-                  </tbody>
-                </table>
-              </div>
+                        </td>
+                        <td>
+                          <input type="number" name="width" 
+                          className="mt-1 block w-full rounded-md border-gray-300 shadow-sm focus:border-indigo-500 focus:ring-indigo-500 sm:text-sm"
+                          value={element.width || "0"} onChange={e => handleChange7(index, e)}
+                          min="-1" max="200" step="1" maxLength={9}
+                          required="required" />
+                        </td>
+                        <td>
+                          <input type="number" name="height" 
+                          className="mt-1 block w-full rounded-md border-gray-300 shadow-sm focus:border-indigo-500 focus:ring-indigo-500 sm:text-sm"
+                          value={element.height || "0"} onChange={e => handleChange7(index, e)}
+                          min="-1" max="200" step="1" maxLength={9}
+                          required="required" />
+                        </td>
+                        <td>
+                          <input type="number" name="totalWeight" 
+                          className="mt-1 block w-full rounded-md border-gray-300 shadow-sm focus:border-indigo-500 focus:ring-indigo-500 sm:text-sm"
+                          value={element.totalWeight || "0"} onChange={e => handleChange7(index, e)}
+                          min="-1" max="9999" step="1" maxLength={11}
+                          required="required" />
+                        </td>
+                        <td>
+                          <input type="checkbox" name="stackable" 
+                          className="h-4 w-4 rounded border-gray-300 text-blue-600 focus:ring-blue-500"
+                          value="1" onChange={e => handleChange6(index, e)} />
+                        </td>
+                      
+                        {
+                          index ? 
+                            <td><button type="button"  
+                            className="inline-flex justify-center rounded-md border border-transparent bg-red-500 py-1 px-2 text-sm font-small text-white shadow-sm hover:bg-red-700 focus:outline-none focus:ring-2 focus:ring-red-500 focus:ring-offset-2 button remove"
+                            onClick={() => removeFormFields(index)}>Remove</button></td>
+                          : null
+                        }
+                      </tr>
+                      
+                    ))}
+                    </tbody>
+                  </table>
+                </div>
+              </fieldset>
 
-              <fieldset className="py-2 text-left col-span-12 sm:col-span-12 border rounded-lg">
+              <fieldset className="py-2 text-left col-span-12 sm:col-span-12 border rounded-lg p-5">
                 <legend className="font-medium text-gray-700 mx-2 text-2xl">Accessorial</legend> 
                 <div className="grid grid-cols-4 gap-2">
                   {data4?.map((accDD) => (
                     <div key={accDD.accessorialCuid}>
                       <div className="flex items-center pl-3">
                         <input id={accDD.accessorialCuid} type="checkbox" value={accDD.accessorialCuid} className="w-4 h-4 text-blue-600 bg-gray-100 rounded border-gray-300 focus:ring-blue-500 dark:focus:ring-blue-600 dark:ring-offset-gray-700 focus:ring-2 dark:bg-gray-600 dark:border-gray-500 myaccdd" name="accessorialCuid" onClick={handleChange9} />
-                        <label htmlFor="accessorialCuid" className="py-3 ml-2 w-full font-medium text-gray-900">{accDD.accessorialName}</label>
+                        <label htmlFor="accessorialCuid" className="py-3 ml-2 w-full font-normal text-xs text-gray-900">{accDD.accessorialName}</label>
                       </div>
                       </div>
                   ))}
                 </div>
               </fieldset>
-
 
               <fieldset className="py-2 text-left col-span-12 sm:col-span-12 border rounded-lg p-5">
                 <legend className="font-medium text-gray-700 mx-2 text-2xl">Route Detail 
@@ -719,10 +715,16 @@ if (!data1 || !data2 || !data3 || !data4) {
             ))}
               </fieldset>
 
-
-
-
-
+              <div className="col-span-12">
+                <label
+                htmlFor="shipmentNote"
+                className="block text-sm font-medium text-gray-700"
+                >Shipment Notes
+                </label>
+                <textarea id="shipmentNote" name="shipmentNote" rows="4" cols="50" className="mt-1 block w-full rounded-md border-gray-300 shadow-sm focus:border-indigo-500 focus:ring-indigo-500 sm:text-sm"
+                onChange={(e) => setShipmentNote(e.target.value)} value={shipmentNote}>
+                </textarea>
+              </div>
 
               <div className="py-2 text-left col-span-12 sm:col-span-12">
                 <button

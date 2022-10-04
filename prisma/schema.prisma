@@ -73,6 +73,7 @@ model Shipment {
   dateCreated               DateTime?             @default(now())
   dateUpdated               DateTime?             @updatedAt
   equipmentTypeCuid         String?               @db.VarChar(32)
+  shipmentNote              String?               @db.Text
   //equipmentTypes            EquipmentType?      @relation(fields: [equipmentTypeCuid], references: [equipmentTypeCuid])
   shipmentLoads             ShipmentLoad[]
   shipmentRoutes            ShipmentRoute[]
