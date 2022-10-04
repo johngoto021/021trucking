@@ -78,6 +78,7 @@ model Shipment {
   shipmentRoutes            ShipmentRoute[]
   shipmentEquipments        ShipmentEquipment[]
   shipmentAccessorials      ShipmentAccessorial[]
+  shipmentLocations         ShipmentLocation[]
 }
 
 model ShipmentAccessorial {
@@ -128,7 +129,7 @@ model ShipmentLoad {
 
 model ShipmentRoute {
   shipmentRoutId           Int       @id @default(autoincrement())
-  shipmentRoutCuid         String?   @unique @default(cuid()) @db.VarChar(32)
+  shipmentRouteCuid        String?   @unique @default(cuid()) @db.VarChar(32)
   shipmentCuid             String?   @db.VarChar(255)
   shipments                Shipment? @relation(fields: [shipmentCuid], references: [shipmentCuid]) //establish foreign key relationship between accounts and users
   originName               String    @db.VarChar(255)
@@ -154,6 +155,41 @@ model ShipmentRoute {
   dateStarted              DateTime?
   dateEnded                DateTime?
   shipmentRouteActive      Int?      @db.TinyInt
+  createdByAccountUserCuid String?   @db.VarChar(32)
+  updatedByAccountUserCuid String?   @db.VarChar(32)
+  dateCreated              DateTime? @default(now())
+  dateUpdated              DateTime? @updatedAt
+}
+
+model ShipmentLocation {
+  shipmentLocationId       Int       @id @default(autoincrement())
+  shipmentLocationCuid     String?   @unique @default(cuid()) @db.VarChar(32)
+  shipmentCuid             String?   @db.VarChar(255)
+  shipments                Shipment? @relation(fields: [shipmentCuid], references: [shipmentCuid]) //establish foreign key relationship between accounts and users
+  locationType             String?   @db.Char(1)
+  locationName             String    @db.VarChar(255)
+  locationFullAddress      String?   @db.TinyText
+  locationLongitude        String?   @db.VarChar(32)
+  locationLatitude         String?   @db.VarChar(32)
+  locationPhone            String?   @db.VarChar(32)
+  locationAddress1         String?   @db.VarChar(255)
+  locationAddress2         String?   @db.VarChar(255)
+  locationCity             String?   @db.VarChar(255)
+  locationRegion           String?   @db.VarChar(255)
+  locationPostalCode       String?   @db.VarChar(32)
+  locationCountry          String?   @db.VarChar(128)
+  locationEmailAddress     String?   @db.VarChar(255)
+  locationContact          String?   @db.VarChar(255)
+  locationReference        String?   @db.VarChar(32)
+  dateStart                String?   @db.VarChar(32)
+  dateEnd                  String?   @db.VarChar(32)
+  dateStart2               DateTime? @db.Date
+  dateEnd2                 DateTime? @db.Date
+  timeStart                String?   @db.VarChar(32)
+  timeEnd                  String?   @db.VarChar(32)
+  timeStart2               DateTime? @db.DateTime()
+  timeEnd2                 DateTime? @db.DateTime()
+  shipmentLocationActive   Int?      @db.TinyInt
   createdByAccountUserCuid String?   @db.VarChar(32)
   updatedByAccountUserCuid String?   @db.VarChar(32)
   dateCreated              DateTime? @default(now())

@@ -3,6 +3,7 @@ import useSWR from "swr"
 import Layout from "../components/layout";
 import Script from "next/script";
 
+
 export default function ShipmentForm() {
 
   const fetcher1 = async () => {
@@ -42,6 +43,7 @@ export default function ShipmentForm() {
   const [shipmentCuid, setshipmentCuid] = useState("");
   const [accountCuid, setaccountCuid] = useState("");
   const [equipmentTypeCuid, setequipmentTypeCuid] = useState([]);
+  //const [loadTypeCuid, setLoadTypeCuid] = useState([]);
   const [accessorialCuid, setaccessorialCuid] = useState([]);
   //const [equipmentTypeCuid2, setequipmentTypeCuid2] = useState([]);
   //const [equipmentTypeCuid, setequipmentTypeCuid] = useState([{ equipmentTypeCuid: '' }]);
@@ -56,7 +58,6 @@ export default function ShipmentForm() {
   const [isLoading2, setIsLoading2] = useState(true)
   const [isLoading3, setIsLoading3] = useState(true)
   const [isLoading4, setIsLoading4] = useState(true)
-  const [dataSaved, setdataSaved] = useState("")
   const [submitmessage, setsubmitmessage] = useState("")
   
   const [ShipmentRef, setShipmentRef] = useState('');
@@ -64,6 +65,8 @@ export default function ShipmentForm() {
   
  
   const [formValues, setFormValues] = useState([{ loadTypeCuid: '', quantity : 0, length : 0, width : 0, height : 0, totalWeight : 0, stackable : 0 }])
+
+  const [formLocationValues, setFormLocationValues] = useState([{ locationType: "P", locationName : "", locationFullAddress : "", dateStart : "", dateEnd : "", dateStart2 : "", dateEnd2 : "", locationReference : "", locationContact : "", locationPhone : "", timeStart : "", timeEnd : "" }])
 
   useEffect(() => {
  /*   
@@ -120,6 +123,7 @@ export default function ShipmentForm() {
       houseBillNumber,
       formValues,
       accessorialCuid,
+      formLocationValues,
     };
     
     //console.log(JSON.stringify(formValues))
@@ -127,15 +131,16 @@ export default function ShipmentForm() {
 
     try {
       
-      const createdshipment = await fetch("/api/shipment/createdata4", {
+      const createdshipment = await fetch("/api/shipment/createdata5", {
         method: "POST",
         headers: { "Content-Type": "application/json" },
         body: JSON.stringify(body),
       });
+
+      console.log(body);
       //setAPIResponse2(createdshipment.json());
       
       if (createdshipment.status !== 200) {
-        //setdataSaved(false);
         setsubmitmessage('Something went wrong, your entries were NOT saved');
         console.log("something went wrong");
         //set an error banner here
@@ -152,7 +157,6 @@ export default function ShipmentForm() {
         //setShipmentRef(createdshipment.shipmentCuid);
         //console.log(createdshipment.shipmentCuid);
         seeShipments();
-        //setdataSaved(true);
         setsubmitmessage('Your entries were saved');
         console.log("form submitted successfully !!!");
         //return createdshipment.json();
@@ -173,31 +177,6 @@ export default function ShipmentForm() {
     setmoNumber("");
     sethouseBillNumber("");
   };
-
-  
- 
-  const handleChange = e => {
-    let { options } = e.target;
-    let arrAn = [];  
-    options = Array.apply(null, options)
-    const selectedValues = options.filter(x => x.selected).map(x => x.value);
-    setSelectedList(selectedValues);
-
-    for ( let i= 0; i < selectedValues.length ; i++){  
-      arrAn.push( { 'equipmentTypeCuid' : selectedValues[i]} );  
-    }   
-
-    const myJsonString = JSON.stringify(arrAn);  //convert javascript array to JSON string
-
-    //setequipmentTypeCuid(arrAn)
-    setequipmentTypeCuid(myJsonString);
-
-    //console.log(arrAn);
-
-    
-    //arrAn.push( { 'equipmentTypeCuid' : w.value } );  
-  }
-
 
 const handleChange2 = e => { 
     let arrAn = [];  
@@ -238,42 +217,11 @@ const handleChange2 = e => {
   
    };
 
-   let handleChange3 = (i, e) => {
-    let newFormValues = [...formValues];
-    newFormValues[i][e.target.name] = e.target.value;
-    setFormValues(newFormValues);
- }
-    
- const handleChange4 = e => { 
-  let arrAn = [];  
-  let m = document.getElementsByClassName('myltdd');
-  let arrLen = document.getElementsByClassName('myltdd').length;
-  for ( let i= 0; i < arrLen ; i++){  
-      let  w = m[i];                     
-       if (w.checked){  
-        arrAn.push( { 'equipmentTypeCuid' : w.value } );  
-      }  
-    }   
-  const myJsonString = JSON.stringify(arrAn);  //convert javascript array to JSON string
-  setequipmentTypeCuid(myJsonString);
-  //console.log(myJsonString);
-  //console.log(arrAn);
-  
-  //const newStr = myJsonString.substring(1, myJsonString.length-1);
-
- };
-
-
-
-
  let handleChange5 = (i, e) => {
   let newFormValues = [...formValues];
   newFormValues[i][e.target.name] = e.target.value;
   setFormValues(newFormValues);
 }
-
-
-
 
 let handleChange6 = (i, e) => {
   let newFormValues = [...formValues];
@@ -291,17 +239,14 @@ let handleChange6 = (i, e) => {
 }
 
 
-
-
 let handleChange7 = (i, e) => {
   let newFormValues = [...formValues];
   newFormValues[i][e.target.name] = parseFloat(e.target.value);  
   setFormValues(newFormValues);
-
 }
 
 let addFormFields = () => {
-    setFormValues([...formValues, { loadTypeCuid: 0, quantity : 0, length : 0, width : 0, height : 0, totalWeight : 0, stackable : 0 }])
+    setFormValues([...formValues, { loadTypeCuid: '', quantity : 0, length : 0, width : 0, height : 0, totalWeight : 0, stackable : 0 }])
  }
 
 let removeFormFields = (i) => {
@@ -310,12 +255,38 @@ let removeFormFields = (i) => {
     setFormValues(newFormValues)
 }
 
-const handleInputChange = (e, index) => {
-  const { name, value } = e.target;
-  const list = [...inputList];
-  list[index][name] = value;
-  setInputList(list);
-};
+
+let handleChange10 = (i, e) => {
+  let newFormLocationValues = [...formLocationValues];
+  newFormLocationValues[i][e.target.name] = e.target.value;
+  setFormLocationValues(newFormLocationValues);
+  console.log(formLocationValues);
+}
+
+let handleChange11 = (i, e) => {
+  let newFormLocationValues = [...formLocationValues];
+  let newFormLocationValues2 = [...formLocationValues];
+  //newFormLocationValues[i][e.target.name] = e.target.value;
+  newFormLocationValues[i][e.target.name] = e.target.value;
+  newFormLocationValues[i][e.target.name+2] = e.target.value+'T00:00:00.000Z';
+  //newFormLocationValues[i]['endDate2'] = e.target.value+'T00:00:00.000Z';
+  //newFormLocationValues2[i][e.target.name] = e.target.value+'T00:00:00.000Z';
+  setFormLocationValues(newFormLocationValues);
+  console.log(formLocationValues);
+  //console.log(newFormLocationValues2);
+}
+
+
+let addFormLocationFields = () => {
+  setFormLocationValues([...formLocationValues, { locationType: "P", locationName : "", locationFullAddress : "", dateStart : "", dateEnd : "", dateStart2 : "", dateEnd2 : "", locationReference : "", locationContact : "", locationPhone : "", timeStart : "", timeEnd : "" }])
+}
+
+let removeFormLocationFields = (i) => {
+  let newFormLocationValues = [...formLocationValues];
+  newFormLocationValues.splice(i, 1);
+  setFormLocationValues(newFormLocationValues)
+}
+
 
 /*
 if (!data1 || !data2 || !data3 || !data4) {
@@ -331,7 +302,7 @@ if (!data1 || !data2 || !data3 || !data4) {
 
 
 
-<Script src="https://unpkg.com/flowbite@1.5.3/dist/flowbite.js" strategy="lazyOnload" />
+
 
 
 <header className="bg-white shadow">
@@ -345,7 +316,7 @@ if (!data1 || !data2 || !data3 || !data4) {
 <div id="accordion-collapse" data-accordion="collapse">
   <h2 id="accordion-collapse-heading-1">
     <button type="button" className="flex items-center justify-between w-full p-5 font-medium text-left border border-b-0 border-gray-200 rounded-t-xl focus:ring-4 focus:ring-gray-200 dark:focus:ring-gray-800 dark:border-gray-700 hover:bg-gray-100 dark:hover:bg-gray-800 bg-gray-100 dark:bg-gray-800 text-gray-900 dark:text-white" data-accordion-target="#accordion-collapse-body-1" aria-expanded="true" aria-controls="accordion-collapse-body-1">
-      <span>Step 1 Create Shipment</span><span className="text-red-500 mx-5 text-sm font-medium">{ submitmessage }</span>
+      <span>Step 1: Create Shipment</span><span className="text-red-500 mx-5 text-sm font-medium">{ submitmessage }</span>
       <svg data-accordion-icon="" className="w-6 h-6 rotate-180 shrink-0" fill="currentColor" viewBox="0 0 20 20" xmlns="http://www.w3.org/2000/svg"><path fillRule="evenodd" d="M5.293 7.293a1 1 0 011.414 0L10 10.586l3.293-3.293a1 1 0 111.414 1.414l-4 4a1 1 0 01-1.414 0l-4-4a1 1 0 010-1.414z" clipRule="evenodd"></path></svg>
     </button>
   </h2>
@@ -585,13 +556,174 @@ if (!data1 || !data2 || !data3 || !data4) {
                 </div>
               </fieldset>
 
+
+              <fieldset className="py-2 text-left col-span-12 sm:col-span-12 border rounded-lg p-5">
+                <legend className="font-medium text-gray-700 mx-2 text-2xl">Route Detail 
+                  <button className="inline-flex justify-center rounded-md border border-transparent bg-yellow-500  mx-2 px-2 text-xs font-normal text-white shadow-sm hover:bg-yellow-700 focus:outline-none focus:ring-2 focus:ring-yellow-700 focus:ring-offset-1"
+                  type="button" onClick={() => addFormLocationFields()}>Add Routes</button>
+                </legend> 
+                {formLocationValues.map((element, index) => (
+            
+                <div className="grid lg:grid-cols-8 gap-2 sm:md:auto-cols-min" key={index}>
+
+                  <div className="lg:col-span-2 sm:col-span-6">
+                    <label
+                    htmlFor="locationType"
+                    className="block text-sm font-medium text-gray-700"
+                    >Type
+                    </label>
+                    <select name="locationType" className="mt-1 block w-full rounded-md border-gray-300 shadow-sm focus:border-indigo-500 focus:ring-indigo-500 sm:text-sm" 
+                    required="required"  onChange={(e) => {
+                      handleChange10(index, e);
+                      }}>
+                      <option value="P">Pickup</option>
+                      <option value="D">Delivery</option>
+                    </select>
+                  </div>
+
+                  <div className="lg:col-span-6 sm:col-span-6">
+                    <label
+                    htmlFor="locationName"
+                    className="block text-sm font-medium text-gray-700"
+                    >Location Name
+                    </label>
+                    <input type="text" name="locationName" 
+                      className="mt-1 block w-full rounded-md border-gray-300 shadow-sm focus:border-indigo-500 focus:ring-indigo-500 sm:text-sm"
+                      value={element.locationName || ""} onChange={e => handleChange10(index, e)}
+                      required="required"  maxLength={128}/>
+                  </div>
+
+                  <div className="lg:col-span-2 sm:col-span-6">
+                    <label
+                    htmlFor="dateStart"
+                    className="block text-sm font-medium text-gray-700"
+                    >Start
+                    </label>
+                    <input type="date" name="dateStart" 
+                      className="mt-1 block w-full rounded-md border-gray-300 shadow-sm focus:border-indigo-500 focus:ring-indigo-500 sm:text-sm"
+                      value={element.dateStart || ""} onChange={e => handleChange11(index, e)}
+                      required="required" />
+                  </div>
+                  <div className="lg:col-span-2 sm:col-span-6">
+                    <label
+                    htmlFor="timeStart"
+                    className="block text-sm font-medium text-gray-700"
+                    >Start Time
+                    </label>
+                    <input type="time" name="timeStart" 
+                      className="mt-1 block w-full rounded-md border-gray-300 shadow-sm focus:border-indigo-500 focus:ring-indigo-500 sm:text-sm"
+                      value={element.timeStart || ""} onChange={e => handleChange10(index, e)}
+                      required="required" />
+                  </div>
+                  <div className="lg:col-span-2 sm:col-span-6">
+                    <label
+                    htmlFor="dateEnd"
+                    className="block text-sm font-medium text-gray-700"
+                    >End
+                    </label>
+                    <input type="date" name="dateEnd" 
+                      className="mt-1 block w-full rounded-md border-gray-300 shadow-sm focus:border-indigo-500 focus:ring-indigo-500 sm:text-sm"
+                      value={element.dateEnd || ""} onChange={e => handleChange11(index, e)}
+                      required="required" />
+                  </div>
+                  <div className="lg:col-span-2 sm:col-span-6">
+                    <label
+                    htmlFor="timeEnd"
+                    className="block text-sm font-medium text-gray-700"
+                    >End
+                    </label>
+                    <input type="time" name="timeEnd" 
+                      className="mt-1 block w-full rounded-md border-gray-300 shadow-sm focus:border-indigo-500 focus:ring-indigo-500 sm:text-sm"
+                      value={element.timeEnd || ""} onChange={e => handleChange10(index, e)}
+                      required="required" />
+                  </div>
+
+                  <div className="lg:col-span-8 sm:col-span-8">
+                    <label
+                    htmlFor="locationFullAddress"
+                    className="block text-sm font-medium text-gray-700"
+                    >Address
+                    </label>
+                    <input type="text" name="locationFullAddress" 
+                      className="mt-1 block w-full rounded-md border-gray-300 shadow-sm focus:border-indigo-500 focus:ring-indigo-500 sm:text-sm"
+                      value={element.locationFullAddress || ""} onChange={e => handleChange10(index, e)}
+                      required="required" />
+                  </div>
+
+                  <div className="lg:col-span-2 sm:col-span-2">
+                    <label
+                    htmlFor="locationReference"
+                    className="block text-sm font-medium text-gray-700">
+                      Reference Info
+                    </label>
+                    <input type="text" name="locationReference" 
+                      className="mt-1 block w-full rounded-md border-gray-300 shadow-sm focus:border-indigo-500 focus:ring-indigo-500 sm:text-sm"
+                      value={element.locationReference || ""} onChange={e => handleChange10(index, e)}
+                      />
+                  </div>
+
+                  <div className="lg:col-span-4 sm:col-span-12">
+                    <label
+                    htmlFor="locationContact"
+                    className="block text-sm font-medium text-gray-700">
+                      Contact
+                    </label>
+                    <input type="text" name="locationContact" 
+                      className="mt-1 block w-full rounded-md border-gray-300 shadow-sm focus:border-indigo-500 focus:ring-indigo-500 sm:text-sm"
+                      value={element.locationContact || ""} onChange={e => handleChange10(index, e)}
+                      required="required" />
+                  </div>
+                  <div className="lg:col-span-2 sm:col-span-12">
+                    <label
+                    htmlFor="locationPhone"
+                    className="block text-sm font-medium text-gray-700">
+                      Phone
+                    </label>
+                    <input type="text" name="locationPhone" 
+                      className="mt-1 block w-full rounded-md border-gray-300 shadow-sm focus:border-indigo-500 focus:ring-indigo-500 sm:text-sm"
+                      value={element.locationPhone || ""} onChange={e => handleChange10(index, e)}
+                      required="required" />
+                  </div>
+
+
+
+
+                  
+
+
+
+                  
+                  {
+                        index ? 
+                          <div className="col-span-1 sm:col-span-1"><button type="button"  
+                          className="inline-flex justify-center rounded-md border border-transparent bg-red-500 mt-7 py-1 px-2 text-sm font-small text-xs text-white shadow-sm hover:bg-red-700 focus:outline-none focus:ring-2 focus:ring-red-500 focus:ring-offset-2 button remove"
+                          onClick={() => removeFormLocationFields(index)}>Remove</button></div>
+                        : null
+                      }
+              </div>
+              
+            ))}
+              </fieldset>
+
+
+
+
+
+
               <div className="py-2 text-left col-span-12 sm:col-span-12">
                 <button
                 type="submit"
                 className="inline-flex justify-center rounded-md border border-transparent bg-blue-500 py-2 px-4 text-sm font-medium text-white shadow-sm hover:bg-indigo-700 focus:outline-none focus:ring-2 focus:ring-indigo-500 focus:ring-offset-2"
-                >Save
+                >Book Shipment
                 </button>
 
+                <button
+                type="submit"
+                className="inline-flex justify-center rounded-md border border-transparent bg-green-500 py-2 px-4 text-sm font-medium text-white shadow-sm hover:bg-indigo-700 focus:outline-none focus:ring-2 focus:ring-indigo-500 focus:ring-offset-2 ml-2"
+                >Save Quote
+                </button>
+
+                
                 <span className="text-red-500 mx-5 text-sm font-medium">{ submitmessage }</span>
                 
               </div>
@@ -605,7 +737,7 @@ if (!data1 || !data2 || !data3 || !data4) {
   </div>
   <h2 id="accordion-collapse-heading-2">
     <button type="button" className="flex items-center justify-between w-full p-5 font-medium text-left text-gray-500 border border-b-0 border-gray-200 focus:ring-4 focus:ring-gray-200 dark:focus:ring-gray-800 dark:border-gray-700 dark:text-gray-400 hover:bg-gray-100 dark:hover:bg-gray-800" data-accordion-target="#accordion-collapse-body-2" aria-expanded="false" aria-controls="accordion-collapse-body-2">
-      <span>Step 2 Review Shipment</span>
+      <span>Step 2: Review Shipment</span>
       <svg data-accordion-icon="" className="w-6 h-6 shrink-0" fill="currentColor" viewBox="0 0 20 20" xmlns="http://www.w3.org/2000/svg"><path fillRule="evenodd" d="M5.293 7.293a1 1 0 011.414 0L10 10.586l3.293-3.293a1 1 0 111.414 1.414l-4 4a1 1 0 01-1.414 0l-4-4a1 1 0 010-1.414z" clipRule="evenodd"></path></svg>
     </button>
   </h2>
@@ -695,7 +827,7 @@ if (!data1 || !data2 || !data3 || !data4) {
   </div>
   <h2 id="accordion-collapse-heading-3">
     <button type="button" className="flex items-center justify-between w-full p-5 font-medium text-left text-gray-500 border border-gray-200 focus:ring-4 focus:ring-gray-200 dark:focus:ring-gray-800 dark:border-gray-700 dark:text-gray-400 hover:bg-gray-100 dark:hover:bg-gray-800" data-accordion-target="#accordion-collapse-body-3" aria-expanded="false" aria-controls="accordion-collapse-body-3">
-      <span>Step: 3 - Review Your Route</span>
+      <span>Step 3: Review Your Route</span>
       <svg data-accordion-icon="" className="w-6 h-6 shrink-0" fill="currentColor" viewBox="0 0 20 20" xmlns="http://www.w3.org/2000/svg"><path fillRule="evenodd" d="M5.293 7.293a1 1 0 011.414 0L10 10.586l3.293-3.293a1 1 0 111.414 1.414l-4 4a1 1 0 01-1.414 0l-4-4a1 1 0 010-1.414z" clipRule="evenodd"></path></svg>
     </button>
   </h2>
@@ -711,6 +843,8 @@ if (!data1 || !data2 || !data3 || !data4) {
 </div>
 
 
+
+<Script src="https://unpkg.com/flowbite@1.5.3/dist/flowbite.js" strategy="lazyOnload" />
 
 
 
@@ -729,6 +863,9 @@ if (!data1 || !data2 || !data3 || !data4) {
     }
 
     /*
+
+<Script src="https://unpkg.com/flowbite@1.5.3/dist/datepicker.js" strategy="lazyOnload" />
+
     onChange={(e) => {
 setequipmentTypeCuid(e.target.value);
 
