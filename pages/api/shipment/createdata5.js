@@ -26,12 +26,15 @@ export default async function handler(req, res) {
         shipmentAccessorials:{
           create: accessories
           },
+        
         shipmentLoads:{
           create: loads
           },
+        
         shipmentLocations:{
           create: locations
           },
+        
         },
       });
     return res.json(myrecord);
