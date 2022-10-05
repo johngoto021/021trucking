@@ -9,13 +9,22 @@ export default async function handler(req, res) {
 {
   select: {
     shipmentId: true,
-    shipmentName: true,
     shipmentCuid: true,
+    shipmentName: true,
     trackingNumber: true,
     moNumber: true,
     houseBillNumber: true,
     accountCuid: true,
     shipmentNote: true,
+    shipmentTimeZone: true,
+    shipmentDateAdded: true,
+    shipmentDateUpdated: true,
+    trackingUrl: true,
+    shipmentCustomerRate: true,
+    internalRate: true,
+    shipmentCustomerTotalCost: true,
+    internalTotalCost: true,
+
     accounts: {
       select :{
         accountName: true,
