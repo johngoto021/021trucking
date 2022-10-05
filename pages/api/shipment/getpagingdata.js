@@ -24,6 +24,7 @@ export default async function handler(req, res) {
     internalRate: true,
     shipmentCustomerTotalCost: true,
     internalTotalCost: true,
+    shipmentStatus: true,
 
     accounts: {
       select :{

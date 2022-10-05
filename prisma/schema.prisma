@@ -67,10 +67,10 @@ model Shipment {
   shipmentActive            Int?                  @db.TinyInt
   shipmentStatus            Int?                  @db.TinyInt
   shipmentPaid              Int?                  @db.TinyInt
-  shipmentCustomerRate      Decimal?              @db.Decimal(5, 2)
-  internalRate              Decimal?              @db.Decimal(5, 2)
-  shipmentCustomerTotalCost Decimal?              @db.Decimal(8, 2)
-  internalTotalCost         Decimal?              @db.Decimal(8, 2)
+  shipmentCustomerRate      Decimal?              @default(0) @db.Decimal(5, 2)
+  internalRate              Decimal?              @default(0) @db.Decimal(5, 2)
+  shipmentCustomerTotalCost Decimal?              @default(0) @db.Decimal(8, 2)
+  internalTotalCost         Decimal?              @default(0) @db.Decimal(8, 2)
   dateCreated               DateTime?             @default(now())
   dateUpdated               DateTime?             @updatedAt
   //equipmentTypeCuid         String?               @db.VarChar(32)
