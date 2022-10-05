@@ -154,12 +154,13 @@ export default function ShipmentForm() {
         return true;
         };
 
-      const createdshipment = await fetch("/api/shipment/createdata5", {
+      const createdshipment = await fetch("/api/shipment/createdata", {
         method: "POST",
         headers: { "Content-Type": "application/json" },
         body: JSON.stringify(body),
       });
-
+      const data = await createdshipment.json();
+      
       console.log(body);
       //setAPIResponse2(createdshipment.json());
       
@@ -176,7 +177,7 @@ export default function ShipmentForm() {
 
         //setAPIResponse2(createdshipment.json());
         //console.log(setAPIResponse2);
-        //setShipmentRef(createdshipment.shipmentCuid);
+        setShipmentRef(data.shipmentCuid);
         //setShipmentRef(createdshipment.shipmentCuid);
         //console.log(createdshipment.shipmentCuid);
         seeShipments();
@@ -184,6 +185,7 @@ export default function ShipmentForm() {
         console.log("form submitted successfully !!!");
         //return createdshipment.json();
         //set a success banner here
+        return data;
       }
       
       //check response, if success is false, dont take them to success page
@@ -322,11 +324,12 @@ let handleQuoteButtonClick = () => {
   setShipmentStatus(2);
 }
 
-/*
+if (error1 || error2 || error3 || error4) return <h2>An error has occurred.</h2>
+
 if (!data1 || !data2 || !data3 || !data4) {
   return <h2>Loading...</h2>;
 }
-*/
+
 
   return (
 
@@ -590,7 +593,7 @@ if (!data1 || !data2 || !data3 || !data4) {
                   type="button" onClick={() => addFormLocationFields()}>Add Routes</button>
                 </legend> 
 
-                <div className="grid lg:grid-cols-8 sm:grid-cols-8 gap-2 sm:md:auto-cols-min">
+                <div className="grid lg:grid-cols-8 sm:grid-cols-8 gap-2 my-8">
                   <label
                     htmlFor="shipmentTimeZone"
                     className="block text-sm font-medium text-gray-700"
@@ -605,14 +608,13 @@ if (!data1 || !data2 || !data3 || !data4) {
                       <option value="CDT">CDT</option>
                       <option value="EDT">EDT</option>
                     </select>
-                  
                 </div>
 
                 {formLocationValues.map((element, index) => (
             
-                <div className="grid lg:grid-cols-8 gap-2 sm:md:auto-cols-min" key={index}>
+                <div className="grid lg:grid-cols-12 md:grid-cols-8 md:grid-cols-1 gap-2" key={index}>
 
-                  <div className="lg:col-span-2 sm:col-span-6">
+                  <div className="lg:col-span-2 sm:col-span-2">
                     <label
                     htmlFor="locationType"
                     className="block text-sm font-medium text-gray-700"
@@ -627,7 +629,7 @@ if (!data1 || !data2 || !data3 || !data4) {
                     </select>
                   </div>
 
-                  <div className="lg:col-span-6 sm:col-span-6">
+                  <div className="lg:col-span-6 sm:col-span-10">
                     <label
                     htmlFor="locationName"
                     className="block text-sm font-medium text-gray-700"
@@ -650,6 +652,7 @@ if (!data1 || !data2 || !data3 || !data4) {
                       value={element.dateStart || ""} onChange={e => handleChange11(index, e)}
                       required="required" />
                   </div>
+
                   <div className="lg:col-span-2 sm:col-span-6">
                     <label
                     htmlFor="timeStart"
@@ -661,6 +664,7 @@ if (!data1 || !data2 || !data3 || !data4) {
                       value={element.timeStart || ""} onChange={e => handleChange10(index, e)}
                       required="required" />
                   </div>
+
                   <div className="lg:col-span-2 sm:col-span-6">
                     <label
                     htmlFor="dateEnd"
@@ -672,6 +676,7 @@ if (!data1 || !data2 || !data3 || !data4) {
                       value={element.dateEnd || ""} onChange={e => handleChange11(index, e)}
                       required="required" />
                   </div>
+
                   <div className="lg:col-span-2 sm:col-span-6">
                     <label
                     htmlFor="timeEnd"
@@ -719,6 +724,7 @@ if (!data1 || !data2 || !data3 || !data4) {
                       value={element.locationContact || ""} onChange={e => handleChange10(index, e)}
                       required="required" />
                   </div>
+
                   <div className="lg:col-span-2 sm:col-span-12">
                     <label
                     htmlFor="locationPhone"
@@ -730,14 +736,6 @@ if (!data1 || !data2 || !data3 || !data4) {
                       value={element.locationPhone || ""} onChange={e => handleChange10(index, e)}
                       required="required" />
                   </div>
-
-
-
-
-                  
-
-
-
                   
                   {
                         index ? 
@@ -746,9 +744,11 @@ if (!data1 || !data2 || !data3 || !data4) {
                           onClick={() => removeFormLocationFields(index)}>Remove</button></div>
                         : null
                       }
-              </div>
+
+                      <div className="w-full col-span-12 "><hr className="border-4 border-gray-900 cursor-pointer hover:border-blue-500 duration-500 my-4" /></div>
+                </div>
               
-            ))}
+                ))}
               </fieldset>
 
               <div className="col-span-12">

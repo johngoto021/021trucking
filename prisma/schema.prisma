@@ -46,6 +46,7 @@ model Account {
   accountStatus   Int?       @default(1) @db.TinyInt
   dateCreated     DateTime?  @default(now())
   dateUpdated     DateTime?  @updatedAt
+  marginRate      Decimal?   @db.Decimal(4, 2)
   shipments       Shipment[]
 }
 
