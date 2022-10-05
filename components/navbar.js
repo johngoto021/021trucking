@@ -19,14 +19,8 @@ export default function Navbar() {
     return (
       
 <>
+      <Script src="https://unpkg.com/flowbite@1.5.3/dist/flowbite.js" strategy="beforeInteractive" />
 
-    <Script
-    src="https://unpkg.com/flowbite@1.5.3/dist/flowbite.js"
-    strategy="lazyOnload" />  
-
-    
-
-      
       <nav className="border-gray-600 bg-gray-900 ">
           <div className="flex flex-wrap justify-between items-center mx-auto max-w-screen-8xl px-4 md:px-6 py-2.5">
               <Link href={'/'}> 
@@ -98,7 +92,7 @@ export default function Navbar() {
                           </Link>
                       </li>
                       <li>
-                      <Link href="#" >          
+                      <Link href="myquotes" >          
                           <a className="block p-3 rounded-lg hover:bg-gray-50 dark:hover:bg-gray-700">
                               <div className="font-semibold">Quotes</div>
                               <span className="text-sm font-light text-gray-500 dark:text-gray-400">Request a shipment quote here</span>

@@ -9,7 +9,7 @@ export default async function handler(req, res) {
 {
 
   where: {
-    shipmentStatus: 1,
+    shipmentStatus: 2,
     },
 
   select: {

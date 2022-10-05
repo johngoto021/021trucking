@@ -3,33 +3,34 @@ import useSWR from "swr"
 import Layout from "../components/layout";
 import Script from "next/script";
 
-const fetcher1 = async () => {
-  const response = await fetch('api/account/getdataidname')
-  const data = await response.json()
-  return data
-};
 
-const fetcher2 = async () => {
-  const response = await fetch('api/dropdowns/getequipmenttype')
-  const data = await response.json()
-  return data
-};
-
-const fetcher3 = async () => {
-  const response = await fetch('api/dropdowns/getloadtype')
-  const data = await response.json()
-  return data
-};
-
-const fetcher4 = async () => {
-  const response = await fetch('api/dropdowns/getaccessorial')
-  const data = await response.json()
-  return data
-};
 
 export default function ShipmentForm() {
  
+  const fetcher1 = async () => {
+    const response = await fetch('api/account/getdataidname')
+    const data = await response.json()
+    return data
+  };
   
+  const fetcher2 = async () => {
+    const response = await fetch('api/dropdowns/getequipmenttype')
+    const data = await response.json()
+    return data
+  };
+  
+  const fetcher3 = async () => {
+    const response = await fetch('api/dropdowns/getloadtype')
+    const data = await response.json()
+    return data
+  };
+  
+  const fetcher4 = async () => {
+    const response = await fetch('api/dropdowns/getaccessorial')
+    const data = await response.json()
+    return data
+  };
+
   const { data: data1, error: error1 } = useSWR('name1', fetcher1);
   const { data: data2, error: error2 } = useSWR('name2', fetcher2);
   const { data: data3, error: error3 } = useSWR('name3', fetcher3);
@@ -314,11 +315,6 @@ let handleQuoteButtonClick = () => {
   setShipmentStatus(2);
 }
 
-if (error1 || error2 || error3 || error4) return <h2>An error has occurred.</h2>
-
-if (!data1 || !data2 || !data3 || !data4) {
-  return <h2>Loading...</h2>;
-}
 
 
   return (
@@ -326,6 +322,7 @@ if (!data1 || !data2 || !data3 || !data4) {
 
 
 <>
+<Script src="https://unpkg.com/flowbite@1.5.3/dist/flowbite.js" strategy="beforeInteractive" />
 
 <header className="bg-white shadow">
   <div className="mx-auto max-w-8xl py-6 px-4 sm:px-6 lg:px-4">
@@ -882,7 +879,7 @@ if (!data1 || !data2 || !data3 || !data4) {
   </div>
 </div>
 
-<Script src="https://unpkg.com/flowbite@1.5.3/dist/flowbite.js" strategy="lazyOnload" />
+
 
 </main>
 </>
@@ -892,6 +889,7 @@ if (!data1 || !data2 || !data3 || !data4) {
     ShipmentForm.getLayout = function getLayout(page) {
       return (
         <Layout>
+          <Script src="https://unpkg.com/flowbite@1.5.3/dist/datepicker.js" strategy="beforeInteractive" />
           {page}
         </Layout>
       )
@@ -899,7 +897,17 @@ if (!data1 || !data2 || !data3 || !data4) {
 
     /*
 
-<Script src="https://unpkg.com/flowbite@1.5.3/dist/datepicker.js" strategy="lazyOnload" />
+if (error1 || error2 || error3 || error4) return <h2>An error has occurred.</h2>
+
+if (!data1 || !data2 || !data3 || !data4) {
+  return 
+<h2>Loading...</h2>
+
+ }
+
+
+
+    <Script src="https://unpkg.com/flowbite@1.5.3/dist/datepicker.js" strategy="lazyOnload" />
 
     onChange={(e) => {
 setequipmentTypeCuid(e.target.value);
