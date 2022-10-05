@@ -3,7 +3,7 @@ import Layout from '../components/layout'
 import Link from 'next/link'
 
 const fetcher = async () => {
-  const response = await fetch('api/shipment/getdata')
+  const response = await fetch('api/shipment/getpagingdata')
   const data = await response.json();
   return data
 }
