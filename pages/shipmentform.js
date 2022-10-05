@@ -120,7 +120,6 @@ export default function ShipmentForm() {
     e.preventDefault();
     const body = {
       shipmentName,
-      shipmentCuid,
       accountCuid,
       equipmentTypeCuid,
       trackingNumber,
@@ -131,6 +130,7 @@ export default function ShipmentForm() {
       formLocationValues,
       shipmentStatus,
       shipmentNote,
+      shipmentTimeZone,
     };
     
     //console.log(JSON.stringify(formValues))

@@ -26,7 +26,7 @@ export default async function handler(req, res) {
         shipmentAccessorials:{
           create: accessories
           },
-          shipmentLoads:{
+        shipmentLoads:{
           create: loads
           },
         shipmentLocations:{
