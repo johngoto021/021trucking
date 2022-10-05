@@ -19,7 +19,7 @@ export default function Navbar() {
     return (
       
 <>
-      <Script src="https://unpkg.com/flowbite@1.5.3/dist/flowbite.js" strategy="beforeInteractive" />
+      <Script src="https://unpkg.com/flowbite@1.5.3/dist/flowbite.js" strategy="afterInteractive" />
 
       <nav className="border-gray-600 bg-gray-900 ">
           <div className="flex flex-wrap justify-between items-center mx-auto max-w-screen-8xl px-4 md:px-6 py-2.5">
@@ -155,7 +155,7 @@ export default function Navbar() {
               </div>
           </div>
       </nav>
-
+      
       </>
       
     )
