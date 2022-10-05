@@ -322,7 +322,7 @@ let handleQuoteButtonClick = () => {
 
 
 <>
-<Script src="https://unpkg.com/flowbite@1.5.3/dist/flowbite.js" strategy="beforeInteractive" />
+<Script src="https://unpkg.com/flowbite@1.5.3/dist/flowbite.js" strategy="afterInteractive" />
 
 <header className="bg-white shadow">
   <div className="mx-auto max-w-8xl py-6 px-4 sm:px-6 lg:px-4">
@@ -889,7 +889,6 @@ let handleQuoteButtonClick = () => {
     ShipmentForm.getLayout = function getLayout(page) {
       return (
         <Layout>
-          <Script src="https://unpkg.com/flowbite@1.5.3/dist/datepicker.js" strategy="beforeInteractive" />
           {page}
         </Layout>
       )
