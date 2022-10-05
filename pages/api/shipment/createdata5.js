@@ -28,9 +28,11 @@ export default async function handler(req, res) {
         shipmentLoads:{
           create: loads
           },
+          /*
         shipmentLocations:{
           create: locations
           },
+          */
         },
       });
     return res.json(myrecord);
@@ -38,5 +40,5 @@ export default async function handler(req, res) {
   catch {
     return res.status(500).json({message: "data not saved", success: false });
     }
-  return res.status(200).json({message: "data not saved", success: true });
+  return res.status(200).json({message: "data saved", success: true });
 }
