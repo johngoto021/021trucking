@@ -74,6 +74,7 @@ model Shipment {
   dateUpdated               DateTime?             @updatedAt
   equipmentTypeCuid         String?               @db.VarChar(32)
   shipmentNote              String?               @db.Text
+  shipmentTimeZone          String?               @db.Char(3)
   //equipmentTypes            EquipmentType?      @relation(fields: [equipmentTypeCuid], references: [equipmentTypeCuid])
   shipmentLoads             ShipmentLoad[]
   shipmentRoutes            ShipmentRoute[]

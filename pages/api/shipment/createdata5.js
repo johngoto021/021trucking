@@ -19,6 +19,7 @@ export default async function handler(req, res) {
         houseBillNumber: body.houseBillNumber,
         shipmentStatus : body.shipmentStatus,
         shipmentNote : body.shipmentNote,
+        shipmentTimeZone : body.shipmentTimeZone,
         shipmentEquipments:{
           create: equipments
           },

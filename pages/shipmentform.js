@@ -53,6 +53,7 @@ export default function ShipmentForm() {
   const [houseBillNumber, sethouseBillNumber] = useState("");
   const [shipmentNote, setShipmentNote] = useState("");
   const [shipmentStatus, setShipmentStatus] = useState(1);
+  const [shipmentTimeZone, setShipmentTimeZone] = useState("");
   
 
   const [APIResponse, setAPIResponse] = useState(null);
@@ -93,6 +94,7 @@ export default function ShipmentForm() {
     ShipmentRef,
     accessorialCuid,
     shipmentStatus,
+    shipmentTimeZone,
   ]);
 
   const seeShipments = async () => {
@@ -139,10 +141,17 @@ export default function ShipmentForm() {
 
       if (equipmentTypeCuid.length === 0) { 
         console.log("Equipment Type is not checked!");
-        window.alert('You must select an equipment checkbox!');
-        setsubmitmessage('You must select an equipment checkbox!');
+        window.alert('You must select an Equipment Type!');
+        setsubmitmessage('You must select Equipment Type!');
         return true;
-        }
+        };
+
+      if (accessorialCuid.length === 0) { 
+        console.log("Accessorial is not checked!");
+        window.alert('You must select an Accessorial Type!');
+        setsubmitmessage('You must select Accessorial Type!');
+        return true;
+        };
 
       const createdshipment = await fetch("/api/shipment/createdata5", {
         method: "POST",
@@ -223,7 +232,15 @@ const handleChange2 = e => {
       }   
     const myJsonString3 = JSON.stringify(arrAn2);  //convert javascript array to JSON string
     setaccessorialCuid(myJsonString3);
-    console.log(myJsonString3);
+    /*
+    if (arrAn2.length === 0) { 
+      setaccessorialCuid([]);
+    }
+    else {
+      setaccessorialCuid(myJsonString3);
+    }
+    */
+    //console.log(myJsonString3);
     console.log(arrAn2);
     
     //const newStr = myJsonString.substring(1, myJsonString.length-1);
@@ -343,15 +360,14 @@ if (!data1 || !data2 || !data3 || !data4) {
         <span className="font-medium text-gray-700 mx-2 text-1xl">Equipment Type </span> 
 
         <ul className="items-center w-full text-sm font-medium text-gray-900 bg-white rounded-lg border border-gray-200 sm:flex dark:bg-gray-700 dark:border-gray-600 dark:text-white mb-4">
-        
-        {data2?.map((equipmentDD) => (
-          <li className="w-full border-b border-gray-200 sm:border-b-0 sm:border-r dark:border-gray-600" key={equipmentDD.equipmentTypeCuid}>
-            <div className="flex items-center pl-3">
-              <input id={equipmentDD.equipmentTypeCuid} type="checkbox" value={equipmentDD.equipmentTypeCuid} className="w-4 h-4 text-blue-600 bg-gray-100 rounded border-gray-300 focus:ring-blue-500 dark:focus:ring-blue-600 dark:ring-offset-gray-700 focus:ring-2 dark:bg-gray-600 dark:border-gray-500 myeqdd" name="equipmentTypeCuid" onChange={handleChange2} />
-              <label htmlFor="equipmentTypeCuid" className="py-3 ml-2 w-full font-medium text-gray-900">{equipmentDD.equipmentTypeName}</label>
-            </div>
-          </li>
-        ))}
+          {data2?.map((equipmentDD) => (
+            <li className="w-full border-b border-gray-200 sm:border-b-0 sm:border-r dark:border-gray-600" key={equipmentDD.equipmentTypeCuid}>
+              <div className="flex items-center pl-3">
+                <input id={equipmentDD.equipmentTypeCuid} type="checkbox" value={equipmentDD.equipmentTypeCuid} className="w-4 h-4 text-blue-600 bg-gray-100 rounded border-gray-300 focus:ring-blue-500 dark:focus:ring-blue-600 dark:ring-offset-gray-700 focus:ring-2 dark:bg-gray-600 dark:border-gray-500 myeqdd" name="equipmentTypeCuid" onChange={handleChange2} />
+                <label htmlFor="equipmentTypeCuid" className="py-3 ml-2 w-full font-medium text-gray-900">{equipmentDD.equipmentTypeName}</label>
+              </div>
+            </li>
+          ))}
         </ul>
 
         <div className="overflow-hidden shadow sm:rounded-md border-gray-200">
@@ -572,6 +588,25 @@ if (!data1 || !data2 || !data3 || !data4) {
                   <button className="inline-flex justify-center rounded-md border border-transparent bg-yellow-500  mx-2 px-2 text-xs font-normal text-white shadow-sm hover:bg-yellow-700 focus:outline-none focus:ring-2 focus:ring-yellow-700 focus:ring-offset-1"
                   type="button" onClick={() => addFormLocationFields()}>Add Routes</button>
                 </legend> 
+
+                <div className="grid lg:grid-cols-8 sm:grid-cols-8 gap-2 sm:md:auto-cols-min">
+                  <label
+                    htmlFor="shipmentTimeZone"
+                    className="block text-sm font-medium text-gray-700"
+                    >Time Zone
+                    </label>
+                    <select name="shipmentTimeZone" className="mt-1 block w-full rounded-md border-gray-300 shadow-sm focus:border-indigo-500 focus:ring-indigo-500 sm:text-sm"
+                    required="required" 
+                    onChange={(e) => setShipmentTimeZone(e.target.value)}
+                    ><option value="">Please Select</option>
+                      <option value="PDT">PDT</option>
+                      <option value="MDT">MDT</option>
+                      <option value="CDT">CDT</option>
+                      <option value="EDT">EDT</option>
+                    </select>
+                  
+                </div>
+
                 {formLocationValues.map((element, index) => (
             
                 <div className="grid lg:grid-cols-8 gap-2 sm:md:auto-cols-min" key={index}>
