@@ -78,7 +78,7 @@ export default function DashboardSWR() {
     <span className="font-medium text-gray-900">Address:</span> {locations.locationFullAddress} <br />
     <span className="font-medium text-gray-900">Contact:</span> {locations.locationContact} <br />
     <span className="font-medium text-gray-900">Phone:</span> {locations.locationPhone} <br /><br />
-<span className="font-medium text-gray-900">Timezone:</span>{dashboardData.shipmentTimeZone}<br/>
+    <span className="font-medium text-gray-900">Timezone:</span>{dashboardData.shipmentTimeZone}<br/>
     <span className="font-medium text-gray-900">Start:</span> {locations.dateStart} <br />
     <span className="font-medium text-gray-900">time:</span> {locations.timeStart} <br />
     <span className="font-medium text-gray-900">End:</span> {locations.dateEnd} <br />
@@ -111,7 +111,10 @@ export default function DashboardSWR() {
 
   </td>
   <td className="text-sm text-gray-900 font-light px-4 py-2  border border-slate-300">
-  
+  <span className="font-medium text-gray-900">Total Weight:</span>{shipmentTotalWeight}<br />
+  <span className="font-medium text-gray-900">Total Dimension:</span>{shipmentTotalDimension}<br />
+
+
   {dashboardData.shipmentLoads?.map((loads, m) => (
   <span key={loads.shipmentLoadCuid}>
     <span className="font-medium text-gray-900">Load {m+1}:</span><br/>

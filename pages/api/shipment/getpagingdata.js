@@ -30,7 +30,8 @@ export default async function handler(req, res) {
     shipmentCustomerTotalCost: true,
     internalTotalCost: true,
     shipmentStatus: true,
-
+    shipmentTotalWeight: true,
+    shipmentTotalDimension: true,
     accounts: {
       select :{
         accountName: true,

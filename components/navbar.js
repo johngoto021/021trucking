@@ -76,9 +76,9 @@ export default function Navbar() {
               <div className="grid py-5 px-4 mx-auto max-w-screen-xl text-gray-900 dark:text-white sm:grid-cols-2 md:grid-cols-3 md:px-6">
                   <ul aria-labelledby="mega-menu-full-dropdown-button">
                       <li>
-                      <Link href="shipmentform" >          
+                      <Link href="shipmentform_pricingcalculator" >          
                           <a className="block p-3 rounded-lg hover:bg-gray-50 dark:hover:bg-gray-700">
-                              <div className="font-semibold">Create Shipment</div>
+                              <div className="font-semibold">Create Shipment - beta 2</div>
                               <span className="text-sm font-light text-gray-500 dark:text-gray-400">Create a shipment order here.</span>
                           </a>
                           </Link>
