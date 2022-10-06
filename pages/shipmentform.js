@@ -462,10 +462,10 @@ let handleQuoteButtonClick = () => {
               </div>
 
               <fieldset className="py-2 text-left col-span-12 sm:col-span-12 border rounded-lg p-5">
-                <legend className="font-medium text-gray-700 mx-2 text-2xl">Load 
+                <legend className="font-medium text-gray-700 mx-2 text-2xl">Load Detail
                 
                 <button className="inline-flex justify-center rounded-md border border-transparent bg-green-500  mx-2 px-2 text-xs font-normal text-white shadow-sm hover:bg-green-600 focus:outline-none focus:ring-2 focus:ring-yellow-700 focus:ring-offset-1"
-                  type="button" onClick={() => addFormFields()}>Add Routes</button>
+                  type="button" onClick={() => addFormFields()}>Add Loads</button>
                 </legend>
 
                 <div className="py-2 text-left col-span-12 sm:col-span-12 block">
@@ -491,7 +491,7 @@ let handleQuoteButtonClick = () => {
                               handleChange5(index, e);
                               }}
                               required="required">
-                              
+                              <option value=""></option>
                               {data3?.map((loadtypeDD) => (
                               <option key={loadtypeDD.loadTypeCuid} value={loadtypeDD.loadTypeCuid}
                               >{loadtypeDD.loadTypeName}</option>

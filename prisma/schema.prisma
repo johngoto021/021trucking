@@ -71,6 +71,8 @@ model Shipment {
   internalRate              Decimal?              @default(0) @db.Decimal(5, 2)
   shipmentCustomerTotalCost Decimal?              @default(0) @db.Decimal(8, 2)
   internalTotalCost         Decimal?              @default(0) @db.Decimal(8, 2)
+  totalWeight               Decimal?              @default(0) @db.Decimal(12, 2)
+  totalDimension            Decimal?              @default(0) @db.Decimal(12, 2)
   dateCreated               DateTime?             @default(now())
   dateUpdated               DateTime?             @updatedAt
   //equipmentTypeCuid         String?               @db.VarChar(32)
