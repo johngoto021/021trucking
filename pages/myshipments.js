@@ -110,10 +110,9 @@ export default function DashboardSWR() {
 
 
   </td>
-  <td className="text-sm text-gray-900 font-light px-4 py-2  border border-slate-300">
-  <span className="font-medium text-gray-900">Total Weight:</span>{shipmentTotalWeight}<br />
-  <span className="font-medium text-gray-900">Total Dimension:</span>{shipmentTotalDimension}<br />
-
+  <td className="text-sm text-gray-900 font-light px-4 py-2 border border-slate-300">
+  <span className="font-medium text-gray-900">Total Weight:</span> {dashboardData.shipmentTotalWeight}<br />
+  <span className="font-medium text-gray-900">Total Dimension:</span> {dashboardData.shipmentTotalDimension}<br /><br />
 
   {dashboardData.shipmentLoads?.map((loads, m) => (
   <span key={loads.shipmentLoadCuid}>

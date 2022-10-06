@@ -62,7 +62,7 @@ export default function DashboardSWR() {
             <span className="font-medium text-gray-900">House Bill #:</span>{dashboardData.houseBillNumber}
           </td>
       
-          <td className="text-sm text-gray-900 font-light px-4 py-2  border border-slate-300">
+          <td className="text-sm text-gray-900 font-light px-4 py-2 border border-slate-300">
           
             {dashboardData.shipmentLocations?.map((locations, m) => (
             <span key={locations.shipmentLocationCuid}>
@@ -99,6 +99,10 @@ export default function DashboardSWR() {
           </td>
 
           <td className="text-sm text-gray-900 font-light px-4 py-2  border border-slate-300">
+
+            <span className="font-medium text-gray-900">Total Weight:</span> {dashboardData.shipmentTotalWeight}<br />
+            <span className="font-medium text-gray-900">Total Dimension:</span> {dashboardData.shipmentTotalDimension}<br /><br />
+
             {dashboardData.shipmentLoads?.map((loads, m) => (
             <span key={loads.shipmentLoadCuid}>
               <span className="font-medium text-gray-900">Load {m+1}:</span><br/>
