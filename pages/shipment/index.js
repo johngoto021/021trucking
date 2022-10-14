@@ -1,5 +1,5 @@
 import useSWR from 'swr'
-import Layout from '../components/layout'
+import Layout from '../../components/layout'
 import Link from 'next/link'
 
 const fetcher = async () => {
@@ -19,7 +19,7 @@ export default function DashboardSWR() {
 <>
   <header className="bg-white shadow">
   <div className="mx-auto max-w-8xl py-6 px-4 sm:px-6 lg:px-4">
-  <h1 className="text-3xl font-bold tracking-tight text-gray-900">Shipments <span className="text-sm text-blue-600"><Link href="shipmentform">[ add new ]</Link></span></h1>
+  <h1 className="text-3xl font-bold tracking-tight text-gray-900">Shipments <span className="text-sm text-blue-600"><Link href="/shipment/create">[ add new ]</Link></span></h1>
   </div>
   </header>
   <main>

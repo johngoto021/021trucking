@@ -1,55 +1,105 @@
 //import Head from "next/head";
 //import Image from "next/image";
+//import { getDriver } from "../api/drivers/getdriver"
+//import { useState } from "react";
 import { useState } from "react";
-import { useEffect } from "react";
-import styles from "../styles/Home.module.css";
+import Link from 'next/link'
+//import useSWR from "swr"
+//import { useEffect } from "react";
+//import styles from "../styles/Home.module.css";
 //import { Switch } from "@headlessui/react";
-import Layout from "../components/layout";
+//import { useRouter } from 'next/router'
+import Layout from "../../components/layout";
+//import { data } from "autoprefixer";
+//import { PrismaClient } from "@prisma/client"
+import prisma from '../../lib/prisma'
 
-export default function AccountForm() {
-  const [accountName, setAccountName] = useState("");
-  const [referenceNumber, setReferenceNumber] = useState("");
-  const [emailAddress, setEmailAddress] = useState("");
-  const [website, setWebsite] = useState("");
-  const [address1, setAddress1] = useState("");
-  const [address2, setAddress2] = useState("");
-  const [city, setCity] = useState("");
-  const [stateProvince, setStateProvince] = useState("");
-  const [postalCode, setPostalCode] = useState("");
-  const [country, setCountry] = useState("");
-  const [APIResponse, setAPIResponse] = useState(null);
+//const prisma = new PrismaClient();
 
+export const getServerSideProps = async ({params}) => {
+  //const {drivercuid} = params.drivercuid
+  const { drivercuid } = params;
+  const driverData = await prisma.driver.findUnique({
+
+    select: {
+      driverId: true,
+      driverCuid: true,
+      driverName: true,
+      courierService: true,
+      companyName: true,
+      emailAddress: true,
+      phone: true,
+      website: true,
+      address1: true,
+      address2: true,
+      city: true,
+      region: true,
+      postalCode: true,
+      country: true,
+    },
+
+    where: {
+      driverCuid: drivercuid
+      //'cl94h144l0000vjygdfo5t933'
+    }
+  });
+  console.log(driverData);
+  return {
+    props: {
+      driverinfo: driverData
+    }
+  }
+}
+
+export default function DriverForm({ driverinfo }) {
+
+  //const router = useRouter();
+  //const {drivercuid} = router.query;
+  //const fetchURL = "/api/drivers/getunique?drivercuid=" + router.query.drivercuid;
+  const [driverName, setDriverName] = useState(driverinfo.driverName);
+  const [driverCuid, setDriverCuid] = useState(driverinfo.driverCuid);
+  const [driverId, setDriverId] = useState(driverinfo.driverId);
+  //const [courierService, setCourierService] = useState(driverinfo.courierService);
+  const [companyName, setCompanyName] = useState(driverinfo.companyName);
+  const [emailAddress, setEmailAddress] = useState(driverinfo.emailAddress);
+  const [phone, setPhone] = useState(driverinfo.phone);
+  const [website, setWebsite] = useState(driverinfo.website);
+  const [address1, setAddress1] = useState(driverinfo.address1);
+  const [address2, setAddress2] = useState(driverinfo.address2);
+  const [city, setCity] = useState(driverinfo.city);
+  const [region, setRegion] = useState(driverinfo.region);
+  const [postalCode, setPostalCode] = useState(driverinfo.postalCode);
+  const [country, setCountry] = useState(driverinfo.country);
+  const [submitmessage, setsubmitmessage] = useState("")
+
+  //const [APIResponse, setAPIResponse] = useState(null);
+  //const { driverName, driverCuid, companyName, emailAddress, phone, website, address1, address2, city, region, postalCode, country } = formData;
   /*
   useEffect(() => {
-    console.log("accountName", accountName);
-    console.log("referenceNumber", referenceNumber);
-    console.log("emailAddress", emailAddress);
-    console.log("website", website);
-    console.log("address1", address1);
-    console.log("address2", address2);
-    console.log("city", city);
-    console.log("stateProvince", stateProvince);
-    console.log("postalCode", postalCode);
-    console.log("country", country);
-    console.log("APIResponse", APIResponse);
+   
+    setDriverName(driverinfo.driverName)
+    
   }, [
-    accountName,
-    referenceNumber,
+    driverName,
+    courierService,
+    companyName,
     emailAddress,
+    phone,
     website,
     address1,
     address2,
     city,
-    stateProvince,
+    region,
     postalCode,
     country,
-    APIResponse,
   ]);
 */
 
-  const seeAccounts = async () => {
+
+/*
+  const seedrivers = async () => {
     try {
-      const response = await fetch("/api/accounts", {
+      const response = await fetch("/api/drivers", {
         method: "GET",
         headers: { "Content-Type": "application/json" },
       });
@@ -58,41 +108,53 @@ export default function AccountForm() {
         console.log("something went wrong");
         //set an error banner here
       } else {
-        resetForm();
+        //resetForm();
         console.log("form submitted successfully !!!");
       }
     } catch (error) {
       console.log("there was an error reading from the db", error);
     }
   };
+*/
 
   const handleSubmit = async (e) => {
     e.preventDefault();
     const body = {
-      accountName,
-      referenceNumber,
+      driverName,
+      driverCuid,
+      driverId,
+      companyName,
       emailAddress,
+      phone,
       website,
       address1,
       address2,
       city,
-      stateProvince,
+      region,
       postalCode,
       country,
     };
+    
     try {
-      const response = await fetch("/api/accounts", {
+      const response = await fetch("/api/drivers/updatedata", {
         method: "POST",
         headers: { "Content-Type": "application/json" },
         body: JSON.stringify(body),
       });
+
+      const data = await response.json();
+      //console.log(body);
+
       if (response.status !== 200) {
+        setsubmitmessage('System failed to update your request.  Please try again.');
         console.log("something went wrong");
         //set an error banner here
       } else {
-        resetForm();
-        seeAccounts();
+        //resetForm();
+        //seedrivers();
+        setsubmitmessage('The change requests were updated successfully!');
         console.log("form submitted successfully !!!");
+         return data;
         //set a success banner here
       }
       //check response, if success is false, dont take them to success page
@@ -101,30 +163,30 @@ export default function AccountForm() {
     }
   };
 
+  /*
   const resetForm = () => {
-    setAccountName("");
-    setReferenceNumber("");
+    setDriverName("");
+    setCourierService("");
     setEmailAddress("");
     setWebsite("");
     setAddress1("");
     setAddress2("");
     setCity("");
-    setStateProvince("");
+    setRegion("");
     setPostalCode("");
     setCountry("");
   };
-
+*/
   return (
     <>
       <header className="bg-white shadow">
         <div className="mx-auto max-w-8xl py-4 px-4 sm:px-6 lg:px-4">
           <h1 className="text-3xl font-bold tracking-tight text-gray-900">
-            Account
+            Driver <span className="text-sm text-blue-600"><Link href="/driver">View List</Link></span>
           </h1>
           <p>
-            Use this form to add client account information. This information is
-            used for billing and contact information. The address is used to
-            calculate default shipping location.
+            Use this form to add client driver information. This information is
+            used for billing and contact information.
           </p>
         </div>
       </header>
@@ -133,42 +195,57 @@ export default function AccountForm() {
         <div className="md:grid md:grid-cols-2 md:gap-6">
           <div className="mt-5 md:col-span-2 md:mt-0">
             <form action="#" method="POST" onSubmit={handleSubmit}>
+              <input type="hidden" name="driverCuid" value={driverinfo.driverCuid} />
+              <input type="hidden" name="driverId" value={driverinfo.driverId} />
               <div className="overflow-hidden shadow sm:rounded-md">
                 <div className="bg-white px-4 py-5 sm:p-6">
                   <div className="grid grid-cols-6 gap-6">
+                    
+                    <div className="col-span-6 sm:col-span-3">
+                      Driver ID: { driverinfo.driverId }
+                      
+                    </div>
+
+                    <div className="col-span-6 sm:col-span-3">
+                      Driver CUID: { driverinfo.driverCuid }
+                      
+                    </div>
+
                     <div className="col-span-6 sm:col-span-3">
                       <label
-                        htmlFor="accountName"
+                        htmlFor="companyName"
                         className="block text-sm font-medium text-gray-700"
                       >
-                        Account Name
+                        Company Name *
                       </label>
                       <input
                         type="text"
-                        name="accountName"
-                        id="accountName"
-                        autoComplete="given-name"
+                        name="companyName"
+                        id="companyName"
+                        autoComplete="companyName"
                         className="mt-1 block w-full rounded-md border-gray-300 shadow-sm focus:border-indigo-500 focus:ring-indigo-500 sm:text-sm"
-                        onChange={(e) => setAccountName(e.target.value)}
-                        value={accountName}
+                        defaultValue={driverinfo.companyName}
+                        onChange={(e) => setCompanyName(e.target.value)}
+                        required="required"
                       />
                     </div>
 
                     <div className="col-span-6 sm:col-span-3">
                       <label
-                        htmlFor="referenceNumber"
+                        htmlFor="driverName"
                         className="block text-sm font-medium text-gray-700"
                       >
-                        Reference number
+                        Driver Name *
                       </label>
                       <input
                         type="text"
-                        name="referenceNumber"
-                        id="referenceNumber"
-                        autoComplete="reference-number"
+                        name="driverName"
+                        id="driverName"
+                        autoComplete="given-name"
                         className="mt-1 block w-full rounded-md border-gray-300 shadow-sm focus:border-indigo-500 focus:ring-indigo-500 sm:text-sm"
-                        onChange={(e) => setReferenceNumber(e.target.value)}
-                        value={referenceNumber}
+                        onChange={(e) => setDriverName(e.target.value)}
+                        defaultValue={driverinfo.driverName}
+                        required="required"
                       />
                     </div>
 
@@ -185,8 +262,8 @@ export default function AccountForm() {
                         id="emailAddress"
                         autoComplete="emailAddress"
                         className="mt-1 block w-full rounded-md border-gray-300 shadow-sm focus:border-indigo-500 focus:ring-indigo-500 sm:text-sm"
+                        defaultValue={driverinfo.emailAddress}
                         onChange={(e) => setEmailAddress(e.target.value)}
-                        value={emailAddress}
                       />
                     </div>
 
@@ -195,16 +272,16 @@ export default function AccountForm() {
                         htmlFor="website"
                         className="block text-sm font-medium text-gray-700"
                       >
-                        Website
+                        Phone
                       </label>
                       <input
                         type="text"
-                        name="website"
-                        id="website"
-                        autoComplete="website"
+                        name="phone"
+                        id="phone"
+                        autoComplete="phone"
                         className="mt-1 block w-full rounded-md border-gray-300 shadow-sm focus:border-indigo-500 focus:ring-indigo-500 sm:text-sm"
-                        onChange={(e) => setWebsite(e.target.value)}
-                        value={website}
+                        onChange={(e) => setPhone(e.target.value)}
+                        defaultValue={driverinfo.phone}
                       />
                     </div>
 
@@ -221,8 +298,8 @@ export default function AccountForm() {
                         id="address1"
                         autoComplete="address1"
                         className="mt-1 block w-full rounded-md border-gray-300 shadow-sm focus:border-indigo-500 focus:ring-indigo-500 sm:text-sm"
+                        defaultValue={driverinfo.address1}
                         onChange={(e) => setAddress1(e.target.value)}
-                        value={address1}
                       />
                     </div>
 
@@ -231,7 +308,7 @@ export default function AccountForm() {
                         htmlFor="address2"
                         className="block text-sm font-medium text-gray-700"
                       >
-                        Street address
+                        Street address 2
                       </label>
                       <input
                         type="text"
@@ -239,8 +316,8 @@ export default function AccountForm() {
                         id="address2"
                         autoComplete="address2"
                         className="mt-1 block w-full rounded-md border-gray-300 shadow-sm focus:border-indigo-500 focus:ring-indigo-500 sm:text-sm"
+                        defaultValue={driverinfo.address2}
                         onChange={(e) => setAddress2(e.target.value)}
-                        value={address2}
                       />
                     </div>
 
@@ -257,26 +334,26 @@ export default function AccountForm() {
                         id="city"
                         autoComplete="address-level2"
                         className="mt-1 block w-full rounded-md border-gray-300 shadow-sm focus:border-indigo-500 focus:ring-indigo-500 sm:text-sm"
+                        defaultValue={driverinfo.city}
                         onChange={(e) => setCity(e.target.value)}
-                        value={city}
                       />
                     </div>
 
                     <div className="col-span-6 sm:col-span-3 lg:col-span-2">
                       <label
-                        htmlFor="stateProvince"
+                        htmlFor="region"
                         className="block text-sm font-medium text-gray-700"
                       >
                         State / Province
                       </label>
                       <input
                         type="text"
-                        name="stateProvince"
-                        id="stateProvince"
-                        autoComplete="stateProvince"
+                        name="region"
+                        id="region"
+                        autoComplete="region"
                         className="mt-1 block w-full rounded-md border-gray-300 shadow-sm focus:border-indigo-500 focus:ring-indigo-500 sm:text-sm"
-                        onChange={(e) => setStateProvince(e.target.value)}
-                        value={stateProvince}
+                        defaultValue={driverinfo.region}
+                        onChange={(e) => setRegion(e.target.value)}
                       />
                     </div>
 
@@ -293,8 +370,8 @@ export default function AccountForm() {
                         id="postalCode"
                         autoComplete="postalCode"
                         className="mt-1 block w-full rounded-md border-gray-300 shadow-sm focus:border-indigo-500 focus:ring-indigo-500 sm:text-sm"
+                        defaultValue={driverinfo.postalCode}
                         onChange={(e) => setPostalCode(e.target.value)}
-                        value={postalCode}
                       />
                     </div>
 
@@ -311,21 +388,44 @@ export default function AccountForm() {
                         autoComplete="country-name"
                         className="mt-1 block w-full rounded-md border border-gray-300 bg-white py-2 px-3 shadow-sm focus:border-indigo-500 focus:outline-none focus:ring-indigo-500 sm:text-sm"
                         onChange={(e) => setCountry(e.target.value)}
+                        value={driverinfo.country} defaultValue={driverinfo.country}
                       >
                         <option value="US">United States</option>
                         <option value="CA">Canada</option>
                       </select>
                     </div>
-                  </div>
-                </div>
-                <div className="px-4 py-2 text-right sm:px-6">
+
+                    <div className="col-span-6 sm:col-span-3 lg:col-span-2">
+                      <label
+                        htmlFor="website"
+                        className="block text-sm font-medium text-gray-700"
+                      >
+                        Website
+                      </label>
+                      <input
+                        type="text"
+                        name="website"
+                        id="website"
+                        autoComplete="website"
+                        className="mt-1 block w-full rounded-md border-gray-300 shadow-sm focus:border-indigo-500 focus:ring-indigo-500 sm:text-sm"
+                        defaultValue={driverinfo.website}
+                        onChange={(e) => setWebsite(e.target.value)}
+                      />
+                    </div>
+
+                    <div className="col-span-6 sm:col-span-3 lg:col-span-6">
                   <button
                     type="submit"
                     className="inline-flex justify-center rounded-md border border-transparent bg-blue-500 py-2 px-4 text-sm font-medium text-white shadow-sm hover:bg-indigo-700 focus:outline-none focus:ring-2 focus:ring-indigo-500 focus:ring-offset-2"
                   >
-                    Save
+                    Update
                   </button>
+                  <span className="text-red-500 mx-5 text-sm font-medium">{ submitmessage }</span>
                 </div>
+
+                  </div>
+                </div>
+                
               </div>
             </form>
           </div>
@@ -333,84 +433,78 @@ export default function AccountForm() {
 
         
 
-        <div className="flex flex-col">
-          <div className="overflow-x-auto sm:-mx-6 lg:-mx-8">
-            <div className="py-2 inline-block min-w-full sm:px-6 lg:px-8">
-              <div className="overflow-hidden">
-                <table className="min-w-full">
-                  <thead className="border-b">
-                    <tr>
-                      <th
-                        scope="col"
-                        className="text-sm font-medium text-gray-900 px-6 py-4 text-left"
-                      >
-                        #
-                      </th>
-                      <th
-                        scope="col"
-                        className="text-sm font-medium text-gray-900 px-6 py-4 text-left"
-                      >
-                        Account
-                      </th>
-                      <th
-                        scope="col"
-                        className="text-sm font-medium text-gray-900 px-6 py-4 text-left"
-                      >
-                        Ref Number
-                      </th>
-                      <th
-                        scope="col"
-                        className="text-sm font-medium text-gray-900 px-6 py-4 text-left"
-                      >
-                        Email
-                      </th>
-                      <th
-                        scope="col"
-                        className="text-sm font-medium text-gray-900 px-6 py-4 text-left"
-                      >
-                        City
-                      </th>
-                    </tr>
-                  </thead>
-                  <tbody>
-                    {APIResponse?.map((accountView) => (
-                      <tr className="border-b"  key={accountView.accountId}> 
-                        <td
-                          className={
-                            "px-6 py-4 whitespace-nowrap text-sm font-medium text-gray-900"
-                          }
-                        >
-                          {accountView.accountId}
-                        </td>
-                        <td
-                          className={
-                            "px-6 py-4 whitespace-nowrap text-sm font-medium text-gray-900"
-                          }
-                        >
-                          {accountView.accountName}
-                        </td>
-                        <td className="text-sm text-gray-900 font-light px-6 py-4 whitespace-nowrap">
-                          {accountView.referenceNumber}
-                        </td>
-                        <td className="text-sm text-gray-900 font-light px-6 py-4 whitespace-nowrap">
-                          {accountView.emailAddress}
-                        </td>
-                        <td className="text-sm text-gray-900 font-light px-6 py-4 whitespace-nowrap">
-                          {accountView.region}
-                        </td>
-                      </tr>
-                    ))}
-                  </tbody>
-                </table>
-              </div>
-            </div>
-          </div>
-        </div>
+
       </div>
     </>
   );
 }
 
-AccountForm.getLayout = function getLayout(page) {
+DriverForm.getLayout = function getLayout(page) {
   return <Layout>{page}</Layout>;
 };
+
+
+//const fetchURL = "/api/drivers/getunique?drivercuid=" + {drivercuid};
+  // Fetch data from external API
+  //const res = await fetch(fetchURL)
+  //const data = await res.json()
+
+
+//const fetchURL2 = "/api/drivers/getunique?drivercuid=cl94haskg0004vjyg197bw7aa";
+  
+  /*
+  const fetcher1 = async () => {
+    const response = await fetch(fetchURL, {
+      method: "GET",
+      headers: { "Content-Type": "application/json" },
+      })
+    const data = await response.json()
+    return data
+  };
+
+  const { data: data1, error: error1 } = useSWR('name1', fetcher1);
+
+
+console.log(router);
+
+console.log(fetchURL);
+//console.log(fetchURL2);
+console.log(data1);
+  */
+
+
+/*
+export async function getServerSideProps({params}) {
+  
+  //const drivercuid = context.params.drivercuid;
+  const { drivercuid } = params;
+  const driverData = await prisma.driver.findUnique({
+
+    select: {
+      driverCuid: true,
+      driverName: true,
+      courierService: true,
+      companyName: true,
+      emailAddress: true,
+      phone: true,
+      website: true,
+      address1: true,
+      address2: true,
+      city: true,
+      region: true,
+      postalCode: true,
+      country: true,
+    },
+
+    where: {
+      driverCuid: drivercuid
+    }
+  });
+  
+
+
+
+  // Pass data to the page via props
+  return { props: { driverData } }
+}
+*/

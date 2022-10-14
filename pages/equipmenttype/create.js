@@ -1,7 +1,7 @@
 import Link from "next/link";
 import { useState } from "react";
 import { useEffect } from "react";
-import Layout from "../components/layout";
+import Layout from "../../components/layout";
 
 export default function EquipmentForm() {
 

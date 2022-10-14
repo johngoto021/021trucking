@@ -1,17 +1,18 @@
 //import { data } from "autoprefixer";
 import { useState, useEffect } from "react";
-import Layout from '../components/layout'
+import Layout from '../../components/layout'
 //import { Navbar } from "flowbite-react";
 //import Head from 'next/head'
 //import Image from 'next/image'
-//import Link from 'next/link'
+import Link from 'next/link'
 //import styles from '../styles/Home.module.css'
 //import { useUser } from '@auth0/nextjs-auth0'
 //import axios from "axios";
 //import cuid from 'cuid';
 //import { useSession, signIn, signOut } from 'next-auth';
- 
-export default function Accounts() {
+import { BiTrashAlt, BiMinusCircle, BiRefresh, BiPlus, BiPlusCircle } from "react-icons/bi";
+
+export default function Drivers() {
   
   //const [session] = useSession();
 
@@ -70,23 +71,39 @@ axios.request(options).then(function (response) {
   }
   */
 
-
   const [isLoading, setIsLoading] = useState(true)
   const [dashboardData, setDashboardData] = useState([])
-    useEffect(() => {
-      async function fetchDashboardData() {
-        const response = await fetch('api/account/getdata')
-        const data = await response.json()
-        setDashboardData(data)
-        setIsLoading(false)
-      }
-      fetchDashboardData()
-    }, [])
   
+  useEffect(() => {
+    async function fetchDashboardData() {
+      const response = await fetch('api/drivers/')
+      const data = await response.json()
+      setDashboardData(data)
+      setIsLoading(false)
+    }
+    fetchDashboardData()
+  }, [])
+  
+
+  const fetchDrivers = async () => {
+    const response = await fetch('api/drivers/')
+    const data = await response.json()
+    setDashboardData(data)
+    console.log(data);
+  }
+
+/*
+  const archiveDriver =async (driverCuid) => {
+    const response = await fetch(`/api/drivers/${driverCuid}`, {
+      method: 'DELETE',
+    })
+    const data = await response.json()
+  }  
+  */  
+    
     if (isLoading) {
       return <h2>Loading...</h2>
     }
-
 
   return (
 
@@ -94,66 +111,98 @@ axios.request(options).then(function (response) {
 
 <header className="bg-white shadow">
 <div className="mx-auto max-w-8xl py-6 px-4 sm:px-6 lg:px-4">
-<h1 className="text-3xl font-bold tracking-tight text-gray-900">Client Accounts</h1>
+<h1 className="text-3xl font-bold tracking-tight text-gray-900">Drivers 
+<span className="text-sm text-blue-600 ml-3"><Link href="/driver/create">add new</Link></span></h1>
 </div>
 </header>
 <main>
 <div className="mx-auto max-w-8xl py-2 sm:px-6 lg:px-4">
 <div className="px-4 py-6 sm:px-0">
 
+<button className="inline-flex justify-center rounded-md border border-transparent bg-green-500 py-1 px-1 text-sm font-medium text-white shadow-sm hover:bg-green-700 focus:outline-none focus:ring-2 focus:ring-green-700" 
+title="Click here to refresh list" 
+onClick={fetchDrivers}><BiRefresh /></button>
+
 
 <table>
 <thead>
 <tr>
 <th>ID</th>
-<th>Name</th>
-<th>References</th>
+<th>Company</th>
+<th>Driver</th>
 <th>Address</th>
-<th>Contact</th>
+<th>Address</th>
+<th>City</th>
+<th>State</th>
+<th>Postal</th>
+<th>Country</th>
+<th>Email</th>
 <th>Phone</th>
+<th>Website</th>
 <th>Date Created</th>
 <th>Status</th>
+<th>Action</th>
 </tr>
 </thead>
 
 <tbody>
 {dashboardData?.map((fetchedViews) => (
 
-<tr className="border-b"  key={fetchedViews.accountCuid}> 
+<tr className="border-b"  key={fetchedViews.driverCuid}> 
 <td
 className={
 "px-6 py-4 whitespace-nowrap text-sm font-medium text-gray-900"
 }
 >
-{fetchedViews.accountId}
+<Link href={`/driver/${encodeURIComponent(fetchedViews.driverCuid)}`}>
+  <a className="text-blue-600">{fetchedViews.driverId}</a></Link>
 </td>
 <td
 className={
 "px-6 py-4 whitespace-nowrap text-sm font-medium text-gray-900"
 }
 >
-<a href="#">
-{fetchedViews.accountName}   
-</a>
+<Link href={`/driver/${encodeURIComponent(fetchedViews.driverCuid)}`}>
+  <a className="text-blue-600">{fetchedViews.companyName}</a>
+</Link>
 </td>
 <td className="text-sm text-gray-900 font-light px-6 py-4 whitespace-nowrap">
-{fetchedViews.referenceNumber}   
+{fetchedViews.driverName}   
 </td>
 <td className="text-sm text-gray-900 font-light px-6 py-4 whitespace-nowrap">
 {fetchedViews.address1}   
 </td>
 <td className="text-sm text-gray-900 font-light px-6 py-4 whitespace-nowrap">
-{fetchedViews.contact}   
+{fetchedViews.address2}   
 </td>
 <td className="text-sm text-gray-900 font-light px-6 py-4 whitespace-nowrap">
-{fetchedViews.contact}   
+{fetchedViews.city}   
+</td>
+<td className="text-sm text-gray-900 font-light px-6 py-4 whitespace-nowrap">
+{fetchedViews.region}   
+</td>
+<td className="text-sm text-gray-900 font-light px-6 py-4 whitespace-nowrap">
+{fetchedViews.postalCode}   
+</td>
+<td className="text-sm text-gray-900 font-light px-6 py-4 whitespace-nowrap">
+{fetchedViews.country}   
+</td>
+<td className="text-sm text-gray-900 font-light px-6 py-4 whitespace-nowrap">
+{fetchedViews.emailAddress}   
 </td>
 <td className="text-sm text-gray-900 font-light px-6 py-4 whitespace-nowrap">
 {fetchedViews.phone}
 </td>
 <td className="text-sm text-gray-900 font-light px-6 py-4 whitespace-nowrap">
-{fetchedViews.accountStatus}
+{fetchedViews.website}   
 </td>
+<td className="text-sm text-gray-900 font-light px-6 py-4 whitespace-nowrap">
+{fetchedViews.dateCreated}
+</td>
+<td className="text-sm text-gray-900 font-light px-6 py-4 whitespace-nowrap">
+{fetchedViews.driverStatus = 1 ? 'Active' : 'Archived'}
+</td>
+<td><button className="inline-flex justify-center rounded-md border border-transparent bg-red-500 py-1 px-3 text-sm font-medium text-white shadow-sm hover:bg-red-700 focus:outline-none focus:ring-2 focus:ring-red-700 focus:ring-offset-2" onClick={() => archiveDriver(fetchedViews.driverCuid)}><BiMinusCircle /></button></td>
 </tr>
 
 ))}
@@ -168,7 +217,7 @@ className={
 
 )}
 
-Accounts.getLayout = function getLayout(page) {
+Drivers.getLayout = function getLayout(page) {
   return (
     <Layout>
       {page}

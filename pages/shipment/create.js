@@ -1,33 +1,34 @@
 import { useState, useEffect } from "react";
 import useSWR from "swr"
-import Layout from "../components/layout";
+import Layout from "../../components/layout";
 import Script from "next/script";
 import Link from 'next/link'
+import { BiTrashAlt, BiMinusCircle, BiRefresh, BiPlus, BiPlusCircle } from "react-icons/bi";
 
 
 
 export default function ShipmentForm() {
  
   const fetcher1 = async () => {
-    const response = await fetch('api/account/getdataidname')
+    const response = await fetch('../api/account/getdataidname')
     const data = await response.json()
     return data
   };
   
   const fetcher2 = async () => {
-    const response = await fetch('api/dropdowns/getequipmenttype')
+    const response = await fetch('../api/dropdowns/getequipmenttype')
     const data = await response.json()
     return data
   };
   
   const fetcher3 = async () => {
-    const response = await fetch('api/dropdowns/getloadtype')
+    const response = await fetch('../api/dropdowns/getloadtype')
     const data = await response.json()
     return data
   };
   
   const fetcher4 = async () => {
-    const response = await fetch('api/dropdowns/getaccessorial')
+    const response = await fetch('../api/dropdowns/getaccessorial')
     const data = await response.json()
     return data
   };
@@ -385,11 +386,11 @@ let handleQuoteButtonClick = () => {
 
 
 <>
-<Script src="https://unpkg.com/flowbite@1.5.3/dist/flowbite.js" strategy="afterInteractive" />
+
 
 <header className="bg-white shadow">
   <div className="mx-auto max-w-8xl py-6 px-4 sm:px-6 lg:px-4">
-  <h1 className="text-3xl font-bold tracking-tight text-gray-900">Shipments <span className="text-sm text-blue-600"><Link href="shipmentform">[ add new ]</Link></span></h1>
+  <h1 className="text-3xl font-bold tracking-tight text-gray-900">Shipments <span className="text-sm text-blue-600"><Link href="create">[ add new ]</Link></span></h1>
   </div>
   </header>
   <main>
@@ -614,7 +615,7 @@ let handleQuoteButtonClick = () => {
                       index ? 
                         <td><button type="button"  
                         className="inline-flex justify-center rounded-md border border-transparent bg-red-500 py-1 px-2 text-sm font-small text-white shadow-sm hover:bg-red-700 focus:outline-none focus:ring-2 focus:ring-red-500 focus:ring-offset-2 button remove"
-                        onClick={() => removeFormFields(index)}>Remove</button></td>
+                        onClick={() => removeFormFields(index)}><BiTrashAlt /></button></td>
                       : null
                     }
                   </tr>
@@ -794,7 +795,7 @@ let handleQuoteButtonClick = () => {
               index ? 
                 <div className="col-span-1 sm:col-span-1"><button type="button"  
                 className="inline-flex justify-center rounded-md border border-transparent bg-red-500 mt-7 py-1 px-2 text-sm font-small text-xs text-white shadow-sm hover:bg-red-700 focus:outline-none focus:ring-2 focus:ring-red-500 focus:ring-offset-2 button remove"
-                onClick={() => removeFormLocationFields(index)}>Remove</button></div>
+                onClick={() => removeFormLocationFields(index)}><BiTrashAlt /></button></div>
               : null
             }
 
@@ -931,6 +932,8 @@ let handleQuoteButtonClick = () => {
     }
 
     /*
+
+<Script src="https://unpkg.com/flowbite@1.5.3/dist/flowbite.js" strategy="afterInteractive" />
 
 if (error1 || error2 || error3 || error4) return <h2>An error has occurred.</h2>
 

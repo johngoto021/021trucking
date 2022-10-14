@@ -1,6 +1,6 @@
 import Link from "next/link";
 import { useState, useEffect } from "react";
-import Layout from '../components/layout'
+import Layout from '../../components/layout'
  
 export default function Home() {
 
@@ -29,7 +29,7 @@ return (
 
 <header className="bg-white shadow">
 <div className="mx-auto max-w-8xl py-6 px-4 sm:px-6 lg:px-4">
-<h1 className="text-3xl font-bold tracking-tight text-gray-900">Equipment Type <span className="text-sm text-blue-600"><Link href="equipmenttypeform">add new</Link></span></h1>
+<h1 className="text-3xl font-bold tracking-tight text-gray-900">Equipment Type <span className="text-sm text-blue-600"><Link href="/equipmenttype/create">add new</Link></span></h1>
 </div>
 </header>
 <main>

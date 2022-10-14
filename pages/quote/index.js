@@ -1,5 +1,5 @@
 import useSWR from 'swr'
-import Layout from '../components/layout'
+import Layout from '../../components/layout'
 import Link from 'next/link'
 
 const fetcher = async () => {
@@ -21,7 +21,7 @@ export default function DashboardSWR() {
 <>
   <header className="bg-white shadow">
   <div className="mx-auto max-w-8xl py-6 px-4 sm:px-6 lg:px-4">
-  <h1 className="text-3xl font-bold tracking-tight text-gray-900">Quotes <span className="text-sm text-blue-600"><Link href="shipmentform">[ add new ]</Link></span></h1>
+  <h1 className="text-3xl font-bold tracking-tight text-gray-900">Quotes <span className="text-sm text-blue-600"><Link href="/shipment/create">[ add new ]</Link></span></h1>
   </div>
   </header>
   <main>
@@ -78,7 +78,7 @@ export default function DashboardSWR() {
     <span className="font-medium text-gray-900">Address:</span> {locations.locationFullAddress} <br />
     <span className="font-medium text-gray-900">Contact:</span> {locations.locationContact} <br />
     <span className="font-medium text-gray-900">Phone:</span> {locations.locationPhone} <br /><br />
-    <span className="font-medium text-gray-900">Timezone:</span>{dashboardData.shipmentTimeZone}<br/>
+    <span className="font-medium text-gray-900">Timezone:</span> {dashboardData.shipmentTimeZone}<br/>
     <span className="font-medium text-gray-900">Start:</span> {locations.dateStart} <br />
     <span className="font-medium text-gray-900">time:</span> {locations.timeStart} <br />
     <span className="font-medium text-gray-900">End:</span> {locations.dateEnd} <br />

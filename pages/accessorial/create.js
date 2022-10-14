@@ -1,6 +1,6 @@
 import Link from "next/link";
 import { useState, useEffect } from "react";
-import Layout from "../components/layout";
+import Layout from "../../components/layout";
 
 export default function AccessorialForm() {
   const [accessorialCuid, setAccessorialCuid] = useState('');
