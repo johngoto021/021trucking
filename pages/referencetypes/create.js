@@ -1,43 +1,28 @@
 import Link from "next/link";
-import { useState, useEffect } from "react";
+import { useState } from "react";
 import Layout from "../../components/layout";
 
-export default function AccessorialForm() {
-  const [accessorialCuid, setAccessorialCuid] = useState('');
-  const [accessorialId, setAccessorialId] = useState('');
-  const [accessorialName, setAccessorialName] = useState('');
-  const [accessorialActive, setAccessorialActive] = useState(1);
+export default function ReferenceTypeForm() {
+  const [referenceTypeCuid, setReferenceTypeCuid] = useState('');
+  const [referenceTypeId, setReferenceTypeId] = useState('');
+  const [referenceTypeName, setReferenceTypeName] = useState('');
+  const [referenceTypeActive, setReferenceTypeActive] = useState(1);
   const [APIResponse, setAPIResponse] = useState(null);
-  const [createResponse, setCreateResponse] = useState('');
+  const [submitmessage, setsubmitmessage] = useState('');
 
-/*
-  useEffect(() => 
-  {
-    console.log("accessorialName", accessorialName)
-    console.log("accessorialActive", accessorialActive)
-    },
-    [
-    accessorialName,
-    accessorialActive,
-    APIResponse,
-    createResponse
-    ]
-    );
-*/
- 
   const seeLists = async () => {
     try {
-      const response = await fetch("/api/dropdowns/accessorial", {
+      const response = await fetch("/api/referencetypes", {
         method: "GET",
         headers: { "Content-Type": "application/json" },
       });
       setAPIResponse(await response.json());
       if (response.status !== 200) {
-        console.log("something went wrong");
+        console.log("something went wrong when retrieving record");
         //set an error banner here
       } else {
         resetForm();
-        console.log("form submitted successfully !!!");
+        console.log("Records were retrieved successfully !!!");
       }
     } catch (error) {
       console.log("there was an error reading from the db", error);
@@ -47,11 +32,12 @@ export default function AccessorialForm() {
   const handleSubmit = async (e) => {
     e.preventDefault();
     const body = {
-      accessorialName,
-      accessorialActive
+      referenceTypeName,
+      referenceTypeActive,
       };
+      console.log(body);
     try {
-      const response = await fetch("/api/dropdowns/accessorial", {
+      const response = await fetch("/api/referencetypes", {
         method: "POST",
         headers: { "Content-Type": "application/json" },
         body: JSON.stringify(body),
@@ -59,15 +45,17 @@ export default function AccessorialForm() {
       
       
       if (response.status !== 200) {
+        setsubmitmessage('System encountered an error. The Reference Type was not added! Please try again');
         console.log("something went wrong");
         //set an error banner here
       } else {
+        setsubmitmessage('The Reference Type was added successfully!');
         resetForm();
-        seeLists();
+        //seeLists();
         
         console.log(await response.json());
         //setCreateResponse(response);
-        //setAccessorialId(createResponse.accessorialId)
+        //setReferenceTypeId(createResponse.ReferenceTypeId)
         //console.log (createResponse);
         //console.log(createResponse);
         console.log("form submitted successfully !!!");
@@ -76,18 +64,18 @@ export default function AccessorialForm() {
       }
       //check response, if success is false, dont take them to success page
     } catch (error) {
-      console.log("there was an error submitting", error);
+      setsubmitmessage('System encountered an error. Please try again');
+      console.log("There was an error submitting", error);
     }
   };
   
 
   //console.log({'test is what was created' : createResponse});
-  //console.log(createResponse['accessorialCuid']);
+  //console.log(createResponse['ReferenceTypeCuid']);
   
   const resetForm = () => {
-    setAccessorialName('');
-    setAccessorialActive(1);
-    setCreateResponse('');
+    setReferenceTypeName('');
+    setReferenceTypeActive(1);
   };
    
 
@@ -96,10 +84,10 @@ export default function AccessorialForm() {
       <header className="bg-white shadow">
         <div className="mx-auto max-w-8xl py-4 px-4 sm:px-6 lg:px-4">
           <h1 className="text-3xl font-bold tracking-tight text-gray-900">
-            Add Accessorial
+            Add ReferenceType
           </h1>
           <p>
-            Use this form to accessorial for shipment option.
+            Use this form to ReferenceType for shipment option.
           </p>
         </div>
       </header>
@@ -107,24 +95,25 @@ export default function AccessorialForm() {
 
     
   <form className="bg-white shadow-md rounded px-8 pt-6 pb-8 mb-4" onSubmit={handleSubmit}>
-    Accessorial ID:  {accessorialId}
+    ReferenceType ID:  {referenceTypeId}
 
     <div className="mb-4">
-      <label className="block text-gray-700 text-sm font-bold mb-2" htmlFor="accessorialName">
-        Accessorial Name
+      <label className="block text-gray-700 text-sm font-bold mb-2" htmlFor="ReferenceTypeName">
+        ReferenceType Name
       </label>
-      <input className="shadow appearance-none border rounded w-full py-2 px-3 text-gray-700 leading-tight focus:outline-none focus:shadow-outline" id="accessorialName" name="accessorialName" type="text" placeholder="Name of Accessorial"
-      onChange={(e)=>setAccessorialName(e.target.value)}
-      required="required" value={accessorialName}/>
+      <input className="shadow appearance-none border rounded w-full py-2 px-3 text-gray-700 leading-tight focus:outline-none focus:shadow-outline" id="ReferenceTypeName" name="ReferenceTypeName" type="text" placeholder="Name of ReferenceType"
+      onChange={(e)=>setReferenceTypeName(e.target.value)}
+      required="required" value={referenceTypeName}/>
       <p className="text-red-500 text-xs italic">Please enter required field.  Field can only store up to 128 characters long including space.</p>
     </div>
     <div className="mb-6">
-      <label className="block text-gray-700 text-sm font-bold mb-2" htmlFor="accessorialActive">
+      <label className="block text-gray-700 text-sm font-bold mb-2" htmlFor="ReferenceTypeActive">
         Status
       </label>
-    <select name="accessorialActive"
-    className="shadow appearance-none w-full rounded w-full py-2 px-3 text-gray-700 leading-tight focus:outline-none focus:shadow-outline focus:border-gray-500" id="accessorialActive"
-    onChange={(e)=>setAccessorialActive(e.target.value)}>
+    <select name="referenceTypeActive"
+    className="shadow appearance-none w-full rounded w-full py-2 px-3 text-gray-700 leading-tight focus:outline-none focus:shadow-outline focus:border-gray-500" id="ReferenceTypeActive"
+    onChange={(e)=>setReferenceTypeActive(e.target.value)}
+    defaultValue={referenceTypeActive} >
       <option value="1">Active</option>
       <option value="0">Archive</option>
     </select>
@@ -133,7 +122,8 @@ export default function AccessorialForm() {
       <button className="bg-blue-500 hover:bg-blue-700 text-white font-bold py-2 px-4 rounded focus:outline-none focus:shadow-outline" type="submit">
         Submit
       </button>
-      <Link href="accessorials">
+      <span className="text-red-500 mx-5 text-sm font-medium">{ submitmessage }</span>
+      <Link href="/referencetypes">
       <a className="inline-block align-baseline font-bold text-sm text-blue-500 hover:text-blue-800">
         view list
       </a>
@@ -147,6 +137,6 @@ export default function AccessorialForm() {
   );
 }
 
-AccessorialForm.getLayout = function getLayout(page) {
+ReferenceTypeForm.getLayout = function getLayout(page) {
   return <Layout>{page}</Layout>;
 };

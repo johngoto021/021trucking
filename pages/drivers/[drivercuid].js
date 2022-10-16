@@ -70,7 +70,7 @@ export default function DriverForm({ driverinfo }) {
   const [region, setRegion] = useState(driverinfo.region);
   const [postalCode, setPostalCode] = useState(driverinfo.postalCode);
   const [country, setCountry] = useState(driverinfo.country);
-  const [submitmessage, setsubmitmessage] = useState("")
+  const [submitmessage, setsubmitmessage] = useState("");
 
   //const [APIResponse, setAPIResponse] = useState(null);
   //const { driverName, driverCuid, companyName, emailAddress, phone, website, address1, address2, city, region, postalCode, country } = formData;
@@ -182,7 +182,7 @@ export default function DriverForm({ driverinfo }) {
       <header className="bg-white shadow">
         <div className="mx-auto max-w-8xl py-4 px-4 sm:px-6 lg:px-4">
           <h1 className="text-3xl font-bold tracking-tight text-gray-900">
-            Driver <span className="text-sm text-blue-600"><Link href="/driver">View List</Link></span>
+            Driver <span className="text-sm text-blue-600"><Link href="/drivers">View List</Link></span>
           </h1>
           <p>
             Use this form to add client driver information. This information is

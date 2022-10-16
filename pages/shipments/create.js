@@ -10,25 +10,25 @@ import { BiTrashAlt, BiMinusCircle, BiRefresh, BiPlus, BiPlusCircle } from "reac
 export default function ShipmentForm() {
  
   const fetcher1 = async () => {
-    const response = await fetch('../api/account/getdataidname')
+    const response = await fetch('/api/accounts/getdataidname')
     const data = await response.json()
     return data
   };
   
   const fetcher2 = async () => {
-    const response = await fetch('../api/dropdowns/getequipmenttype')
+    const response = await fetch('/api/dropdowns/getequipmenttype')
     const data = await response.json()
     return data
   };
   
   const fetcher3 = async () => {
-    const response = await fetch('../api/dropdowns/getloadtype')
+    const response = await fetch('/api/dropdowns/getloadtype')
     const data = await response.json()
     return data
   };
   
   const fetcher4 = async () => {
-    const response = await fetch('../api/dropdowns/getaccessorial')
+    const response = await fetch('/api/dropdowns/getaccessorial')
     const data = await response.json()
     return data
   };
@@ -98,7 +98,7 @@ export default function ShipmentForm() {
 
   const seeShipments = async () => {
     try {
-      const response = await fetch("/api/shipment/getpagingdata", {
+      const response = await fetch("/api/shipments/getpagingdata", {
         method: "GET",
         headers: { "Content-Type": "application/json" },
       });
@@ -159,7 +159,7 @@ export default function ShipmentForm() {
         return true;
         };
 
-      const createdshipment = await fetch("/api/shipment/createdataq", {
+      const createdshipment = await fetch("/api/shipments", {
         method: "POST",
         headers: { "Content-Type": "application/json" },
         body: JSON.stringify(body),
@@ -390,7 +390,7 @@ let handleQuoteButtonClick = () => {
 
 <header className="bg-white shadow">
   <div className="mx-auto max-w-8xl py-6 px-4 sm:px-6 lg:px-4">
-  <h1 className="text-3xl font-bold tracking-tight text-gray-900">Shipments <span className="text-sm text-blue-600"><Link href="create">[ add new ]</Link></span></h1>
+  <h1 className="text-3xl font-bold tracking-tight text-gray-900">Shipments <span className="text-sm text-blue-600"><Link href="/shipments/create">[ add new ]</Link></span></h1>
   </div>
   </header>
   <main>

@@ -18,6 +18,7 @@ export default function AccountForm() {
   const [postalCode, setPostalCode] = useState("");
   const [country, setCountry] = useState("");
   const [APIResponse, setAPIResponse] = useState(null);
+  const [submitmessage, setsubmitmessage] = useState("");
 
   /*
   useEffect(() => {
@@ -59,7 +60,6 @@ export default function AccountForm() {
         //set an error banner here
       } else {
         resetForm();
-        console.log("form submitted successfully !!!");
       }
     } catch (error) {
       console.log("there was an error reading from the db", error);
@@ -76,7 +76,7 @@ export default function AccountForm() {
       address1,
       address2,
       city,
-      stateProvince,
+      region,
       postalCode,
       country,
     };
@@ -87,9 +87,11 @@ export default function AccountForm() {
         body: JSON.stringify(body),
       });
       if (response.status !== 200) {
+        setsubmitmessage('System encountered an error. The Account was not added! Please try again');
         console.log("something went wrong");
         //set an error banner here
       } else {
+        setsubmitmessage('The Account was added successfully!');
         resetForm();
         seeAccounts();
         console.log("form submitted successfully !!!");
@@ -97,6 +99,7 @@ export default function AccountForm() {
       }
       //check response, if success is false, dont take them to success page
     } catch (error) {
+      setsubmitmessage('System encountered an error. Please try again');
       console.log("there was an error submitting", error);
     }
   };
@@ -151,6 +154,7 @@ export default function AccountForm() {
                         className="mt-1 block w-full rounded-md border-gray-300 shadow-sm focus:border-indigo-500 focus:ring-indigo-500 sm:text-sm"
                         onChange={(e) => setAccountName(e.target.value)}
                         value={accountName}
+                        required="required"
                       />
                     </div>
 
@@ -316,22 +320,23 @@ export default function AccountForm() {
                         <option value="CA">Canada</option>
                       </select>
                     </div>
+
+                    <div className="col-span-6 sm:col-span-6">
+                      <button
+                        type="submit"
+                        className="inline-flex justify-center rounded-md border border-transparent bg-blue-500 py-2 px-4 text-sm font-medium text-white shadow-sm hover:bg-indigo-700 focus:outline-none focus:ring-2 focus:ring-indigo-500 focus:ring-offset-2"
+                      >
+                        Save
+                      </button>
+                      <span className="text-red-500 mx-5 text-sm font-medium">{ submitmessage }</span>
+                    </div>
+
                   </div>
-                </div>
-                <div className="px-4 py-2 text-right sm:px-6">
-                  <button
-                    type="submit"
-                    className="inline-flex justify-center rounded-md border border-transparent bg-blue-500 py-2 px-4 text-sm font-medium text-white shadow-sm hover:bg-indigo-700 focus:outline-none focus:ring-2 focus:ring-indigo-500 focus:ring-offset-2"
-                  >
-                    Save
-                  </button>
                 </div>
               </div>
             </form>
           </div>
         </div>
-
-        
 
         <div className="flex flex-col">
           <div className="overflow-x-auto sm:-mx-6 lg:-mx-8">

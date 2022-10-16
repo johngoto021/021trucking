@@ -224,7 +224,7 @@ export default function DriverForm() {
                         htmlFor="address1"
                         className="block text-sm font-medium text-gray-700"
                       >
-                        Street address
+                        Street Address
                       </label>
                       <input
                         type="text"
@@ -242,7 +242,7 @@ export default function DriverForm() {
                         htmlFor="address2"
                         className="block text-sm font-medium text-gray-700"
                       >
-                        Street address
+                        Street Address 2
                       </label>
                       <input
                         type="text"

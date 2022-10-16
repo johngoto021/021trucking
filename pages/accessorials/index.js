@@ -8,7 +8,7 @@ const [isLoading, setIsLoading] = useState(true)
 const [accessorialData, setAccessorial] = useState([])
 useEffect(() => {
 async function fetchDashboardData() {
-const response = await fetch('api/dropdowns/accessorial')
+const response = await fetch('/api/accessorials')
 const data = await response.json()
 
 //setDashboardData(JSON.parse(data))
@@ -29,7 +29,7 @@ return (
 
 <header className="bg-white shadow">
 <div className="mx-auto max-w-8xl py-6 px-4 sm:px-6 lg:px-4">
-<h1 className="text-3xl font-bold tracking-tight text-gray-900">Accessorials <span className="text-sm text-blue-600"><Link href="accessorial/create">add new</Link></span></h1>
+<h1 className="text-3xl font-bold tracking-tight text-gray-900">Accessorials <span className="text-sm text-blue-600"><Link href="/accessorials/create">add new</Link></span></h1>
 </div>
 </header>
 <main>

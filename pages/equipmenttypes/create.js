@@ -1,71 +1,64 @@
 import Link from "next/link";
 import { useState } from "react";
-import { useEffect } from "react";
 import Layout from "../../components/layout";
 
 export default function EquipmentForm() {
-
   const [equipmentTypeId, setEquipmentTypeId] = useState("");
   const [equipmentTypeCuid, setEquipmentTypeCuid] = useState("");
   const [equipmentTypeName, setEquipmentTypeName] = useState("");
-  const [equipmentTypeActive, setEquipmentTypeActive] = useState("");
+  const [equipmentTypeActive, setEquipmentTypeActive] = useState(1);
   const [APIResponse, setAPIResponse] = useState(null);
+  const [submitmessage, setsubmitmessage] = useState("");
 
-  /*
-  useEffect(() =>  [{},
-    equipmentTypeId,
-    equipmentTypeCuid,
-    equipmentTypeName,
-    equipmentTypeActive,
-    APIResponse,
-  ]);
-  */
- 
-  const seeShipments = async () => {
+  const seeLists = async () => {
     try {
-      const response = await fetch("/api/dropdowns/getequipmenttype", {
+      const response = await fetch("/api/equipmenttypes", {
         method: "GET",
         headers: { "Content-Type": "application/json" },
       });
       setAPIResponse(await response.json());
       if (response.status !== 200) {
-        console.log("something went wrong");
+        console.log("something went wrong when retrieving record");
         //set an error banner here
       } else {
         resetForm();
-        console.log("form submitted successfully !!!");
+        console.log("Records were retrieved successfully !!!");
       }
     } catch (error) {
-      console.log("there was an error reading from the db", error);
+      console.log("There was an error reading from the db", error);
     }
   };
 
   const handleSubmit = async (e) => {
     e.preventDefault();
     const body = {
-      equipmentTypeId,
-      equipmentTypeCuid,
       equipmentTypeName,
       equipmentTypeActive,
       };
+      console.log(body);
     try {
-      const response = await fetch("/api/dropdowns/createequipmenttype", {
+      const response = await fetch("/api/equipmenttypes", {
         method: "POST",
         headers: { "Content-Type": "application/json" },
         body: JSON.stringify(body),
       });
+
       if (response.status !== 200) {
-        console.log("something went wrong");
+        setsubmitmessage('System encountered an error. The Equipment Type was not added! Please try again');
+        console.log("something went adding record wrong");
         //set an error banner here
       } else {
+        setsubmitmessage('The Equipment Type was added successfully!');
         resetForm();
-        seeShipments();
+        //seeLists();
+        console.log(await response.json());
         console.log("form submitted successfully !!!");
-        console.log(response);
+        
         //set a success banner here
       }
       //check response, if success is false, dont take them to success page
     } catch (error) {
+      setsubmitmessage('System encountered an error. Please try again');
       console.log("there was an error submitting", error);
     }
   };
@@ -74,7 +67,7 @@ export default function EquipmentForm() {
   const resetForm = () => {
     setEquipmentTypeName("");
     //setEquipmentTypeCuid("");
-    //setEquipmentTypeActive("");
+    setEquipmentTypeActive(1);
     //setEquipmentTypeId("");
   };
    
@@ -99,7 +92,9 @@ export default function EquipmentForm() {
       <label className="block text-gray-700 text-sm font-bold mb-2" htmlFor="equipmentTypeName">
         Equipment Type
       </label>
-      <input className="shadow appearance-none border rounded w-full py-2 px-3 text-gray-700 leading-tight focus:outline-none focus:shadow-outline" id="equipmentTypeName" name="equipmentTypeName" type="text" placeholder="Name of Equipment Type" />
+      <input className="shadow appearance-none border rounded w-full py-2 px-3 text-gray-700 leading-tight focus:outline-none focus:shadow-outline" id="equipmentTypeName" name="equipmentTypeName" type="text" placeholder="Name of Equipment Type" 
+      onChange={(e)=>setEquipmentTypeName(e.target.value)}
+      required="required" value={equipmentTypeName} />
       <p className="text-red-500 text-xs italic">Please enter required field.  Field can only store up to 128 characters long including space.</p>
     </div>
     <div className="mb-6">
@@ -107,7 +102,9 @@ export default function EquipmentForm() {
         Status
       </label>
     <select name="equipmentTypeActive"
-    className="shadow appearance-none w-full rounded w-full py-2 px-3 text-gray-700 leading-tight focus:outline-none focus:shadow-outline focus:border-gray-500" id="grid-state">
+    className="shadow appearance-none w-full rounded w-full py-2 px-3 text-gray-700 leading-tight focus:outline-none focus:shadow-outline focus:border-gray-500" id="grid-state"
+    onChange={(e)=>setEquipmentTypeActive(e.target.value)}
+    defaultValue={equipmentTypeActive} >
       <option value="1">Active</option>
       <option value="0">Archive</option>
     </select>
@@ -116,7 +113,8 @@ export default function EquipmentForm() {
       <button className="bg-blue-500 hover:bg-blue-700 text-white font-bold py-2 px-4 rounded focus:outline-none focus:shadow-outline" type="submit">
         Submit
       </button>
-      <Link href="equipmenttypes">
+      <span className="text-red-500 mx-5 text-sm font-medium">{ submitmessage }</span>
+      <Link href="/equipmenttypes">
       <a className="inline-block align-baseline font-bold text-sm text-blue-500 hover:text-blue-800">
         view list
       </a>

@@ -8,7 +8,7 @@ const [isLoading, setIsLoading] = useState(true)
 const [equipmentTypeData, setEquipmentTypeData] = useState([])
 useEffect(() => {
 async function fetchDashboardData() {
-const response = await fetch('api/dropdowns/getequipmenttype')
+const response = await fetch('/api/equipmenttypes')
 const data = await response.json()
 
 //setDashboardData(JSON.parse(data))
@@ -29,7 +29,7 @@ return (
 
 <header className="bg-white shadow">
 <div className="mx-auto max-w-8xl py-6 px-4 sm:px-6 lg:px-4">
-<h1 className="text-3xl font-bold tracking-tight text-gray-900">Equipment Type <span className="text-sm text-blue-600"><Link href="/equipmenttype/create">add new</Link></span></h1>
+<h1 className="text-3xl font-bold tracking-tight text-gray-900">Equipment Type <span className="text-sm text-blue-600"><Link href="/equipmenttypes/create">add new</Link></span></h1>
 </div>
 </header>
 <main>

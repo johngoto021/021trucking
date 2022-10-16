@@ -11,19 +11,14 @@ export default async function handler(req, res) {
       accessorialId: true,
       accessorialCuid: true,
       accessorialActive: true,
-
-        }
-    },
-    {
+      },
     where: {
       accessorialActive: 1
-    }
     },
-    {orderBy: [
-      {
+    orderBy: {
         accessorialName: 'asc',
       }
-    ]}
+    }
   );
   return res.status(200).json(mylist, { success: true });
 }

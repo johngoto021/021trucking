@@ -51,7 +51,7 @@ export default function Navbar() {
                           </Link>
                       </li>
                       <li>
-                        <Link href="/accessorial" >
+                        <Link href="/accessorials" >
                           <a className="block py-2 pr-4 pl-3 text-gray-500 border-b border-gray-100 hover:bg-gray-50 md:hover:bg-transparent md:border-0 md:hover:text-yellow-500 md:p-0 dark:text-gray-400 md:dark:hover:text-yellow-500 dark:hover:bg-gray-700 dark:hover:text-yellow-500 md:dark:hover:bg-transparent dark:border-gray-700">Accessorials</a>
                         </Link>
                       </li>
@@ -76,15 +76,15 @@ export default function Navbar() {
               <div className="grid py-5 px-4 mx-auto max-w-screen-xl text-gray-900 dark:text-white sm:grid-cols-2 md:grid-cols-3 md:px-6">
                   <ul aria-labelledby="mega-menu-full-dropdown-button">
                       <li>
-                      <Link href="/shipment/create" >          
+                      <Link href="/shipments/create" >          
                           <a className="block p-3 rounded-lg hover:bg-gray-50 dark:hover:bg-gray-700">
-                              <div className="font-semibold">Create Shipment - beta 2</div>
+                              <div className="font-semibold">Create Shipment</div>
                               <span className="text-sm font-light text-gray-500 dark:text-gray-400">Create a shipment order here.</span>
                           </a>
                           </Link>
                       </li>
                       <li>
-                      <Link href="/shipment" >          
+                      <Link href="/shipments" >          
                           <a className="block p-3 rounded-lg hover:bg-gray-50 dark:hover:bg-gray-700">
                               <div className="font-semibold">Shipments</div>
                               <span className="text-sm font-light text-gray-500 dark:text-gray-400">View a list of shipments.</span>
@@ -92,7 +92,7 @@ export default function Navbar() {
                           </Link>
                       </li>
                       <li>
-                      <Link href="/quote" >          
+                      <Link href="/quotes" >          
                           <a className="block p-3 rounded-lg hover:bg-gray-50 dark:hover:bg-gray-700">
                               <div className="font-semibold">Quotes</div>
                               <span className="text-sm font-light text-gray-500 dark:text-gray-400">View Quotes and Request a shipment quote here</span>
@@ -102,7 +102,7 @@ export default function Navbar() {
                   </ul>
                   <ul>
                       <li>
-                      <Link href="/account" >          
+                      <Link href="/accounts" >          
                           <a className="block p-3 rounded-lg hover:bg-gray-50 dark:hover:bg-gray-700">
                               <div className="font-semibold">Accounts</div>
                               <span className="text-sm font-light text-gray-500 dark:text-gray-400">Manage and view list of client accounts.</span>
@@ -110,7 +110,7 @@ export default function Navbar() {
                           </Link>
                       </li>
                       <li>
-                      <Link href="/account/create" >                   
+                      <Link href="/accounts/create" >                   
                           <a className="block p-3 rounded-lg hover:bg-gray-50 dark:hover:bg-gray-700">
                               <div className="font-semibold">Add Account</div>
                               <span className="text-sm font-light text-gray-500 dark:text-gray-400">Add client accounts.</span>
@@ -118,7 +118,7 @@ export default function Navbar() {
                           </Link>
                       </li>
                       <li>
-                      <Link href="/equipmenttype">
+                      <Link href="/equipmenttypes">
                           <a className="block p-3 rounded-lg hover:bg-gray-50 dark:hover:bg-gray-700">
                               <div className="font-semibold">Equipments</div>
                               <span className="text-sm font-light text-gray-500 dark:text-gray-400">View and nanage equipment types</span>
@@ -126,7 +126,7 @@ export default function Navbar() {
                           </Link>
                       </li>
                       <li>
-                      <Link href="/referencetype" >
+                      <Link href="/referencetypes" >
                           <a className="block p-3 rounded-lg hover:bg-gray-50 dark:hover:bg-gray-700">
                               <div className="font-semibold">Reference Type</div>
                               <span className="text-sm font-light text-gray-500 dark:text-gray-400">View and manager list of shipment reference types</span>
@@ -135,7 +135,7 @@ export default function Navbar() {
                   </ul>
                   <ul>
                       <li>
-                      <Link href="/accessorial" >
+                      <Link href="/accessorials" >
                           <a className="block p-3 rounded-lg hover:bg-gray-50 dark:hover:bg-gray-700">
                               <div className="font-semibold">Accessorials</div>
                               <span className="text-sm font-light text-gray-500 dark:text-gray-400">View and manage accessorials.</span>
@@ -151,7 +151,7 @@ export default function Navbar() {
                           </Link>
                       </li>
                       <li>
-                      <Link href="/driver" >
+                      <Link href="/drivers" >
                           <a className="block p-3 rounded-lg hover:bg-gray-50 dark:hover:bg-gray-700">
                               <div className="font-semibold">Drivers</div>
                               <span className="text-sm font-light text-gray-500 dark:text-gray-400">View and manager list of drives.</span>
