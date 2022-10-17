@@ -87,9 +87,9 @@ model Shipment {
   moNumber                  String?                @db.VarChar(255)
   houseBillNumber           String?                @db.VarChar(255)
   trackingUrl               String?                @db.VarChar(255)
-  shipmentActive            Int?                   @db.TinyInt
-  shipmentStatus            Int?                   @db.TinyInt
-  shipmentPaid              Int?                   @db.TinyInt
+  shipmentActive            Int?                   @default(0) @db.TinyInt
+  shipmentStatus            Int?                   @default(0) @db.TinyInt
+  shipmentPaid              Int?                   @default(0) @db.TinyInt
   shipmentCustomerRate      Decimal?               @default(0) @db.Decimal(5, 2)
   internalRate              Decimal?               @default(0) @db.Decimal(5, 2)
   shipmentCustomerTotalCost Decimal?               @default(0) @db.Decimal(8, 2)
@@ -128,7 +128,7 @@ model ShipmentAuditHistory {
   shipmentAuditHistoryCuid String?   @unique @default(cuid()) @db.VarChar(32)
   shipmentCuid             String?   @db.VarChar(255)
   shipments                Shipment? @relation(fields: [shipmentCuid], references: [shipmentCuid]) //establish foreign key relationship between accounts and users
-  shipmentStatus           Int?      @db.TinyInt
+  shipmentStatus           Int?      @default(1) @db.TinyInt
   auditDateCreated         DateTime? @default(now())
   auditedBy                String?   @db.VarChar(32)
 }
@@ -151,13 +151,13 @@ model ShipmentLoad {
   //loadName                 String?   @db.VarChar(255)
   loadTypeCuid             String    @db.VarChar(32)
   quantity                 Int?
-  length                   Decimal?  @db.Decimal(10, 2)
-  width                    Decimal?  @db.Decimal(10, 2)
-  height                   Decimal?  @db.Decimal(10, 2)
-  totalWeight              Decimal?  @db.Decimal(10, 2)
-  stackable                Int?      @db.TinyInt
-  shipmentOrderCount       Int?
-  shipmentLoadActive       Int?      @db.TinyInt
+  length                   Decimal?  @default(0) @db.Decimal(10, 2)
+  width                    Decimal?  @default(0) @db.Decimal(10, 2)
+  height                   Decimal?  @default(0) @db.Decimal(10, 2)
+  totalWeight              Decimal?  @default(0) @db.Decimal(10, 2)
+  stackable                Int?      @default(0) @db.TinyInt
+  shipmentOrderCount       Int?      @default(0) @db.Int
+  shipmentLoadActive       Int?      @default(1) @db.TinyInt
   createdByAccountUserCuid String?   @db.VarChar(32)
   updatedByAccountUserCuid String?   @db.VarChar(32)
   //addedbyaccountuseridfk AccountsUsers   @relation(fields: [createdByAccountUserCuid], references: [accountUserId])  //establish foreign key relationship between accounts and users
@@ -209,7 +209,7 @@ model ShipmentRoute {
   destinationContact       String?   @db.VarChar(255)
   dateStarted              DateTime?
   dateEnded                DateTime?
-  shipmentRouteActive      Int?      @db.TinyInt
+  shipmentRouteActive      Int?      @default(0) @db.TinyInt
   createdByAccountUserCuid String?   @db.VarChar(32)
   updatedByAccountUserCuid String?   @db.VarChar(32)
   dateCreated              DateTime? @default(now())
@@ -244,7 +244,7 @@ model ShipmentLocation {
   timeEnd                  String?   @db.VarChar(32)
   timeStart2               DateTime? @db.DateTime()
   timeEnd2                 DateTime? @db.DateTime()
-  shipmentLocationActive   Int?      @db.TinyInt
+  shipmentLocationActive   Int?      @default(1) @db.TinyInt
   createdByAccountUserCuid String?   @db.VarChar(32)
   updatedByAccountUserCuid String?   @db.VarChar(32)
   dateCreated              DateTime? @default(now())

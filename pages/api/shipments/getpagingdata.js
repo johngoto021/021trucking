@@ -106,9 +106,11 @@ export default async function handler(req, res) {
       ]
 }
 
-  
+
   );
- 
-  return res.status(200).json(mylist, { success: true });
+
+  const strserialize = JsonConvert.SerializeObject(mylist);
+
+  return res.status(200).json(strserialize, { success: true });
 
 }

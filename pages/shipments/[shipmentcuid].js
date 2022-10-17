@@ -1,7 +1,9 @@
 import { useState } from "react";
+import useSWR from "swr"
 import Link from 'next/link'
 import Layout from "../../components/layout";
 import prisma from '../../lib/prisma'
+import superjson from 'superjson';
 
 //const prisma = new PrismaClient();
 
@@ -40,7 +42,16 @@ export const getServerSideProps = async ({params}) => {
         accounts: {
           select :{
             accountName: true,
+            emailAddress: true,
           },
+        },
+
+        drivers:{
+          select :{
+            driverName: true,
+            companyName: true,
+            courierService: true,
+          }
         },
     
         shipmentEquipments: {
@@ -107,79 +118,108 @@ export const getServerSideProps = async ({params}) => {
 
 
   });
-  console.log(shipmentData);
+  const jsonString = superjson.stringify(shipmentData);
+  //const { json, meta } = serialize(shipmentData);
+
   return {
     props: {
-      shipmentinfo: shipmentData
+      shipmentinfo: jsonString
     }
+    
   }
+  //console.log(shipmentData);
 }
 
 export default function ShipmentForm({ shipmentinfo }) {
 
+  const fetcher1 = async () => {
+    const response = await fetch('/api/dropdowns/getdriver')
+    const data = await response.json()
+    return data
+  };
+
+  const { data: data1, error: error1 } = useSWR('name1', fetcher1);
+  const myobject = superjson.parse(shipmentinfo);
+
+  //console.log(shipmentinfo);
   //const router = useRouter();
   //const {shipmentcuid} = router.query;
   //const fetchURL = "/api/shipments/getunique?shipmentcuid=" + router.query.shipmentcuid;
-  const [shipmentName, setshipmentName] = useState(shipmentinfo.shipmentName);
-  const [shipmentCuid, setshipmentCuid] = useState(shipmentinfo.shipmentCuid);
-  const [shipmentId, setshipmentId] = useState(shipmentinfo.shipmentId);
-  const [shipmentStatus, setshipmentStatus] = useState(shipmentinfo.shipmentStatus);
+  const [shipmentName, setshipmentName] = useState(myobject.shipmentName);
+  const [shipmentCuid, setshipmentCuid] = useState(myobject.shipmentCuid);
+  const [shipmentId, setshipmentId] = useState(myobject.shipmentId);
+  const [shipmentStatus, setshipmentStatus] = useState(myobject.shipmentStatus);
+
 
   const [submitmessage, setsubmitmessage] = useState("");
 
-  const [accountCuid, setaccountCuid] = useState(shipmentinfo.accountCuid);
+  const [accountCuid, setaccountCuid] = useState(myobject.accountCuid);
+  const [accountName, setaccountName] = useState(myobject.accounts.accountName);
+  
   const [equipmentTypeCuid, setequipmentTypeCuid] = useState([]);
+  const [shipmentEquipments, setShipmentEquipments] = useState(myobject.shipmentEquipments);
+
   const [accessorialCuid, setaccessorialCuid] = useState([]);
   
-  const [trackingNumber, settrackingNumber] = useState(shipmentinfo.trackingNumber);
-  const [moNumber, setmoNumber] = useState(shipmentinfo.moNumber);
-  const [houseBillNumber, sethouseBillNumber] = useState(shipmentinfo.houseBillNumber);
-  const [shipmentNote, setShipmentNote] = useState(shipmentinfo.shipmentNote);
-  const [shipmentTimeZone, setShipmentTimeZone] = useState(shipmentinfo.shipmentTimeZone);
-  const [shipmentTotalWeight, setShipmentTotalWeight] = useState(shipmentinfo.shipmentTotalWeight);
-  const [shipmentTotalDimension, setShipmentTotalDimension] = useState(shipmentinfo.shipmentTotalDimension);
-  const [shipmentCustomerTotalCost, setShipmentCustomerTotalCost] = useState(shipmentinfo.shipmentCustomerTotalCost);
+  const [trackingNumber, settrackingNumber] = useState(myobject.trackingNumber);
+  const [moNumber, setmoNumber] = useState(myobject.moNumber);
+  const [houseBillNumber, sethouseBillNumber] = useState(myobject.houseBillNumber);
+  const [shipmentNote, setShipmentNote] = useState(myobject.shipmentNote);
+  const [shipmentTimeZone, setShipmentTimeZone] = useState(myobject.shipmentTimeZone);
+  const [shipmentTotalWeight, setShipmentTotalWeight] = useState(myobject.shipmentTotalWeight);
+  const [shipmentTotalDimension, setShipmentTotalDimension] = useState(myobject.shipmentTotalDimension);
+  const [shipmentCustomerTotalCost, setShipmentCustomerTotalCost] = useState(myobject.shipmentCustomerTotalCost);
 
-  const [driverCuid, setDriverCuid] = useState(shipmentinfo.driverCuid);
-  const [shipmentPaid, setShipmentPaid] = useState(shipmentinfo.shipmentPaid);
-  const [shipmentCustomerRate, setShipmentCustomerRate] = useState(shipmentinfo.shipmentCustomerRate);
-  const [internalRate, setInternalRate] = useState(shipmentinfo.internalRate);
-  const [shipmentActive, setShipmentActive] = useState(shipmentinfo.shipmentActive);
+  const [driverCuid, setDriverCuid] = useState(myobject.driverCuid);
+  const [shipmentPaid, setShipmentPaid] = useState(myobject.shipmentPaid);
+  const [shipmentCustomerRate, setShipmentCustomerRate] = useState(myobject.shipmentCustomerRate);
+  const [internalRate, setInternalRate] = useState(myobject.internalRate);
+  const [shipmentActive, setShipmentActive] = useState(myobject.shipmentActive);
 
 
-
-  
+  const [toEmail, setToEmail] = useState(myobject.accounts.emailAddress);
+  const [message, setMessage] = useState('');
+  const [buttonText, setButtonText] = useState("Send");
    
   const [formValues, setFormValues] = useState([{ loadTypeCuid: '', quantity : 0, length : 0, width : 0, height : 0, totalWeight : 0, stackable : 0 }])
   const [formLocationValues, setFormLocationValues] = useState([{ locationType: "P", locationName : "", locationFullAddress : "", dateStart : "", dateEnd : "", dateStart2 : "", dateEnd2 : "", locationReference : "", locationContact : "", locationPhone : "", timeStart : "", timeEnd : "" }])
 
 
+  const [errors, setErrors] = useState({});
+
+  const handleValidation = () => {
+    let tempErrors = {};
+    let isValid = true;
+    
+    if (toEmail.length <= 0) {
+      tempErrors["toEmail"] = true;
+      isValid = false;
+    }
+    if (message.length <= 0) {
+      tempErrors["message"] = true;
+      isValid = false;
+    }
+    setErrors({ ...tempErrors });
+    console.log("errors", errors);
+    return isValid;
+  };
+
   
-
-
+  
 
 
   const handleSubmit = async (e) => {
     e.preventDefault();
+    
+    let isValidForm = handleValidation();
+
     const body = {
-      shipmentName,
       shipmentCuid,
-      shipmentId,
-      emailAddress,
-      phone,
-      website,
-      address1,
-      address2,
-      city,
-      region,
-      postalCode,
-      country,
-      referenceNumber,
-      emailAddress,
-      contact,
-      country,
+      driverCuid,
       shipmentStatus,
-      marginRate,
+      shipmentCustomerTotalCost,
+      toEmail,
+      message,
       };
     
     try {
@@ -201,13 +241,34 @@ export default function ShipmentForm({ shipmentinfo }) {
         //seeshipments();
         setsubmitmessage('The change requests were updated successfully!');
         console.log("form submitted successfully !!!");
-         return data;
+         //return data;
         //set a success banner here
       }
       //check response, if success is false, dont take them to success page
     } catch (error) {
       console.log("there was an error submitting", error);
     }
+    
+    if (isValidForm) {
+      setButtonText("Sending");
+      const res = await fetch("/api/sendgridShipmentUpdate", {
+        //body: JSON.stringify({email: toEmail, message: message, }),
+        body: JSON.stringify(body),
+        headers: {
+          "Content-Type": "application/json",
+        },
+        method: "POST",
+      });
+
+      const { error } = await res.json();
+        if (error) {
+          console.log(error);
+          setButtonText("Send");
+          return;
+        }
+        setButtonText("Send");
+      }
+
   };
 
   
@@ -236,26 +297,157 @@ export default function ShipmentForm({ shipmentinfo }) {
                   <div className="grid grid-cols-6 gap-6">
                     
                     <div className="col-span-6 sm:col-span-3">
-                      Shipment ID: { shipmentinfo.shipmentId }
-                      
+                      Shipment ID: { shipmentId }
                     </div>
 
                     <div className="col-span-6 sm:col-span-3">
-                      Shipment CUID: { shipmentinfo.shipmentCuid }
-                      
+                      Shipment CUID: { shipmentCuid }
                     </div>
 
-                    
+                    <div className="col-span-6 sm:col-span-3">
+                      Shipment: { shipmentName }
+                    </div>
 
-                <div className="col-span-6 sm:col-span-3 lg:col-span-6">
-                  <button
-                    type="submit"
-                    className="inline-flex justify-center rounded-md border border-transparent bg-blue-500 py-2 px-4 text-sm font-medium text-white shadow-sm hover:bg-indigo-700 focus:outline-none focus:ring-2 focus:ring-indigo-500 focus:ring-offset-2"
-                  >
-                    Update
-                  </button>
-                  <span className="text-red-500 mx-5 text-sm font-medium">{ submitmessage }</span>
-                </div>
+                    <div className="col-span-6 sm:col-span-3">
+                      Account: { accountName }
+                    </div>
+
+                    <div className="col-span-6 sm:col-span-3">
+                      Equipments: &nbsp;
+                        {shipmentEquipments?.map((equipments2, n) => (
+                          <span key={equipments2.shipmentEquipmentCuid}> 
+                          {equipments2.equipmentTypes.equipmentTypeName},&nbsp;  
+                          </span>
+                        ))}
+                    </div>
+
+                    <div className="col-span-6 sm:col-span-3">
+                      Total Dimension: { shipmentTotalDimension }
+                    </div>
+
+                    <div className="col-span-6 sm:col-span-3">
+                      Total Weight: { shipmentTotalWeight }
+                    </div>
+
+                    <div className="col-span-6 sm:col-span-3">
+                      Accessorials: 
+                      {myobject.shipmentAccessorials?.map((accessories, m) => (
+                        <span key={accessories.shipmentAccessorialCuid}> 
+                        {accessories.accessorials.accessorialName},&nbsp;  
+                        </span>
+                      ))}
+                    </div>
+
+                    <div className="col-span-6 sm:col-span-3">
+                      Shipment Total Dimension: { shipmentTotalDimension }
+                    </div>
+
+                    <div className="lg:col-span-6 md:col-span-4 sm:col-span-6">
+                      <label
+                      htmlFor="driverCuid"
+                      className="block text-sm font-medium text-gray-700"
+                      >Assign Driver to Shipment Order
+                      </label>
+                      <select name="driverCuid" className="mt-1 block w-full rounded-md border-gray-300 shadow-sm focus:border-indigo-500 focus:ring-indigo-500 sm:text-sm" 
+                      value={driverCuid}
+                      defaultValue={driverCuid}
+                      onChange={(e) => {
+                      setDriverCuid(e.target.value);
+                      }}
+                      required="required">
+                      <option value="">Please select Driver</option>
+                      {data1?.map((driverDD) => (
+                      <option key={driverDD.driverCuid} value={driverDD.driverCuid}
+                      >{driverDD.companyName} ( {driverDD.driverName} )</option>
+                      ))}
+                      </select>
+                    </div>
+
+                    <div className="lg:col-span-6 md:col-span-4 sm:col-span-6">
+                      <label
+                      htmlFor="shipmentCustomerTotalCost"
+                      className="block text-sm font-medium text-gray-700"
+                      >Customer Total Cost
+                      </label>
+                      <input
+                        type="number"
+                        name="shipmentCustomerTotalCost"
+                        className="mt-1 block w-full rounded-md border-gray-300 shadow-sm focus:border-indigo-500 focus:ring-indigo-500 sm:text-sm inpqty"
+                        value={shipmentCustomerTotalCost || "0"} 
+                        onChange={(e) => setShipmentCustomerTotalCost(e.target.value)}
+                        min="1" max="100000" step="1" maxLength={9}
+                        required="required" />
+                    </div>
+
+                    <div className="lg:col-span-6 md:col-span-4 sm:col-span-6">
+                      <label
+                      htmlFor="shipmentStatus"
+                      className="block text-sm font-medium text-gray-700"
+                      >Update Status
+                      </label>
+                      <select name="shipmentStatus" className="mt-1 block w-full rounded-md border-gray-300 shadow-sm focus:border-indigo-500 focus:ring-indigo-500 sm:text-sm" 
+                      value={shipmentStatus}
+                      defaultValue={shipmentStatus}
+                      onChange={(e) => {
+                      setShipmentStatus(e.target.value);
+                      }}
+                      required="required">
+                      <option value="1">Active</option>
+                      <option value="2">Quote</option>
+                      <option value="0">Archived</option>
+                      <option value="3">Accepted</option>
+                      <option value="4">Reviewing</option>
+                      </select>
+                    </div>
+
+                    <div className="lg:col-span-6 md:col-span-4 sm:col-span-6">
+                      <label
+                      htmlFor="toEmail"
+                      className="block text-sm font-medium text-gray-700"
+                      >Email to send shipment update notifications
+                      </label>
+                      <input
+                        type="email"
+                        name="toEmail"
+                        className="mt-1 block w-full rounded-md border-gray-300 shadow-sm focus:border-indigo-500 focus:ring-indigo-500 sm:text-sm inpqty"
+                        value={toEmail} 
+                        onChange={(e) => setToEmail(e.target.value)}
+                        maxLength={255}
+                        />
+                    </div>
+
+
+                    <div className="lg:col-span-6 md:col-span-4 sm:col-span-6">
+                      <label
+                      htmlFor="message"
+                      className="block text-sm font-medium text-gray-700"
+                      >Message to send
+                      </label>
+                      <textarea
+                      name="message"
+                      value={message}
+                      onChange={(e) => { setMessage(e.target.value); }}
+                      className="bg-transparent border-b focus:outline-none focus:rounded-md focus:ring-1 " cols={200}></textarea>
+                    </div>
+
+
+
+
+
+                    
+          
+
+
+                    <div className="col-span-6 sm:col-span-3 lg:col-span-6">
+                      <button
+                        type="submit"
+                        className="inline-flex justify-center rounded-md border border-transparent bg-blue-500 py-2 px-4 text-sm font-medium text-white shadow-sm hover:bg-indigo-700 focus:outline-none focus:ring-2 focus:ring-indigo-500 focus:ring-offset-2"
+                      >
+                        {buttonText}
+                      </button>
+                      <span className="text-red-500 mx-5 text-sm font-medium">{ submitmessage }</span>
+                    </div>
+                    
 
                   </div>
                 </div>
@@ -276,3 +468,29 @@ export default function ShipmentForm({ shipmentinfo }) {
 ShipmentForm.getLayout = function getLayout(page) {
   return <Layout>{page}</Layout>;
 };
+
+
+
+
+/*
+const refreshShipments = async () => {
+    try {
+      const response = await fetch(`/api/shipments/${shipmentCuid}`, {
+        method: "GET",
+        headers: { "Content-Type": "application/json" },
+      });
+      setAPIResponse(await response.json());
+      if (response.status !== 200) {
+        console.log("something went wrong");
+        //set an error banner here
+      } else {
+        //resetForm();
+        console.log("form submitted successfully !!!");
+      }
+    } catch (error) {
+      console.log("there was an error reading from the db", error);
+    }
+  };
+
+
+*/

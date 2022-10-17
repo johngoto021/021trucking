@@ -2,9 +2,14 @@ import useSWR from 'swr'
 import Layout from '../../components/layout'
 import Link from 'next/link'
 
+import { BiTrashAlt, BiMinusCircle, BiRefresh, BiPlus, BiPlusCircle, BiPencil } from "react-icons/bi";
+import { FaTruckPickup, FaUserCheck, FaUserPlus, FaUserMinus } from "react-icons/fa";
+
+
 const fetcher = async () => {
   const response = await fetch('/api/shipments')
   const data = await response.json();
+  console.log(data);
   return data
   }
 
@@ -39,20 +44,26 @@ export default function DashboardSWR() {
           <th className='border border-slate-300 px-4'>Locations</th>
           <th className='border border-slate-300 px-2'>Status</th>
           <th className='border border-slate-300 px-4'>Load</th>
-          <th className='border border-slate-300 px-4'>Carrier</th>
           <th className='border border-slate-300 px-4'>Driver</th>
           <th className='border border-slate-300 px-4'>Total Cost</th>
+          <th className='border border-slate-300 px-4'>Accessorials</th>
           <th className='border border-slate-300 px-4'>Equipment</th>
+          <th className='border border-slate-300 px-4'>Note</th>
+          <th>Action</th>
         </tr>
       </thead>
       <tbody>
       {data?.map((dashboardData, i) => (
         <tr className="border-b"  key={dashboardData.shipmentCuid}> 
           <td className={"px-4 py-2 whitespace-nowrap text-sm font-medium text-gray-900 border border-slate-300"} >
-            {dashboardData.shipmentId}
+            <Link href={`/shipments/${encodeURIComponent(dashboardData.shipmentCuid)}`}>
+              <a className="text-blue-600">{dashboardData.shipmentId}</a>
+            </Link>
           </td>
           <td className={"px-4 py-2 text-sm font-medium text-gray-900 border border-slate-300"}>
-            <a href="#">{dashboardData.shipmentName}</a>
+            <Link href={`/shipments/${encodeURIComponent(dashboardData.shipmentCuid)}`}>
+            <a className="text-blue-600">{dashboardData.shipmentName}</a>
+            </Link>
             <br/>
             {dashboardData.accounts.accountName}
           </td>
@@ -98,7 +109,7 @@ export default function DashboardSWR() {
                 })()}
           </td>
 
-          <td className="text-sm text-gray-900 font-light px-4 py-2  border border-slate-300">
+          <td className="text-sm text-gray-900 font-light px-4 py-2 border border-slate-300">
 
             <span className="font-medium text-gray-900">Total Weight:</span> {dashboardData.shipmentTotalWeight}<br />
             <span className="font-medium text-gray-900">Total Dimension:</span> {dashboardData.shipmentTotalDimension}<br /><br />
@@ -113,17 +124,36 @@ export default function DashboardSWR() {
             </span>
             ))}
           </td>
-          <td className="text-sm text-gray-900 font-light px-6 py-2  border border-slate-300">TBD</td>
-          <td className="text-sm text-gray-900 font-light px-6 py-2  border border-slate-300">TBD</td>
-          <td className="text-sm text-gray-900 font-light px-6 py-2  border border-slate-300">
+          
+          <td className="text-sm text-gray-900 font-light px-6 py-2 border border-slate-300">
+            {dashboardData.drivers === null? 'TBD': `${dashboardData.drivers.companyName} (${dashboardData.drivers.driverName})`}
+          </td>
+          <td className="text-sm text-gray-900 font-light px-6 py-2 border border-slate-300">
             {dashboardData.shipmentCustomerTotalCost}
           </td>
-          <td className="text-sm text-gray-900 font-light px-6 py-2  border border-slate-300">
+          <td className="text-sm text-gray-900 font-light px-2 py-2 border border-slate-300">
+            {dashboardData.shipmentAccessorials?.map((accessories, m) => (
+              <span key={accessories.shipmentAccessorialCuid}> 
+              {accessories.accessorials.accessorialName},&nbsp;  
+              </span>
+            ))}
+          </td>
+          <td className="text-sm text-gray-900 font-light px-2 py-2 border border-slate-300">
             {dashboardData.shipmentEquipments?.map((equipments, m) => (
               <span key={equipments.shipmentEquipmentCuid}> 
               {equipments.equipmentTypes.equipmentTypeName},&nbsp;  
               </span>
             ))}
+          </td>
+          <td className="text-sm text-gray-900 font-light px-2 py-2 border border-slate-300">
+            {dashboardData.shipmentNote}
+          </td>
+          <td className="text-sm text-gray-900 font-light px-2 py-2 border border-slate-300">
+          <Link href={`/shipments/${encodeURIComponent(dashboardData.shipmentCuid)}`}>
+            <button className="inline-flex justify-center rounded-md border border-transparent bg-green-500 py-1 px-3 text-sm font-medium text-white shadow-sm hover:bg-green-700 focus:outline-none focus:ring-2 focus:ring-green-700 focus:ring-offset-2" title='Assign Driver'><FaUserCheck /></button>
+          </Link>
+          
+          
           </td>
         </tr>
         ))}

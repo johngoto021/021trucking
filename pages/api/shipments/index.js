@@ -53,7 +53,13 @@ async function listShipments(req, res) {
             accountName: true,
           },
         },
-    
+        drivers:{
+          select :{
+            driverName: true,
+            companyName: true,
+            courierService: true,
+          }
+        },
         shipmentEquipments: {
           select: {
             shipmentEquipmentId: true,
@@ -186,7 +192,9 @@ async function updateShipment(req, res) {
       },
       data: {
         driverCuid: body.driverCuid,
-        shipmentActive: body.shipmentActive,
+        //shipmentActive: body.shipmentActive,
+        driverCuid: body.driverCuid,
+        shipmentCustomerTotalCost: body.shipmentCustomerTotalCost,
         shipmentStatus: body.shipmentStatus,
       },
     });

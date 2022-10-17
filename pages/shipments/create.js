@@ -574,35 +574,35 @@ let handleQuoteButtonClick = () => {
                         name="quantity"
                         className="mt-1 block w-full rounded-md border-gray-300 shadow-sm focus:border-indigo-500 focus:ring-indigo-500 sm:text-sm inpqty"
                         value={element.quantity || "0"} onChange={e => handleChange7(index, e)}
-                        min="-1" max="200" step="1" maxLength={9}
+                        min="1" max="200" step="1" maxLength={9}
                         required="required" />
                     </td>
                     <td>
                       <input type="number" name="length" 
                       className="mt-1 block w-full rounded-md border-gray-300 shadow-sm focus:border-indigo-500 focus:ring-indigo-500 sm:text-sm"
                       value={element.length || "0"} onChange={e => handleChange7(index, e)} 
-                      min="-1" max="200" step="1" maxLength={9}
+                      min="1" max="200" step="1" maxLength={9}
                       required="required" />
                     </td>
                     <td>
                       <input type="number" name="width" 
                       className="mt-1 block w-full rounded-md border-gray-300 shadow-sm focus:border-indigo-500 focus:ring-indigo-500 sm:text-sm"
                       value={element.width || "0"} onChange={e => handleChange7(index, e)}
-                      min="-1" max="200" step="1" maxLength={9}
+                      min="1" max="200" step="1" maxLength={9}
                       required="required" />
                     </td>
                     <td>
                       <input type="number" name="height" 
                       className="mt-1 block w-full rounded-md border-gray-300 shadow-sm focus:border-indigo-500 focus:ring-indigo-500 sm:text-sm"
                       value={element.height || "0"} onChange={e => handleChange7(index, e)}
-                      min="-1" max="200" step="1" maxLength={9}
+                      min="1" max="200" step="1" maxLength={9}
                       required="required" />
                     </td>
                     <td>
                       <input type="number" name="totalWeight" 
                       className="mt-1 block w-full rounded-md border-gray-300 shadow-sm focus:border-indigo-500 focus:ring-indigo-500 sm:text-sm totweight"
                       value={element.totalWeight || "0"} onChange={e => handleChange7(index, e)}
-                      min="-1" max="9999" step="1" maxLength={11}
+                      min="1" max="9999" step="1" maxLength={11}
                       required="required" />
                     </td>
                     <td>
