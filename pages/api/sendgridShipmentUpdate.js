@@ -8,7 +8,7 @@ async function sendEmail(req, res) {
   const toEmail = req.body.toEmail
   try {
     await sendgrid.send({
-      to: "sales@goto021.com", // Your email where you'll receive emails
+      to: `${toEmail}`, // Your email where you'll receive emails
       from: "sales@goto021.com", // your website email address here
       subject: `Shipment Update Notification`,
       html: `<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
