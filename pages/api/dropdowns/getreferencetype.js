@@ -4,19 +4,19 @@ const prisma = new PrismaClient();
 
 export default async function handler(req, res) {
   
-  const mylist = await prisma.equipmentType.findMany(
+  const mylist = await prisma.referenceType.findMany(
     {
       select: {
-        equipmentTypeName: true,
-        equipmentTypeId: true,
-        equipmentTypeCuid: true,
-        equipmentTypeActive: true,
+        referenceTypeName: true,
+        referenceTypeId: true,
+        referenceTypeCuid: true,
+        referenceTypeActive: true,
       },
       where: {
-        equipmentTypeActive: 1
+        referenceTypeActive: 1
       },
       orderBy: {
-        equipmentTypeName: 'asc',
+        referenceTypeName: 'asc',
       }
     }
   );

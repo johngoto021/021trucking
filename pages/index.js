@@ -7,14 +7,14 @@ import Layout from '../components/layout'
 //import { useUser } from '@auth0/nextjs-auth0'
 //import axios from "axios";
 //import cuid from 'cuid';
-//import { useSession, signIn, signOut } from 'next-auth';
- 
+import { useSession } from 'next-auth/react'
 
 
 
 export default function Home() {
   
-  //const [session] = useSession();
+  const { data: session, status } = useSession()
+  //console.log(session);
 
 
   //const mycuid = cuid();

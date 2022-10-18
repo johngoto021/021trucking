@@ -13,12 +13,14 @@ export default function Footer() {
                 <a href="#" className="mr-4 hover:underline md:mr-6 ">About</a>
               </li>
               <li>
-                <Link href={'privacypolicy'}>
+                <Link href={'/privacypolicy'}>
                   <a className="mr-4 hover:underline md:mr-6">Privacy Policy</a>
                 </Link>
               </li>
               <li>
-                <a href="#" className="hover:underline">Contact</a>
+              <Link href={'/contactus'}>
+                <a className="hover:underline">Contact Us</a>
+              </Link>  
               </li>
           </ul>
       </footer>
