@@ -1,5 +1,4 @@
-//import useSWR from 'swr'
-import { useState, useEffect } from "react";
+import useSWR from 'swr'
 import Layout from '../../components/layout'
 import Link from 'next/link'
 
@@ -7,57 +6,18 @@ import { BiTrashAlt, BiMinusCircle, BiRefresh, BiPlus, BiPlusCircle, BiPencil } 
 import { FaTruckPickup, FaUserCheck, FaUserPlus, FaUserMinus } from "react-icons/fa";
 
 
-export default function Quotes() {
-  
-  const bookShipment = async (shipmentCuid) =>{
-    const body = {shipmentCuid};
-    const response = await fetch("/api/shipments/bookshipment", {
-      method: "PUT",
-      headers: { "Content-Type": "application/json" },
-      body: JSON.stringify(body),
-    });
-    const data = await response.json()
-    //console.log(data)
-    fetchDashboardData()
+const fetcher = async () => {
+  const response = await fetch('/api/shipments/getpagingquotedata')
+  const data = await response.json();
+  console.log(data);
+  return data
   }
 
-  const fetchDashboardData = async () => {
-    const response = await fetch('api/shipments/getpagingquotedata')
-    const data = await response.json()
-    if(data){
-      //setRecordCount(data.length);
-      setFetchedViews(data)
-      setIsLoading(false)
-    }
-    //setFetchedViews(data)
-    //setIsLoading(false)
-    console.log(data);
-    //console.log(data.length);
-  }
+export default function DashboardSWR() {
+  const { data, error } = useSWR('dashboard', fetcher)
 
-  const [isLoading, setIsLoading] = useState(true)
-  const [fetchedViews, setFetchedViews] = useState([])
-  //const [recordCount, setRecordCount] = useState(0)
-  
-  
-  useEffect(() => {
-    /* async function fetchDashboardData() {
-      const response = await fetch('api/shipments/')
-      const data = await response.json()
-      setDashboardData(data)
-      setIsLoading(false)
-    } */
-    fetchDashboardData()
-  }, [])
-  
-
- 
-    
-    if (isLoading) {
-      return <h2>Loading...</h2>
-    }
-
-
+  if (error) return 'An error has occurred.'
+  if (!data) return 'Loading...'
 
   return (
 
@@ -73,7 +33,7 @@ export default function Quotes() {
     <div className="w-full px-4">
     <div className="max-w-full overflow-x-auto">
 
-      <span className="ml-4">{fetchedViews.length} Record{fetchedViews.length > 1 ? 's' : ''} Found</span>
+      <span className="ml-4">{data.length} Record{data.length > 1 ? 's' : ''} Found</span>
 
       <table className='border-collapse border border-slate-400 table-auto w-full'>
       <thead>
@@ -82,6 +42,7 @@ export default function Quotes() {
           <th className='border border-slate-300 px-4'>Name</th>
           <th className='border border-slate-300 px-4'>Reference</th>
           <th className='border border-slate-300 px-4'>Locations</th>
+          <th className='border border-slate-300 px-2'>Status</th>
           <th className='border border-slate-300 px-4'>Load</th>
           <th className='border border-slate-300 px-4'>Driver</th>
           <th className='border border-slate-300 px-4'>Total Cost</th>
@@ -92,7 +53,7 @@ export default function Quotes() {
         </tr>
       </thead>
       <tbody>
-      {fetchedViews?.map((dashboardData, i) => (
+      {data?.map((dashboardData, i) => (
         <tr className="border-b"  key={dashboardData.shipmentCuid}> 
           <td className={"px-4 py-2 whitespace-nowrap text-sm font-medium text-gray-900 border border-slate-300"} >
             <Link href={`/shipments/${encodeURIComponent(dashboardData.shipmentCuid)}`}>
@@ -117,7 +78,7 @@ export default function Quotes() {
             {dashboardData.shipmentLocations?.map((locations, m) => (
             <span key={locations.shipmentLocationCuid}>
               <span className="font-medium text-gray-900">Location {m+1}:</span><br/>
-              {locations.locationType === 'P' ? 'Pick Up' : 'Delivery'}<br/>
+              {data.locationType === 'P' ? 'Pick Up' : 'Delivery'}<br/>
               <span className="font-medium text-gray-900">Name:</span> {locations.locationName} <br />
               <span className="font-medium text-gray-900">Address:</span> {locations.locationFullAddress} <br />
               <span className="font-medium text-gray-900">Contact:</span> {locations.locationContact} <br />
@@ -132,7 +93,21 @@ export default function Quotes() {
           
           </td>
       
-          
+          <td className="text-sm text-gray-900 font-light px-4 py-2 border border-slate-300">
+            {(() => {
+              let stat2 = dashboardData.shipmentStatus
+                  switch (dashboardData.shipmentStatus) {
+                    case 1:
+                      return 'Booked'
+                    case 2:
+                      return 'Quoted'
+                    case 3:
+                      return 'Picked Up'
+                    default:
+                      return null
+                  }
+                })()}
+          </td>
 
           <td className="text-sm text-gray-900 font-light px-4 py-2 border border-slate-300">
 
@@ -174,10 +149,9 @@ export default function Quotes() {
             {dashboardData.shipmentNote}
           </td>
           <td className="text-sm text-gray-900 font-light px-2 py-2 border border-slate-300">
-
-          <button className="inline-flex justify-center rounded-md border border-transparent bg-blue-500 py-1 px-3 text-sm font-medium text-white shadow-sm hover:bg-blue-700 focus:outline-none focus:ring-2 focus:ring-blue-700 focus:ring-offset-2 mr-2" onClick={() => bookShipment(dashboardData.shipmentCuid)} title="Book Shipment"><FaTruckPickup /></button>
-
-         
+          <Link href={`/shipments/${encodeURIComponent(dashboardData.shipmentCuid)}`}>
+            <button className="inline-flex justify-center rounded-md border border-transparent bg-green-500 py-1 px-3 text-sm font-medium text-white shadow-sm hover:bg-green-700 focus:outline-none focus:ring-2 focus:ring-green-700 focus:ring-offset-2" title='Assign Driver'><FaUserCheck /></button>
+          </Link>
           
           
           </td>
@@ -196,7 +170,7 @@ export default function Quotes() {
     
     )}
     
-    Quotes.getLayout = function getLayout(page) {
+    DashboardSWR.getLayout = function getLayout(page) {
       return (
         <Layout>
           {page}
@@ -207,12 +181,6 @@ export default function Quotes() {
 
 
 /*    
-
- <Link href={`/shipments/${encodeURIComponent(dashboardData.shipmentCuid)}`}>
-            <button className="inline-flex justify-center rounded-md border border-transparent bg-green-500 py-1 px-3 text-sm font-medium text-white shadow-sm hover:bg-green-700 focus:outline-none focus:ring-2 focus:ring-green-700 focus:ring-offset-2" title='Assign Driver'><BiPencil /></button>
-          </Link>
-
-
 {dashboardData.shipmentEquipments[m].equipmentTypes.equipmentTypeName}
 
 

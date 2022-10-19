@@ -322,14 +322,6 @@ export default function ShipmentForm({ shipmentinfo }) {
                     </div>
 
                     <div className="col-span-6 sm:col-span-3">
-                      Total Dimension: { shipmentTotalDimension }
-                    </div>
-
-                    <div className="col-span-6 sm:col-span-3">
-                      Total Weight: { shipmentTotalWeight }
-                    </div>
-
-                    <div className="col-span-6 sm:col-span-3">
                       Accessorials: 
                       {myobject.shipmentAccessorials?.map((accessories, m) => (
                         <span key={accessories.shipmentAccessorialCuid}> 
@@ -339,10 +331,17 @@ export default function ShipmentForm({ shipmentinfo }) {
                     </div>
 
                     <div className="col-span-6 sm:col-span-3">
-                      Shipment Total Dimension: { shipmentTotalDimension }
+                      Total Dimension: { shipmentTotalDimension }
                     </div>
 
-                    <div className="lg:col-span-6 md:col-span-4 sm:col-span-6">
+                    <div className="col-span-6 sm:col-span-3">
+                      Total Weight: { shipmentTotalWeight }
+                    </div>
+
+                    
+
+                    
+                    <div className="lg:col-span-3 md:col-span-2 sm:col-span-3">
                       <label
                       htmlFor="driverCuid"
                       className="block text-sm font-medium text-gray-700"
@@ -363,7 +362,7 @@ export default function ShipmentForm({ shipmentinfo }) {
                       </select>
                     </div>
 
-                    <div className="lg:col-span-6 md:col-span-4 sm:col-span-6">
+                    <div className="lg:col-span-3 md:col-span-2 sm:col-span-3">
                       <label
                       htmlFor="shipmentCustomerTotalCost"
                       className="block text-sm font-medium text-gray-700"
@@ -397,6 +396,11 @@ export default function ShipmentForm({ shipmentinfo }) {
                       <option value="0">Archived</option>
                       <option value="3">Accepted</option>
                       <option value="4">Reviewing</option>
+                      <option value="5">Picked Up</option>
+                      <option value="5">Delayed</option>
+                      <option value="5">Lost</option>
+                      <option value="5">Damaged</option>
+                      <option value="5">Delivered Up</option>
                       </select>
                     </div>
 

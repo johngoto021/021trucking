@@ -36,14 +36,14 @@ return (
 <div className="mx-auto max-w-8xl py-2 sm:px-6 lg:px-4">
 <div className="px-4 py-6 sm:px-0">
 
-<table>
+<table className='border-collapse border border-slate-400 table-auto w-full'>
 <thead>
 <tr>
-<th>ID</th>
-<th>Internal ID</th>
-<th>Name</th>
-<th>Status</th>
-<th>Action</th>
+<th className='border border-slate-300 px-4'>ID</th>
+<th className='border border-slate-300 px-4'>Internal ID</th>
+<th className='border border-slate-300 px-4'>Name</th>
+<th className='border border-slate-300 px-4'>Status</th>
+<th className='border border-slate-300 px-4'>Action</th>
 </tr>
 </thead>
 <tbody>
