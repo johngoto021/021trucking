@@ -75,7 +75,7 @@ export default function EquipmentForm({ equipmentTypeinfo }) {
             Add Equipment
           </h1>
           <p>
-            Use this form to equipment for shipment option.
+            Use this form to update Equipment Type for shipment option.
           </p>
         </div>
       </header>
@@ -83,6 +83,11 @@ export default function EquipmentForm({ equipmentTypeinfo }) {
 
     
   <form className="bg-white shadow-md rounded px-8 pt-6 pb-8 mb-4" onSubmit={handleSubmit}>
+
+    <input type="hidden" name="accountCuid" value={equipmentTypeCuid} />
+    <input type="hidden" name="accountId" value={equipmentTypeId} />
+    Equipment Type ID:  {equipmentTypeId}
+
     <div className="mb-4">
       <label className="block text-gray-700 text-sm font-bold mb-2" htmlFor="equipmentTypeName">
         Equipment Type
