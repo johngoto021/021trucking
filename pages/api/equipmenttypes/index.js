@@ -11,7 +11,7 @@ export default async function handler(req, res) {
   } else if (req.method === "PUT") {
     return await updateEquipmentType(req, res);    
   } else if (req.method === "DELETE") {
-  return await archiveEquipmentType(req, res);    
+    return await archiveEquipmentType(req, res);    
   //return res.status(305).json({ message: "Method Delete", success: false });  
   } else {
     return 
@@ -52,7 +52,7 @@ async function createEquipmentType(req, res) {
 
   } catch (error) {
     console.error("Request error", error);
-    res.status(500).json({ error: "Error creating equipmentType.", success: false });
+    res.status(500).json({ error: "Error creating Equipment Type.", success: false });
   }
 }
 
@@ -91,6 +91,6 @@ async function archiveEquipmentType(req, res) {
     return res.status(200).json(myrecord, { success: true });
   } catch (error) {
     console.error("Request error", error);
-    return res.status(500).json({ error: "Error archiving Accessorial.", success: false });
+    return res.status(500).json({ error: "Error archiving Equipment Type.", success: false });
   }
 }

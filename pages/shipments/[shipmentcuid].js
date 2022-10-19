@@ -277,10 +277,10 @@ export default function ShipmentForm({ shipmentinfo }) {
       <header className="bg-white shadow">
         <div className="mx-auto max-w-8xl py-4 px-4 sm:px-6 lg:px-4">
           <h1 className="text-3xl font-bold tracking-tight text-gray-900">
-            shipment <span className="text-sm text-blue-600"><Link href="/shipments">View List</Link></span>
+            Shipment <span className="text-sm text-blue-600"><Link href="/shipments">View List</Link></span>
           </h1>
           <p>
-            Use this form to add client shipment information. This information is
+            Use this form to assign a driver to client shipment request. This information is
             used for billing and contact information.
           </p>
         </div>

@@ -83,9 +83,9 @@ export default function AccessorialForm({ accessorialinfo }) {
     
   <form className="bg-white shadow-md rounded px-8 pt-6 pb-8 mb-4" onSubmit={handleSubmit}>
 
-  <input type="hidden" name="accountCuid" value={accessorialinfo.accessorialCuid} />
-              <input type="hidden" name="accountId" value={accessorialinfo.accessorialId} />
-    Accessorial ID:  {accessorialinfo.accessorialId}
+  <input type="hidden" name="accessorialCuid" value={accessorialCuid} />
+  <input type="hidden" name="accessorialId" value={accessorialId} />
+    Accessorial ID:  {accessorialId}
 
     <div className="mb-4">
       <label className="block text-gray-700 text-sm font-bold mb-2" htmlFor="accessorialName">
