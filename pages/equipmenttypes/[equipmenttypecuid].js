@@ -72,7 +72,7 @@ export default function EquipmentForm({ equipmentTypeinfo }) {
       <header className="bg-white shadow">
         <div className="mx-auto max-w-8xl py-4 px-4 sm:px-6 lg:px-4">
           <h1 className="text-3xl font-bold tracking-tight text-gray-900">
-            Add Equipment
+            Update Equipment
           </h1>
           <p>
             Use this form to update Equipment Type for shipment option.
