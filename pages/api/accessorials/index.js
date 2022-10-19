@@ -8,6 +8,11 @@ export default async function handler(req, res) {
     return await createAccessorial(req, res);
   } else if (req.method === "GET") {
     return await listAccessorial(req, res);
+  } else if (req.method === "PUT") {
+    return await updateAccessorial(req, res);    
+  } else if (req.method === "DELETE") {
+  return await archiveAccessorial(req, res);    
+  //return res.status(305).json({ message: "Method Delete", success: false });
   } else {
     return 
     //res.status(405).json({ message: "Method not allowed", success: false });
@@ -50,3 +55,41 @@ async function createAccessorial(req, res) {
   }
 }
 
+async function updateAccessorial(req, res) {
+  const body = req.body;
+  try {
+    const myrecord = await prisma.accessorial.update({
+      where: {
+        accessorialCuid: body.accessorialCuid,
+      },
+      data: {
+        accessorialName: body.accessorialName,
+        accessorialActive: parseInt(body.accessorialActive),
+      },
+    });
+    return res.status(200).json(myrecord, { success: true });
+  } catch (error) {
+    console.error("Request error", error);
+    return res.status(500).json({ error: "Error updating Accessorial.", success: false });
+  }
+}
+
+async function archiveAccessorial(req, res) {
+  const body = req.body;
+  //console.log(body.accessorialActive);
+  try {
+    const toggleStatus = body.accessorialActive == 1 ? 0 : 1;
+    const myrecord = await prisma.accessorial.update({
+      where: {
+        accessorialCuid: body.accessorialCuid,
+      },
+      data: {
+        accessorialActive: toggleStatus
+      },
+    });
+    return res.status(200).json(myrecord, { success: true });
+  } catch (error) {
+    console.error("Request error", error);
+    return res.status(500).json({ error: "Error archiving Accessorial.", success: false });
+  }
+}

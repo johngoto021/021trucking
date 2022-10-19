@@ -1,22 +1,39 @@
 import Link from "next/link";
 import { useState, useEffect } from "react";
 import Layout from '../../components/layout'
+import { BiTrashAlt, BiMinusCircle, BiRefresh, BiPlus, BiPlusCircle, BiPencil } from "react-icons/bi"; 
  
 export default function Home() {
 
-const [isLoading, setIsLoading] = useState(true)
-const [equipmentTypeData, setEquipmentTypeData] = useState([])
-useEffect(() => {
-async function fetchDashboardData() {
-const response = await fetch('/api/equipmenttypes')
-const data = await response.json()
 
-//setDashboardData(JSON.parse(data))
-setEquipmentTypeData(data)
-setIsLoading(false)
-}
-fetchDashboardData()
-}, [])
+  const archiveEquipmentType = async (equipmentTypeCuid, equipmentTypeActive) =>{
+    const body = {equipmentTypeCuid, equipmentTypeActive};
+    const response = await fetch("/api/equipmenttypes", {
+      method: "DELETE",
+      headers: { "Content-Type": "application/json" },
+      body: JSON.stringify(body),
+    });
+    //console.log(data)
+    const data = await response.json()
+    //console.log(data)
+    fetchDashboardData()
+  }
+
+  const fetchDashboardData = async () => {
+    const response = await fetch('api/equipmenttypes')
+    const data = await response.json()
+    setDashboardData(data)
+    //console.log(data);
+    setIsLoading(false)
+  }
+
+  const [isLoading, setIsLoading] = useState(true)
+  const [dashboardData, setDashboardData] = useState([])
+
+
+  useEffect(() => {
+    fetchDashboardData()
+  }, [])
 
 if (isLoading) {
 return <h2>Loading...</h2>
@@ -36,36 +53,59 @@ return (
 <div className="mx-auto max-w-8xl py-2 sm:px-6 lg:px-4">
 <div className="px-4 py-6 sm:px-0">
 
-<table>
+<table className='border-collapse border border-slate-400 table-auto w-full'>
 <thead>
 <tr>
-<th>ID</th>
-<th>Internal ID</th>
-<th>Name</th>
-<th>Status</th>
-<th>Action</th>
+<th className='border border-slate-300 px-4'>ID</th>
+<th className='border border-slate-300 px-4'>Internal ID</th>
+<th className='border border-slate-300 px-4'>Name</th>
+<th className='border border-slate-300 px-4'>Status</th>
+<th className='border border-slate-300 px-4'>Action</th>
 </tr>
 </thead>
 <tbody>
-{equipmentTypeData?.map((fetchedViews) => (
+{dashboardData?.map((fetchedViews) => (
 <tr className="border-b"  key={fetchedViews.equipmentTypeCuid}> 
-<td className={"px-6 py-4 whitespace-nowrap text-sm font-medium text-gray-900"}>
+<td className={"px-2 py-2 text-sm font-medium text-gray-900 border border-slate-300"}>
+<Link href={`/equipmenttypes/${encodeURIComponent(fetchedViews.equipmentTypeCuid)}`}>
+  <a className="text-blue-600">
   {fetchedViews.equipmentTypeId}
-</td>
-<td className={"px-6 py-4 whitespace-nowrap text-sm font-medium text-gray-900"}>
-  <a href="#">
-    {fetchedViews.equipmentTypeCuid}   
   </a>
+  </Link>
 </td>
-<td className="text-sm text-gray-900 font-light px-6 py-4 whitespace-nowrap">
+<td className={"px-2 py-2 text-sm font-medium text-gray-900 border border-slate-300"}>
+  <Link href={`/equipmenttypes/${encodeURIComponent(fetchedViews.equipmentTypeCuid)}`}>
+  <a className="text-blue-600">
+    {fetchedViews.equipmentTypeCuid}   
+    </a>
+  </Link>
+</td>
+<td className={"px-2 py-2 text-sm font-light text-gray-900 border border-slate-300"}>
+  <Link href={`/equipmenttypes/${encodeURIComponent(fetchedViews.equipmentTypeCuid)}`}>
   {fetchedViews.equipmentTypeName}   
+  </Link>
 </td>
-<td className="text-sm text-gray-900 font-light px-6 py-4 whitespace-nowrap">
+<td className={"px-2 py-2 text-sm font-light text-gray-900 border border-slate-300"}>
   
   {fetchedViews.equipmentTypeActive ? 'Active' : 'Archived'}
 </td>
 <td className="text-sm text-gray-900 font-light px-6 py-4 whitespace-nowrap">
-  <a href="#" className="text-sm text-blue-600">edit</a> | <a href="#" className="text-sm text-blue-600">archive</a>
+
+  {fetchedViews.equipmentTypeActive == 1 ? 
+
+  <button className="inline-flex justify-center rounded-md border border-transparent bg-red-500 py-1 px-3 text-sm font-medium text-white shadow-sm hover:bg-red-700 focus:outline-none focus:ring-2 focus:ring-red-700 focus:ring-offset-2 mr-2" onClick={() => archiveEquipmentType(fetchedViews.equipmentTypeCuid, fetchedViews.equipmentTypeActive)}><BiMinusCircle /></button>
+
+  : 
+
+  <button className="inline-flex justify-center rounded-md border border-transparent bg-green-500 py-1 px-3 text-sm font-medium text-white shadow-sm hover:bg-green-700 focus:outline-none focus:ring-2 focus:ring-green-700 focus:ring-offset-2 mr-2" onClick={() => archiveEquipmentType(fetchedViews.equipmentTypeCuid, fetchedViews.equipmentTypeActive)}><BiPlusCircle /></button>
+
+  }
+
+
+  <Link href={`/equipmenttypes/${encodeURIComponent(fetchedViews.equipmentTypeCuid)}`}>
+  <button className="inline-flex justify-center rounded-md border border-transparent bg-gray-500 py-1 px-3 text-sm font-medium text-white shadow-sm hover:bg-gray-700 focus:outline-none focus:ring-2 focus:ring-gray-700 focus:ring-offset-2"><BiPencil /></button>
+  </Link>
+ 
 </td>
 </tr>
 ))}
@@ -97,11 +137,11 @@ Home.getLayout = function getLayout(page) {
     <table border="1">
     <thead>
       <tr>
-      <th>ID</th>
-      <th>shipment</th>
-      <th>Tracking</th>
-      <th>moNumber</th>
-      <th>houseBillNumber</th>
+      <th className='border border-slate-300 px-4'>ID</th>
+      <th className='border border-slate-300 px-4'>shipment</th>
+      <th className='border border-slate-300 px-4'>Tracking</th>
+      <th className='border border-slate-300 px-4'>moNumber</th>
+      <th className='border border-slate-300 px-4'>houseBillNumber</th>
       </tr>
     </thead>
     <tbody>
@@ -139,5 +179,17 @@ if(user) (
       }
     )
 
+
+useEffect(() => {
+async function fetchDashboardData() {
+const response = await fetch('/api/equipmenttypes')
+const data = await response.json()
+
+//setDashboardData(JSON.parse(data))
+setEquipmentTypeData(data)
+setIsLoading(false)
+}
+fetchDashboardData()
+}, [])    
 
 */

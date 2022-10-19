@@ -10,8 +10,8 @@ import Link from 'next/link'
 //import axios from "axios";
 //import cuid from 'cuid';
 //import { useSession, signIn, signOut } from 'next-auth';
-import { BiTrashAlt, BiMinusCircle, BiRefresh, BiPlus, BiPlusCircle, BiPencil } from "react-icons/bi";
-import { fetchData } from "next-auth/client/_utils";
+//import { BiTrashAlt, BiMinusCircle, BiRefresh, BiPlus, BiPlusCircle, BiPencil } from "react-icons/bi";
+//import { fetchData } from "next-auth/client/_utils";
 
 
 export default function ContactUs() {

@@ -25,7 +25,9 @@ export default function MyApp({ Component, pageProps }) {
         <title>021 Cargo</title>
         <meta name="viewport" content="initial-scale=1.0, width=device-width" />
       </Head>
-      <Script src="https://unpkg.com/flowbite@1.5.3/dist/flowbite.js" strategy="afterInteractive" />
+      <Script src="https://unpkg.com/flowbite@1.5.3/dist/flowbite.js" strategy="afterInteractive" />    
     </div>
      <SessionProvider session={pageProps.session} refetchInterval={0}><Component {...pageProps} /></SessionProvider></Fragment>)
 }
+
+//
