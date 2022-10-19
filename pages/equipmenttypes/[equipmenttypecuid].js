@@ -84,8 +84,8 @@ export default function EquipmentForm({ equipmentTypeinfo }) {
     
   <form className="bg-white shadow-md rounded px-8 pt-6 pb-8 mb-4" onSubmit={handleSubmit}>
 
-    <input type="hidden" name="accountCuid" value={equipmentTypeCuid} />
-    <input type="hidden" name="accountId" value={equipmentTypeId} />
+    <input type="hidden" name="equipmentTypeCuid" value={equipmentTypeCuid} />
+    <input type="hidden" name="equipmentTypeId" value={equipmentTypeId} />
     Equipment Type ID:  {equipmentTypeId}
 
     <div className="mb-4">

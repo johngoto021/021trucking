@@ -128,7 +128,7 @@ export default function Navbar() {
                       <li>
                       <Link href="/referencetypes" >
                           <a className="block p-3 rounded-lg hover:bg-gray-50 dark:hover:bg-gray-700">
-                              <div className="font-semibold">Reference Type</div>
+                              <div className="font-semibold">Reference Types</div>
                               <span className="text-sm font-light text-gray-500 dark:text-gray-400">View and manager list of shipment reference types</span>
                           </a></Link>
                       </li>
