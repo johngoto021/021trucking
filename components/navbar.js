@@ -143,10 +143,10 @@ export default function Navbar() {
                           </Link>
                       </li>
                       <li>
-                      <Link href="#" >
+                      <Link href="/invoices" >
                           <a className="block p-3 rounded-lg hover:bg-gray-50 dark:hover:bg-gray-700">
-                              <div className="font-semibold">Invoice Management</div>
-                              <span className="text-sm font-light text-gray-500 dark:text-gray-400">Connect with third-party tools that youare already using.</span>
+                              <div className="font-semibold">Invoices</div>
+                              <span className="text-sm font-light text-gray-500 dark:text-gray-400">View and manage invoices.</span>
                           </a>
                           </Link>
                       </li>

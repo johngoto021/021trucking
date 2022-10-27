@@ -218,12 +218,13 @@ export default function ShipmentForm({ shipmentinfo }) {
       driverCuid,
       shipmentStatus,
       shipmentCustomerTotalCost,
+      shipmentPaid,
       toEmail,
       message,
       };
     
     try {
-      const response = await fetch("/api/shipments", {
+      const response = await fetch("/api/invoices", {
         method: "PUT",
         headers: { "Content-Type": "application/json" },
         body: JSON.stringify(body),
@@ -277,11 +278,10 @@ export default function ShipmentForm({ shipmentinfo }) {
       <header className="bg-white shadow">
         <div className="mx-auto max-w-8xl py-4 px-4 sm:px-6 lg:px-4">
           <h1 className="text-3xl font-bold tracking-tight text-gray-900">
-            Shipment <span className="text-sm text-blue-600"><Link href="/shipments">View List</Link></span>
+            Invoice <span className="text-sm text-blue-600"><Link href="/invoices">View List</Link></span>
           </h1>
           <p>
-            Use this form to assign a driver to client shipment request. This information is
-            used for billing and contact information.
+            Use this form to email customer on invoice matters.
           </p>
         </div>
       </header>
@@ -305,11 +305,11 @@ export default function ShipmentForm({ shipmentinfo }) {
                     </div>
 
                     <div className="col-span-6 sm:col-span-3">
-                      Shipment: { shipmentName }
+                      Shipment Job Name: { shipmentName }
                     </div>
 
                     <div className="col-span-6 sm:col-span-3">
-                      Account: { accountName }
+                      Customer Account: { accountName }
                     </div>
 
                     <div className="col-span-6 sm:col-span-3">
@@ -338,9 +338,6 @@ export default function ShipmentForm({ shipmentinfo }) {
                       Total Weight: { shipmentTotalWeight }
                     </div>
 
-                    
-
-                    
                     <div className="lg:col-span-3 md:col-span-2 sm:col-span-3">
                       <label
                       htmlFor="driverCuid"
@@ -361,12 +358,13 @@ export default function ShipmentForm({ shipmentinfo }) {
                       ))}
                       </select>
                     </div>
+                    
 
                     <div className="lg:col-span-3 md:col-span-2 sm:col-span-3">
                       <label
                       htmlFor="shipmentCustomerTotalCost"
                       className="block text-sm font-medium text-gray-700"
-                      >Customer Total Cost
+                      >Customer Invoice Amount
                       </label>
                       <input
                         type="number"
@@ -378,7 +376,7 @@ export default function ShipmentForm({ shipmentinfo }) {
                         required="required" />
                     </div>
 
-                    <div className="lg:col-span-6 md:col-span-4 sm:col-span-6">
+                    <div className="lg:col-span-3 md:col-span-4 sm:col-span-6">
                       <label
                       htmlFor="shipmentStatus"
                       className="block text-sm font-medium text-gray-700"
@@ -403,6 +401,26 @@ export default function ShipmentForm({ shipmentinfo }) {
                       <option value="5">Delivered Up</option>
                       </select>
                     </div>
+
+                    <div className="lg:col-span-3 md:col-span-4 sm:col-span-6">
+                      <label
+                      htmlFor="shipmentPaid"
+                      className="block text-sm font-medium text-gray-700"
+                      >Update Payment Status
+                      </label>
+                      <select name="shipmentPaid" className="mt-1 block w-full rounded-md border-gray-300 shadow-sm focus:border-indigo-500 focus:ring-indigo-500 sm:text-sm" 
+                      value={shipmentPaid}
+                      defaultValue={shipmentPaid}
+                      onChange={(e) => {
+                      setShipmentPaid(e.target.value);
+                      }}
+                      required="required">
+                      <option value="2">Un-paid</option>
+                      <option value="1">Paid</option>
+                      </select>
+                    </div>
+
+
 
                     <div className="lg:col-span-6 md:col-span-4 sm:col-span-6">
                       <label
@@ -477,6 +495,29 @@ ShipmentForm.getLayout = function getLayout(page) {
 
 
 /*
+
+<div className="lg:col-span-3 md:col-span-2 sm:col-span-3">
+                      <label
+                      htmlFor="driverCuid"
+                      className="block text-sm font-medium text-gray-700"
+                      >Assign Driver to Shipment Order
+                      </label>
+                      <select name="driverCuid" className="mt-1 block w-full rounded-md border-gray-300 shadow-sm focus:border-indigo-500 focus:ring-indigo-500 sm:text-sm" 
+                      value={driverCuid}
+                      defaultValue={driverCuid}
+                      onChange={(e) => {
+                      setDriverCuid(e.target.value);
+                      }}
+                      required="required">
+                      <option value="">Please select Driver</option>
+                      {data1?.map((driverDD) => (
+                      <option key={driverDD.driverCuid} value={driverDD.driverCuid}
+                      >{driverDD.companyName} ( {driverDD.driverName} )</option>
+                      ))}
+                      </select>
+                    </div>
+
+
 const refreshShipments = async () => {
     try {
       const response = await fetch(`/api/shipments/${shipmentCuid}`, {

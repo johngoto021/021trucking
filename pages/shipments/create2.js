@@ -75,7 +75,14 @@ export default function ShipmentForm() {
   const { ref: shipadd } = usePlacesWidget({
     //apiKey: process.env.REACT_APP_GOOGLE,
     apiKey: 'AIzaSyAYNbaX9jl_sdScfJIdeE6eC9hMl55krLI',
-    onPlaceSelected: (address) => console.log(address),
+    onPlaceSelected: (e, address) => console.log(e),
+    /*onPlaceSelected: (i, e, address) => {
+      let newFormLocationValues = [...formLocationValues];
+      newFormLocationValues[i][e.target.name] = e.target.value;
+      setFormLocationValues(address);
+      console.log(address);
+    },*/
+    
     inputAutocompleteValue: "",
     options: {
       types: ["address"],
@@ -709,7 +716,7 @@ let handleQuoteButtonClick = () => {
               <input type="text" name="locationName" 
                 className="mt-1 block w-full rounded-md border-gray-300 shadow-sm focus:border-indigo-500 focus:ring-indigo-500 sm:text-sm"
                 value={element.locationName || ""} onChange={e => handleChange10(index, e)}
-                required="required"  maxLength={255} autoComplete="false" />
+                required="required"  maxLength={128}  />
             </div>
 
             <div className="lg:col-span-3 md:col-span-2 sm:col-span-3">

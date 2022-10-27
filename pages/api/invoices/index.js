@@ -195,6 +195,7 @@ async function updateShipment(req, res) {
         driverCuid: body.driverCuid,
         //shipmentActive: body.shipmentActive,
         //driverCuid: body.driverCuid,
+        shipmentPaid: parseInt(body.shipmentPaid),
         shipmentCustomerTotalCost: body.shipmentCustomerTotalCost,
         shipmentStatus: body.shipmentStatus,
       },

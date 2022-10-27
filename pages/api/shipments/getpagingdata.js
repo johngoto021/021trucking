@@ -28,6 +28,7 @@ export default async function handler(req, res) {
     shipmentCustomerRate: true,
     internalRate: true,
     shipmentCustomerTotalCost: true,
+    shipmentPaid: true,
     internalTotalCost: true,
     shipmentStatus: true,
     shipmentTotalWeight: true,
