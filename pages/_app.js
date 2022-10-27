@@ -26,6 +26,8 @@ export default function MyApp({ Component, pageProps }) {
         <meta name="viewport" content="initial-scale=1.0, width=device-width" />
       </Head>
       <Script src="https://unpkg.com/flowbite@1.5.3/dist/flowbite.js" strategy="afterInteractive" />    
+      <Script async defer src="https://maps.googleapis.com/maps/api/js?key=AIzaSyAYNbaX9jl_sdScfJIdeE6eC9hMl55krLI&libraries=places&callback=initMap" />
+
     </div>
      <SessionProvider session={pageProps.session} refetchInterval={0}><Component {...pageProps} /></SessionProvider></Fragment>)
 }
