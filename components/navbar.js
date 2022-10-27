@@ -99,6 +99,14 @@ export default function Navbar() {
                           </a>
                           </Link>
                       </li>
+                      <li>
+                      <Link href="/invoices" >
+                          <a className="block p-3 rounded-lg hover:bg-gray-50 dark:hover:bg-gray-700">
+                              <div className="font-semibold">Invoices</div>
+                              <span className="text-sm font-light text-gray-500 dark:text-gray-400">View and manage invoices.</span>
+                          </a>
+                          </Link>
+                      </li>
                   </ul>
                   <ul>
                       <li>
@@ -142,14 +150,7 @@ export default function Navbar() {
                           </a>
                           </Link>
                       </li>
-                      <li>
-                      <Link href="/invoices" >
-                          <a className="block p-3 rounded-lg hover:bg-gray-50 dark:hover:bg-gray-700">
-                              <div className="font-semibold">Invoices</div>
-                              <span className="text-sm font-light text-gray-500 dark:text-gray-400">View and manage invoices.</span>
-                          </a>
-                          </Link>
-                      </li>
+                      
                       <li>
                       <Link href="/drivers" >
                           <a className="block p-3 rounded-lg hover:bg-gray-50 dark:hover:bg-gray-700">
@@ -157,7 +158,14 @@ export default function Navbar() {
                               <span className="text-sm font-light text-gray-500 dark:text-gray-400">View and manager list of drives.</span>
                           </a></Link>
                       </li>
-                      
+                      <li>
+                      <Link href="/" >
+                          <a className="block p-3 rounded-lg hover:bg-gray-50 dark:hover:bg-gray-700">
+                              <div className="font-semibold">Management Reports - Pending</div>
+                              <span className="text-sm font-light text-gray-500 dark:text-gray-400">View and manage reports.</span>
+                          </a>
+                          </Link>
+                      </li>
                       
                   </ul>
               </div>
